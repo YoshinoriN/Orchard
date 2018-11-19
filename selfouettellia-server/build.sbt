@@ -11,7 +11,8 @@ scalacOptions ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-http"   % "10.1.5",
+  "com.typesafe.akka" %% "akka-http" % "10.1.5",
+  "com.typesafe.akka" %% "akka-actor" % "2.5.18",
   "com.typesafe.akka" %% "akka-stream" % "2.5.18",
   "com.typesafe" % "config" % "1.3.3",
   "io.getquill" %% "quill-jdbc" % "2.6.0",

@@ -11,6 +11,9 @@ scalacOptions ++= Seq(
 )
 
 libraryDependencies ++= Seq(
+  "com.typesafe.akka" %% "akka-http"   % "10.1.5",
+  "com.typesafe.akka" %% "akka-stream" % "2.5.18",
+  "com.typesafe" % "config" % "1.3.3",
   "org.mariadb.jdbc" % "mariadb-java-client" % "2.3.0",
   "io.getquill" %% "quill-jdbc" % "2.6.0",
   "org.flywaydb" % "flyway-core" % "5.2.1",

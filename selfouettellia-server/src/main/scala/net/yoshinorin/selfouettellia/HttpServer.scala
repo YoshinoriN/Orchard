@@ -9,6 +9,8 @@ import akka.stream.ActorMaterializer
 
 object HttpServer extends App with Route {
 
+  bootstraps.DataBaseMigrate.migrate
+
   implicit val actorSystem: ActorSystem = ActorSystem("selfouettellia")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
   implicit val executionContext: ExecutionContext = actorSystem.dispatcher

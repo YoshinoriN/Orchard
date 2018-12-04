@@ -1,0 +1,3 @@
+CREATE TABLE event_types (
+  name VARCHAR(100) UNIQUE NOT NULL
+) DEFAULT CHARSET=utf8mb4;

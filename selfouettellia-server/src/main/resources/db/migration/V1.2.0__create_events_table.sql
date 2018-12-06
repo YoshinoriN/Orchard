@@ -1,9 +1,7 @@
 CREATE TABLE events (
-  id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-  user_name VARCHAR(255) UNIQUE NOT NULL,
-  event_id BIGINT UNSIGNED NOT NULL,
+  id BIGINT UNSIGNED PRIMARY KEY,
   event_type VARCHAR(100) NOT NULL,
+  user_name VARCHAR(255) UNIQUE NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY(event_type) REFERENCES event_types(name),
-  UNIQUE (event_id, event_type)
+  FOREIGN KEY(event_type) REFERENCES event_types(name)
 ) DEFAULT CHARSET=utf8mb4;

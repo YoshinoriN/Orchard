@@ -1,7 +1,5 @@
-INSERT INTO event_types VALUES ('CommitCommentEvent');
 INSERT INTO event_types VALUES ('CreateEvent');
 INSERT INTO event_types VALUES ('ForkEvent');
-INSERT INTO event_types VALUES ('GollumEvent');
 INSERT INTO event_types VALUES ('IssueCommentEvent');
 INSERT INTO event_types VALUES ('IssuesEvent');
 INSERT INTO event_types VALUES ('PullRequestEvent');
@@ -9,5 +7,4 @@ INSERT INTO event_types VALUES ('PullRequestReviewEvent');
 INSERT INTO event_types VALUES ('PullRequestReviewCommentEvent');
 INSERT INTO event_types VALUES ('PushEvent');
 INSERT INTO event_types VALUES ('ReleaseEvent');
-INSERT INTO event_types VALUES ('RepositoryImportEvent');
 INSERT INTO event_types VALUES ('WatchEvent');

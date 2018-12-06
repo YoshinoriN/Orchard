@@ -1,6 +1,5 @@
 INSERT INTO event_types VALUES ('CommitCommentEvent');
 INSERT INTO event_types VALUES ('CreateEvent');
-INSERT INTO event_types VALUES ('DeleteEvent');
 INSERT INTO event_types VALUES ('ForkEvent');
 INSERT INTO event_types VALUES ('GollumEvent');
 INSERT INTO event_types VALUES ('IssueCommentEvent');

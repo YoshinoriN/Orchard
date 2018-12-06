@@ -1,10 +1,26 @@
+# Select table
+
+```sql
+use selfouettellia;
+```
+
 # Drop tables
 
 ```sql
+delimiter //
+
 DROP TABLE flyway_schema_history;
-DROP TABLE event_types;
-DROP TABLE users;
+DROP TABLE create_events;
+DROP TABLE fork_events;
+DROP TABLE issue_events;
+DROP TABLE issue_comment_events;
 DROP TABLE events;
+DROP TABLE event_types;
+DROP TABLE issues;
+DROP TABLE repositories;
+DROP TABLE users;
+
+//
 ```
 
 # Full event list

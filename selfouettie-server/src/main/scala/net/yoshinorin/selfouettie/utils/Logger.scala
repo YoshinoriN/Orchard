@@ -1,4 +1,4 @@
-package net.yoshinorin.selfouettellia.utils
+package net.yoshinorin.selfouettie.utils
 
 import org.slf4j.{LoggerFactory, MarkerFactory}
 

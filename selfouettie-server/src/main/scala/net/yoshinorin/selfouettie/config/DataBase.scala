@@ -1,4 +1,4 @@
-package net.yoshinorin.selfouettellia.config
+package net.yoshinorin.selfouettie.config
 
 object DataBaseConfig extends ConfigProvider {
   val url = configuration.getString("db.ctx.dataSource.url")

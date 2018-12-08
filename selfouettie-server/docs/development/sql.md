@@ -1,7 +1,7 @@
 # Select table
 
 ```sql
-use selfouettellia;
+use selfouettie;
 ```
 
 # Drop tables

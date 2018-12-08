@@ -1,4 +1,4 @@
-package net.yoshinorin.selfouettellia
+package net.yoshinorin.selfouettie
 
 import scala.concurrent.ExecutionContext
 import scala.io.StdIn
@@ -11,7 +11,7 @@ object HttpServer extends App with Route {
 
   bootstraps.DataBaseMigrate.migrate
 
-  implicit val actorSystem: ActorSystem = ActorSystem("selfouettellia")
+  implicit val actorSystem: ActorSystem = ActorSystem("selfouettie")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
   implicit val executionContext: ExecutionContext = actorSystem.dispatcher
 

@@ -1,4 +1,4 @@
-package net.yoshinorin.selfouettellia.config
+package net.yoshinorin.selfouettie.config
 
 import com.typesafe.config.{Config, ConfigFactory}
 

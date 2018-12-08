@@ -1,7 +1,7 @@
-package net.yoshinorin.selfouettellia.bootstraps
+package net.yoshinorin.selfouettie.bootstraps
 
-import net.yoshinorin.selfouettellia.config.DataBaseConfig
-import net.yoshinorin.selfouettellia.utils.Logger
+import net.yoshinorin.selfouettie.config.DataBaseConfig
+import net.yoshinorin.selfouettie.utils.Logger
 import org.flywaydb.core.Flyway
 
 object DataBaseMigrate extends Logger {

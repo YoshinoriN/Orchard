@@ -1,5 +1,5 @@
 val Organization = "net.yoshinorin"
-val Name = "selfouettellia"
+val Name = "selfouettie"
 val version = "0.0.1"
 
 scalaVersion := "2.12.7"

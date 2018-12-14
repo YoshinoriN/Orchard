@@ -1,4 +1,4 @@
-CREATE TABLE issues_events (
+CREATE TABLE issue_events (
   event_id BIGINT UNSIGNED PRIMARY KEY,
   repository_id BIGINT UNSIGNED NOT NULL,
   issue_number BIGINT UNSIGNED NOT NULL,

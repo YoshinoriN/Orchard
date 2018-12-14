@@ -22,3 +22,7 @@ project/plugins/project/
 # IntelliJ specific
 .idea/
 .idea_modules/
+
+# For Application
+selfouettie-server/src/main/resources/data/import/*
+!.gitignore

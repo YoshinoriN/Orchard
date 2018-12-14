@@ -2,10 +2,10 @@ package net.yoshinorin.selfouettie.models
 
 import java.time.LocalDateTime
 
-case class CreatePullRequestEvents(
+case class IssueCommentEvent(
   eventId: Long,
   repositoryId: Long,
-  pullRequestNumber: Long,
+  issueNumner: Long,
   action: String,
   createdAt: LocalDateTime
 )

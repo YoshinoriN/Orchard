@@ -2,9 +2,9 @@ package net.yoshinorin.selfouettie.models
 
 import java.time.LocalDateTime
 
-case class CreateEvents(
+case class WatchEvent(
   eventId: Long,
-  refType: String,
-  ref: String,
+  repositoryId: Long,
+  action: String,
   createdAt: LocalDateTime
 )

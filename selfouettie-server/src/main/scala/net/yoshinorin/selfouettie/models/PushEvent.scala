@@ -2,8 +2,10 @@ package net.yoshinorin.selfouettie.models
 
 import java.time.LocalDateTime
 
-case class ForkEvents(
+case class PushEvent(
   eventId: Long,
-  forkRepositoryId: Long,
+  repositoryId: Long,
+  ref: String,
+  size: Int,
   createdAt: LocalDateTime
 )

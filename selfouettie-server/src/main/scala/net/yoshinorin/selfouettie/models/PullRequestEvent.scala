@@ -2,10 +2,10 @@ package net.yoshinorin.selfouettie.models
 
 import java.time.LocalDateTime
 
-case class PushEvents(
+case class PullRequestEvent(
   eventId: Long,
   repositoryId: Long,
-  ref: String,
-  size: Int,
+  pullRequestNumber: Long,
+  action: String,
   createdAt: LocalDateTime
 )

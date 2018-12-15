@@ -1,6 +1,10 @@
 package net.yoshinorin.selfouettie.utils
 
 import java.io.File
+import java.nio.charset.Charset
+import java.nio.file
+import java.nio.file.{Files, Path, Paths}
+import java.util.stream.Collectors
 
 object Files {
 
@@ -29,6 +33,19 @@ object Files {
    */
   def filterByExtension(files: List[File], ext: String): Option[List[File]] = {
     Some(files.filter(_.getName.endsWith(ext)))
+  }
+
+  /**
+   * Read all text from file
+   *
+   * @param String file path
+   * @return text
+   */
+  def readAll(path: String): String = {
+    file.Files
+      .lines(Paths.get(path), Charset.forName("UTF-8"))
+      .collect(Collectors.joining(System.lineSeparator()))
+      .stripMargin
   }
 
 }

@@ -6,7 +6,7 @@ class FilesSpec extends FunSuite {
 
   test("exists files") {
     val result = Files.getFiles(System.getProperty("user.dir") + "/src/test/resources/data/import")
-    assert(result.size == 1)
+    assert(result.get.size == 3)
   }
 
   test("file not exists") {

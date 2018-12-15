@@ -14,4 +14,9 @@ class FilesSpec extends FunSuite {
     assert(result.isEmpty)
   }
 
+  test("filter by extension") {
+    val result = Files.getFiles(System.getProperty("user.dir") + "/src/test/resources/data/import")
+    assert(Files.filterByExtension(result.get, "json").get.size == 2)
+  }
+
 }

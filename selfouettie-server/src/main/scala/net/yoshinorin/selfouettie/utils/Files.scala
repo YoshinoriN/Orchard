@@ -20,4 +20,15 @@ object Files {
     }
   }
 
+  /**
+   * Get file list filter by extension
+   *
+   * @param files files
+   * @param ext extension name
+   * @return list of specify extension files
+   */
+  def filterByExtension(files: List[File], ext: String): Option[List[File]] = {
+    Some(files.filter(_.getName.endsWith(ext)))
+  }
+
 }

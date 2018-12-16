@@ -6,11 +6,12 @@ import java.nio.file
 import java.nio.file.{Files, Path, Paths}
 import java.util.stream.Collectors
 
-object Files {
+object File {
 
   /**
    * Get file list in directory
    *
+   * TODO: use nio2
    * @param dir directory path
    * @return list of files in specify directory
    */

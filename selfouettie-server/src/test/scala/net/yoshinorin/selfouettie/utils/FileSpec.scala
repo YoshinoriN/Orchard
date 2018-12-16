@@ -2,21 +2,21 @@ package net.yoshinorin.selfouettie.utils
 
 import org.scalatest.FunSuite
 
-class FilesSpec extends FunSuite {
+class FileSpec extends FunSuite {
 
   test("exists files") {
-    val result = Files.getFiles(System.getProperty("user.dir") + "/src/test/resources/data/import")
+    val result = File.getFiles(System.getProperty("user.dir") + "/src/test/resources/data/import")
     assert(result.get.size == 3)
   }
 
   test("file not exists") {
-    val result = Files.getFiles(System.getProperty("user.dir") + "/src/test/resources/data/import/example/")
+    val result = File.getFiles(System.getProperty("user.dir") + "/src/test/resources/data/import/example/")
     assert(result.isEmpty)
   }
 
   test("filter by extension") {
-    val result = Files.getFiles(System.getProperty("user.dir") + "/src/test/resources/data/import")
-    assert(Files.filterByExtension(result.get, "json").get.size == 2)
+    val result = File.getFiles(System.getProperty("user.dir") + "/src/test/resources/data/import")
+    assert(File.filterByExtension(result.get, "json").get.size == 2)
   }
 
   val examplejson: String = """
@@ -45,8 +45,8 @@ class FilesSpec extends FunSuite {
 
   /* TODO: Fix test failer
   test("readAll") {
-    assert(Files.readAll(System.getProperty("user.dir") + "/src/test/resources/data/import/example.json") == examplejson)
+    assert(File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/import/example.json") == examplejson)
   }
-  */
+ */
 
 }

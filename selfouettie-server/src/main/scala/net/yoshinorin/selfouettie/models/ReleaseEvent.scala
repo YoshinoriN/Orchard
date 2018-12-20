@@ -8,5 +8,5 @@ case class ReleaseEvent(
   tagName: String,
   name: String,
   action: String,
-  createdAt: LocalDateTime
+  createdAt: Long
 )

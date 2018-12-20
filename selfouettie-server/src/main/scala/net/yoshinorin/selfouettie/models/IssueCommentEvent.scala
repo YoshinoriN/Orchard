@@ -7,5 +7,5 @@ case class IssueCommentEvent(
   repositoryId: Long,
   issueNumner: Long,
   action: String,
-  createdAt: LocalDateTime
+  createdAt: Long
 )

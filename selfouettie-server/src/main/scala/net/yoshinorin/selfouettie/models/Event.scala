@@ -6,5 +6,5 @@ case class Event(
   id: Long,
   eventType: String,
   userName: String,
-  createdAt: LocalDateTime
+  createdAt: Long
 )

@@ -7,5 +7,5 @@ case class CreatePullRequestReviewEvent(
   repositoryId: Long,
   pullRequestNumber: Long,
   action: String,
-  createdAt: LocalDateTime
+  createdAt: Long
 )

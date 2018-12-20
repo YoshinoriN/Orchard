@@ -6,5 +6,5 @@ case class CreateEvent(
   eventId: Long,
   refType: String,
   ref: String,
-  createdAt: LocalDateTime
+  createdAt: Long
 )

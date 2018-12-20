@@ -3,7 +3,7 @@ CREATE TABLE issue_comment_events (
   repository_id BIGINT UNSIGNED NOT NULL,
   issue_number BIGINT UNSIGNED NOT NULL,
   action ENUM ('created','edited','deleted'),
-  created_at DATETIME DEFAULT NULL,
+  created_at BIGINT UNSIGNED,
   FOREIGN KEY(event_id) REFERENCES events(id),
   FOREIGN KEY(repository_id) REFERENCES repositories(id)
   #FOREIGN KEY(issue_number) REFERENCES issues(issue_number) Why this line faild ??

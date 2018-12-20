@@ -7,5 +7,5 @@ case class PushEvent(
   repositoryId: Long,
   ref: String,
   size: Int,
-  createdAt: LocalDateTime
+  createdAt: Long
 )

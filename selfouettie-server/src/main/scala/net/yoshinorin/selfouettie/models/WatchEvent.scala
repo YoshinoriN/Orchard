@@ -6,5 +6,5 @@ case class WatchEvent(
   eventId: Long,
   repositoryId: Long,
   action: String,
-  createdAt: LocalDateTime
+  createdAt: Long
 )

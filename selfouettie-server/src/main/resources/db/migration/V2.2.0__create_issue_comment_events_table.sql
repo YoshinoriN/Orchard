@@ -1,5 +1,6 @@
 CREATE TABLE issue_comment_events (
   event_id BIGINT UNSIGNED PRIMARY KEY,
+  user_name VARCHAR(255) UNIQUE NOT NULL,
   repository_id BIGINT UNSIGNED NOT NULL,
   issue_number BIGINT UNSIGNED NOT NULL,
   action ENUM ('created','edited','deleted'),

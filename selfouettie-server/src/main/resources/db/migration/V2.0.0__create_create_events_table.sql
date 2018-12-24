@@ -1,5 +1,6 @@
 CREATE TABLE create_events (
   event_id BIGINT UNSIGNED PRIMARY KEY,
+  user_name VARCHAR(255) UNIQUE NOT NULL,
   ref_type ENUM ('repository','branch','tag'),
   ref VARCHAR(255),
   created_at BIGINT UNSIGNED,

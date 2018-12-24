@@ -4,6 +4,7 @@ import java.time.LocalDateTime
 
 case class PullRequestEvent(
   eventId: Long,
+  userName: String,
   repositoryId: Long,
   pullRequestNumber: Long,
   action: String,

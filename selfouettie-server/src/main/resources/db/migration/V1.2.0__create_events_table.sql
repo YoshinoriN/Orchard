@@ -1,7 +1,0 @@
-CREATE TABLE events (
-  id BIGINT UNSIGNED PRIMARY KEY,
-  event_type VARCHAR(255) NOT NULL,
-  user_name VARCHAR(255) UNIQUE NOT NULL,
-  created_at BIGINT UNSIGNED,
-  FOREIGN KEY(event_type) REFERENCES event_types(name)
-) DEFAULT CHARSET=utf8mb4;

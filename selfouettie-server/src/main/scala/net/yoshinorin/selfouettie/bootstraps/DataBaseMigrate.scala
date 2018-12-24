@@ -8,12 +8,15 @@ object DataBaseMigrate extends Logger {
 
   def migrate: Unit = {
 
-    val flyway = Flyway
-      .configure()
-      .dataSource(DataBaseConfig.url, DataBaseConfig.user, DataBaseConfig.password)
-      .load()
+    if (DataBaseConfig.migration) {
+      val flyway = Flyway
+        .configure()
+        .dataSource(DataBaseConfig.url, DataBaseConfig.user, DataBaseConfig.password)
+        .load()
 
-    flyway.migrate
+      flyway.migrate
+    }
+
   }
 
 }

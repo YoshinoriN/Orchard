@@ -1,7 +1,5 @@
 package net.yoshinorin.selfouettie.models
 
-import java.time.LocalDateTime
-
 case class CreatePullRequestReviewEvent(
   eventId: Long,
   userName: String,

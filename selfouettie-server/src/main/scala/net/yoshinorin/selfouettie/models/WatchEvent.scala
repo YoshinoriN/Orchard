@@ -6,4 +6,4 @@ case class WatchEvent(
   repositoryId: Long,
   action: String,
   createdAt: Long
-)
+) extends BaseEvent[WatchEvent]

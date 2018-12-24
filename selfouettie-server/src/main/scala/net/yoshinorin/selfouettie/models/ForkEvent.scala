@@ -5,4 +5,4 @@ case class ForkEvent(
   userName: String,
   forkRepositoryId: Long,
   createdAt: Long
-)
+) extends BaseEvent[ForkEvent]

@@ -7,4 +7,4 @@ case class PushEvent(
   ref: String,
   size: Int,
   createdAt: Long
-)
+) extends BaseEvent[PushEvent]

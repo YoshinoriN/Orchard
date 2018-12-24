@@ -8,4 +8,4 @@ case class ReleaseEvent(
   name: String,
   action: String,
   createdAt: Long
-)
+) extends BaseEvent[ReleaseEvent]

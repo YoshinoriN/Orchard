@@ -7,4 +7,4 @@ case class CreatePullRequestReviewEvent(
   pullRequestNumber: Long,
   action: String,
   createdAt: Long
-)
+) extends BaseEvent[CreatePullRequestReviewEvent]

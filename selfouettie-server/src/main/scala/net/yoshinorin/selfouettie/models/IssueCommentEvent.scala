@@ -7,4 +7,4 @@ case class IssueCommentEvent(
   issueNumner: Long,
   action: String,
   createdAt: Long
-)
+) extends BaseEvent[IssueCommentEvent]

@@ -6,4 +6,4 @@ case class CreateEvent(
   refType: String,
   ref: String,
   createdAt: Long
-)
+) extends BaseEvent[CreateEvent]

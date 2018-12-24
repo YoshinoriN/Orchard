@@ -1,8 +1,10 @@
 package net.yoshinorin.selfouettie.utils
 
+import java.time.ZonedDateTime
+
 import org.scalatest.FunSuite
 import net.yoshinorin.selfouettie.types.EventType
-import net.yoshinorin.selfouettie.utils.Converter.eventTypeConverter
+import net.yoshinorin.selfouettie.utils.Converter.{eventTypeConverter, zonedDateTimeConverter}
 
 class ConverterSpec extends FunSuite {
 
@@ -44,6 +46,10 @@ class ConverterSpec extends FunSuite {
 
   test("to WatchEvent") {
     assert("WatchEvent".toEventType == EventType.WatchEvent)
+  }
+
+  test("to toZonedDateTime") {
+    assert(1104467700.toZonedDateTime.toString == "2004-12-31T04:35Z")
   }
 
 }

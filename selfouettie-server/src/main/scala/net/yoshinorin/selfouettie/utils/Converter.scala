@@ -1,5 +1,6 @@
 package net.yoshinorin.selfouettie.utils
 
+import java.time.{Instant, ZoneId, ZoneOffset, ZonedDateTime}
 import net.yoshinorin.selfouettie.types.EventType
 
 object Converter {
@@ -22,6 +23,12 @@ object Converter {
       }
     }
 
+  }
+
+  implicit class zonedDateTimeConverter(l: Long) {
+    def toZonedDateTime: ZonedDateTime = {
+      ZonedDateTime.ofInstant(Instant.ofEpochSecond(l), ZoneOffset.UTC)
+    }
   }
 
 }

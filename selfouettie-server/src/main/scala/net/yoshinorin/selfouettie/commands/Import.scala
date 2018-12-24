@@ -1,12 +1,13 @@
 package net.yoshinorin.selfouettie.commands
 
+import net.yoshinorin.selfouettie.services.EventsConverter
 import net.yoshinorin.selfouettie.utils.File
 import net.yoshinorin.selfouettie.utils.Logger
 
 /**
  * Import GitHub events from JSON files
  */
-object Import extends App with Logger {
+object Import extends App with EventsConverter with Logger {
 
   logger.info("Start import from JSON files.")
 
@@ -15,7 +16,8 @@ object Import extends App with Logger {
       File.filterByExtension(result, "json") match {
         case Some(jsonFiles) => {
           jsonFiles.foreach(jsonFile => {
-            //TODO: Parse and insert them to DataBase
+            val data = convert(File.readAll(jsonFile.getAbsolutePath))
+            //TODO: insert
           })
         }
         case None => logger.info("JSON file not found.")

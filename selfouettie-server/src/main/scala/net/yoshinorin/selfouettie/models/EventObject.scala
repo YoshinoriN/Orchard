@@ -8,5 +8,5 @@ case class EventObject(
   userName: String,
   repository: Option[Repository],
   createdAt: Long,
-  event: Option[AnyRef]
+  event: Option[BaseEvent[AnyRef]]
 )

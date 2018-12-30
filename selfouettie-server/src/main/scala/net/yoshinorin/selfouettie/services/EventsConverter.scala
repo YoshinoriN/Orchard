@@ -10,7 +10,7 @@ import net.yoshinorin.selfouettie.types.EventType
 
 trait EventsConverter extends Logger {
 
-  def convert(jsonList: String): Option[eventObject] = {
+  def convert(jsonList: String): Option[EventObject] = {
     val events: Json = parse(jsonList).getOrElse(Json.Null)
     val hCursor: HCursor = events.hcursor
     val data = for (json <- hCursor.values) yield {
@@ -24,29 +24,29 @@ trait EventsConverter extends Logger {
 
           x.hcursor.get[String]("type").getOrElse("").toEventType match {
             case EventType.CreateEvent =>
-              eventObject(eventId, eventType, userName, repository, createdAt, generateCreateEventObject(eventId, userName, createdAt, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateCreateEventObject(eventId, userName, createdAt, x))
             case EventType.ForkEvent =>
-              eventObject(eventId, eventType, userName, repository, createdAt, generateForkEventObject(eventId, userName, createdAt, repository.get.id))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateForkEventObject(eventId, userName, createdAt, repository.get.id))
             case EventType.IssueCommentEvent =>
-              eventObject(eventId, eventType, userName, repository, createdAt, generateIssueCommentEventObject(eventId, userName, createdAt, repository.get.id, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateIssueCommentEventObject(eventId, userName, createdAt, repository.get.id, x))
             case EventType.IssuesEvent =>
-              eventObject(eventId, eventType, userName, repository, createdAt, generateIssuesEventObject(eventId, userName, createdAt, repository.get.id, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateIssuesEventObject(eventId, userName, createdAt, repository.get.id, x))
             case EventType.PullRequestEvent =>
-              eventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestEventObject(eventId, userName, createdAt, repository.get.id, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestEventObject(eventId, userName, createdAt, repository.get.id, x))
             case EventType.PullRequestReviewEvent =>
-              eventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewEventObject(eventId, userName, createdAt, repository.get.id, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewEventObject(eventId, userName, createdAt, repository.get.id, x))
             case EventType.PullRequestReviewCommentEvent =>
-              eventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewCommentEventObject(eventId, userName, createdAt, repository.get.id, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewCommentEventObject(eventId, userName, createdAt, repository.get.id, x))
             case EventType.PushEvent =>
-              eventObject(eventId, eventType, userName, repository, createdAt, generatePushEventObject(eventId, userName, createdAt, repository.get.id, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generatePushEventObject(eventId, userName, createdAt, repository.get.id, x))
             case EventType.ReleaseEvent =>
-              eventObject(eventId, eventType, userName, repository, createdAt, generateReleaseEventObject(eventId, userName, createdAt, repository.get.id, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateReleaseEventObject(eventId, userName, createdAt, repository.get.id, x))
             case EventType.WatchEvent =>
-              eventObject(eventId, eventType, userName, repository, createdAt, generateWatchEventObject(eventId, userName, createdAt, repository.get.id, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateWatchEventObject(eventId, userName, createdAt, repository.get.id, x))
             case _ => {
               logger.error(s"event id: [$eventId] is undefined event type.")
               //FIXME
-              eventObject(eventId, eventType, userName, repository, createdAt, Option(DummyEvent()))
+              EventObject(eventId, eventType, userName, repository, createdAt, Option(DummyEvent()))
             }
           }
         }
@@ -181,14 +181,5 @@ trait EventsConverter extends Logger {
       None
     }
   }
-
-  case class eventObject(
-    id: Long,
-    eventType: EventType,
-    userName: String,
-    repository: Option[Repository],
-    createdAt: Long,
-    event: Option[AnyRef]
-  )
 
 }

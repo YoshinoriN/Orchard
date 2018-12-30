@@ -11,6 +11,16 @@ object File {
   /**
    * Get file list in directory
    *
+   * @param dir directory path
+   * @return list of files in specify directory
+   */
+  def get(path: String): Option[File] = {
+    return Some(new File(path))
+  }
+
+  /**
+   * Get file list in directory
+   *
    * TODO: use nio2
    * @param dir directory path
    * @return list of files in specify directory

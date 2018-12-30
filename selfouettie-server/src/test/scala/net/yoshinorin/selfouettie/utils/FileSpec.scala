@@ -4,6 +4,11 @@ import org.scalatest.FunSuite
 
 class FileSpec extends FunSuite {
 
+  test("get file") {
+    val result = File.get(System.getProperty("user.dir") + "/src/test/resources/robots.txt")
+    assert(result.get.getAbsoluteFile.getName == "robots.txt")
+  }
+
   test("exists files") {
     val result = File.getFiles(System.getProperty("user.dir") + "/src/test/resources/data/import")
     assert(result.get.size == 3)

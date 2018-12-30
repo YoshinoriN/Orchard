@@ -19,7 +19,7 @@ object Converter {
         case "PushEvent" => EventType.PushEvent
         case "ReleaseEvent" => EventType.ReleaseEvent
         case "WatchEvent" => EventType.WatchEvent
-        case _ => EventType.CreateEvent //TODO: throw Exception
+        case _ => EventType.Undefined //TODO: throw Exception is better?
       }
     }
 

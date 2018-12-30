@@ -43,7 +43,7 @@ trait EventsConverter extends Logger {
               EventObject(eventId, eventType, userName, repository, createdAt, generateReleaseEventObject(eventId, userName, createdAt, repository.get.id, x))
             case EventType.WatchEvent =>
               EventObject(eventId, eventType, userName, repository, createdAt, generateWatchEventObject(eventId, userName, createdAt, repository.get.id, x))
-            case _ => {
+            case EventType.Undefined => {
               logger.error(s"event id: [$eventId] is undefined event type.")
               //FIXME
               EventObject(eventId, eventType, userName, repository, createdAt, Option(DummyEvent()))

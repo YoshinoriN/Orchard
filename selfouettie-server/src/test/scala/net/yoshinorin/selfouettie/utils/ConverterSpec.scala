@@ -48,6 +48,10 @@ class ConverterSpec extends FunSuite {
     assert("WatchEvent".toEventType == EventType.WatchEvent)
   }
 
+  test("to Undefined") {
+    assert("dummy".toEventType == EventType.Undefined)
+  }
+
   test("to toZonedDateTime") {
     assert(1104467700.toZonedDateTime.toString == "2004-12-31T04:35Z")
   }

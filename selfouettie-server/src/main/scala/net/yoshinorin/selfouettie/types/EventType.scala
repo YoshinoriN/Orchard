@@ -14,5 +14,6 @@ object EventType {
   object PushEvent extends EventType("PushEvent")
   object ReleaseEvent extends EventType("ReleaseEvent")
   object WatchEvent extends EventType("WatchEvent")
+  object Undefined extends EventType("Undefined")
 
 }

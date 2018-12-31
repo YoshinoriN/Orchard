@@ -1,9 +1,9 @@
 package net.yoshinorin.selfouettie.models
 
-case class CreateEvent(
+case class CreateEvents(
   eventId: Long,
   userName: String,
   ref: String,
   refType: String,
   createdAt: Long
-) extends BaseEvent[CreateEvent]
+) extends BaseEvent[CreateEvents]

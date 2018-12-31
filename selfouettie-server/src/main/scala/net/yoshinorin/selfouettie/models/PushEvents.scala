@@ -1,10 +1,10 @@
 package net.yoshinorin.selfouettie.models
 
-case class PullRequestEvent(
+case class PushEvents(
   eventId: Long,
   userName: String,
   repositoryId: Long,
-  pullRequestNumber: Long,
-  action: String,
+  ref: String,
+  size: Int,
   createdAt: Long
-) extends BaseEvent[PullRequestEvent]
+) extends BaseEvent[PushEvents]

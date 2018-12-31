@@ -1,8 +1,8 @@
 package net.yoshinorin.selfouettie.models
 
-case class ForkEvent(
+case class ForkEvents(
   eventId: Long,
   userName: String,
   forkRepositoryId: Long,
   createdAt: Long
-) extends BaseEvent[ForkEvent]
+) extends BaseEvent[ForkEvents]

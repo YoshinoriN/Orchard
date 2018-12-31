@@ -58,125 +58,125 @@ trait EventsConverter extends Logger {
     }
   }
 
-  def generateRepositoryObject(json: Json): Option[Repository] = {
+  def generateRepositoryObject(json: Json): Option[Repositories] = {
     val id: Long = json.hcursor.downField("repo").get[Long]("id").getOrElse(0)
     val name: String = json.hcursor.downField("repo").get[String]("name").getOrElse("")
 
     //FIXME
     if (id != 0 && name != "") {
-      Some(Repository(id, name))
+      Some(Repositories(id, name))
     } else {
       None
     }
   }
 
-  def generateCreateEventObject(eventId: Long, userName: String, createdAt: Long, json: Json): Option[CreateEvent] = {
+  def generateCreateEventObject(eventId: Long, userName: String, createdAt: Long, json: Json): Option[CreateEvents] = {
     val ref: String = json.hcursor.downField("payload").get[String]("ref").getOrElse("")
     val refType: String = json.hcursor.downField("payload").get[String]("ref_type").getOrElse("")
 
     //FIXME
     if (ref != "" && refType != "") {
-      Some(CreateEvent(eventId, userName, refType, ref, createdAt))
+      Some(CreateEvents(eventId, userName, refType, ref, createdAt))
     } else {
       None
     }
   }
 
-  def generateForkEventObject(eventId: Long, userName: String, createdAt: Long, repositoryId: Long): Option[ForkEvent] = {
-    Some(ForkEvent(eventId, userName, repositoryId, createdAt))
+  def generateForkEventObject(eventId: Long, userName: String, createdAt: Long, repositoryId: Long): Option[ForkEvents] = {
+    Some(ForkEvents(eventId, userName, repositoryId, createdAt))
   }
 
-  def generateIssueCommentEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueCommentEvent] = {
+  def generateIssueCommentEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueCommentEvents] = {
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
     val issueNumber: Long = json.hcursor.downField("payload").downField("issue").get[Long]("number").getOrElse(0)
 
     //FIXME
     if (action != "" && issueNumber != 0) {
-      Some(IssueCommentEvent(eventId, userName, repositoryId, issueNumber, action, createdAt))
+      Some(IssueCommentEvents(eventId, userName, repositoryId, issueNumber, action, createdAt))
     } else {
       None
     }
   }
 
-  def generateIssuesEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssuesEvent] = {
+  def generateIssuesEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssuesEvents] = {
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
     val issueNumber: Long = json.hcursor.downField("payload").downField("issue").get[Long]("number").getOrElse(0)
 
     //FIXME
     if (action != "" && issueNumber != 0) {
-      Some(IssuesEvent(eventId, userName, repositoryId, issueNumber, action, createdAt))
+      Some(IssuesEvents(eventId, userName, repositoryId, issueNumber, action, createdAt))
     } else {
       None
     }
   }
 
-  def generatePullRequestEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestEvent] = {
+  def generatePullRequestEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestEvents] = {
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
     val prNumber: Long = json.hcursor.downField("payload").downField("pull_request").get[Long]("number").getOrElse(0)
 
     //FIXME
     if (action != "" && prNumber != 0) {
-      Some(PullRequestEvent(eventId, userName, repositoryId, prNumber, action, createdAt))
+      Some(PullRequestEvents(eventId, userName, repositoryId, prNumber, action, createdAt))
     } else {
       None
     }
   }
 
-  def generatePullRequestReviewEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewEvent] = {
+  def generatePullRequestReviewEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewEvents] = {
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
     val prNumber: Long = json.hcursor.downField("payload").downField("pull_request").get[Long]("number").getOrElse(0)
 
     //FIXME
     if (action != "" && prNumber != 0) {
-      Some(PullRequestReviewEvent(eventId, userName, repositoryId, prNumber, action, createdAt))
+      Some(PullRequestReviewEvents(eventId, userName, repositoryId, prNumber, action, createdAt))
     } else {
       None
     }
   }
 
-  def generatePullRequestReviewCommentEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewCommentEvent] = {
+  def generatePullRequestReviewCommentEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewCommentEvents] = {
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
     val prNumber: Long = json.hcursor.downField("payload").downField("pull_request").get[Long]("number").getOrElse(0)
 
     //FIXME
     if (action != "" && prNumber != 0) {
-      Some(PullRequestReviewCommentEvent(eventId, userName, repositoryId, prNumber, action, createdAt))
+      Some(PullRequestReviewCommentEvents(eventId, userName, repositoryId, prNumber, action, createdAt))
     } else {
       None
     }
   }
 
-  def generatePushEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PushEvent] = {
+  def generatePushEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PushEvents] = {
     val ref: String = json.hcursor.downField("payload").get[String]("ref").getOrElse("")
     val size: Int = json.hcursor.downField("payload").get[Int]("size").getOrElse(0)
 
     //FIXME
     if (ref != "" && size != 0) {
-      Some(PushEvent(eventId, userName, repositoryId, ref, size, createdAt))
+      Some(PushEvents(eventId, userName, repositoryId, ref, size, createdAt))
     } else {
       None
     }
   }
 
-  def generateReleaseEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[ReleaseEvent] = {
+  def generateReleaseEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[ReleaseEvents] = {
     val tagName: String = json.hcursor.downField("payload").downField("release").get[String]("tag_name").getOrElse("")
     val name: String = json.hcursor.downField("payload").downField("release").get[String]("name").getOrElse("")
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
 
     //FIXME
     if (tagName != "" && name != "" && action != "") {
-      Some(ReleaseEvent(eventId, userName, repositoryId, tagName, name, action, createdAt))
+      Some(ReleaseEvents(eventId, userName, repositoryId, tagName, name, action, createdAt))
     } else {
       None
     }
   }
 
-  def generateWatchEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[WatchEvent] = {
+  def generateWatchEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[WatchEvents] = {
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
 
     //FIXME
     if (action != "") {
-      Some(WatchEvent(eventId, userName, repositoryId, action, createdAt))
+      Some(WatchEvents(eventId, userName, repositoryId, action, createdAt))
     } else {
       None
     }

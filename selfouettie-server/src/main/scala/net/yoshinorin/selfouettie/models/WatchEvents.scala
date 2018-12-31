@@ -1,11 +1,9 @@
 package net.yoshinorin.selfouettie.models
 
-case class Event(
-  id: Long,
-  eventType: String,
+case class WatchEvents(
+  eventId: Long,
   userName: String,
   repositoryId: Long,
   action: String,
-  url: String,
   createdAt: Long
-)
+) extends BaseEvent[WatchEvents]

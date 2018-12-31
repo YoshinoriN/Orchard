@@ -1,7 +1,6 @@
 package net.yoshinorin.selfouettie.models
 
-
-case class User(
+case class Users(
   name: String,
   createdAt: Long
 )

@@ -1,10 +1,10 @@
 package net.yoshinorin.selfouettie.models
 
-case class IssueCommentEvent(
+case class PullRequestReviewEvents(
   eventId: Long,
   userName: String,
   repositoryId: Long,
-  issueNumber: Long,
+  pullRequestNumber: Long,
   action: String,
   createdAt: Long
-) extends BaseEvent[IssueCommentEvent]
+) extends BaseEvent[PullRequestReviewEvents]

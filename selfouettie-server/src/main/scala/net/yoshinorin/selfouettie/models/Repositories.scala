@@ -1,6 +1,6 @@
 package net.yoshinorin.selfouettie.models
 
-case class Repository(
+case class Repositories(
   id: Long,
   name: String
 )

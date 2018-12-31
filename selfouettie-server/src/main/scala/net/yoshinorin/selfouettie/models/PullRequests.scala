@@ -1,6 +1,6 @@
 package net.yoshinorin.selfouettie.models
 
-case class PullRequest(
+case class PullRequests(
   userName: String,
   repositoryId: Long,
   pullRequestNumber: Int,

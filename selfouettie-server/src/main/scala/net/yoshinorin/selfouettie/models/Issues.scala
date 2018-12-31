@@ -1,6 +1,6 @@
 package net.yoshinorin.selfouettie.models
 
-case class Issue(
+case class Issues(
   userName: String,
   repositoryId: Long,
   issueNumber: Int,

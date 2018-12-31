@@ -3,7 +3,14 @@ package net.yoshinorin.selfouettie.models.db
 import net.yoshinorin.selfouettie.services.QuillProvider
 import net.yoshinorin.selfouettie.utils.Logger
 
-trait UsersRepository extends QuillProvider with Logger {
+trait UsersRepository {
+
+  def insert(user: Users): Unit
+  def findByName(name: String): Option[Users]
+
+}
+
+object UsersRepository extends UsersRepository with QuillProvider with Logger {
 
   import ctx._;
 

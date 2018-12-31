@@ -3,7 +3,14 @@ package net.yoshinorin.selfouettie.models.db
 import net.yoshinorin.selfouettie.services.QuillProvider
 import net.yoshinorin.selfouettie.utils.Logger
 
-trait EventsRepository extends QuillProvider with Logger {
+trait EventsRepository {
+
+  def insert(events: Events): Unit
+  def findById(id: Long): Option[Events]
+
+}
+
+object EventsRepository extends EventsRepository with QuillProvider with Logger {
 
   import ctx._;
 

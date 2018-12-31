@@ -11,52 +11,46 @@ import net.yoshinorin.selfouettie.types.EventType
 
 trait EventsConverter extends Logger {
 
-  def convert(jsonList: String): Option[EventObject] = {
+  def convert(jsonList: String): Option[List[EventObject]] = {
     val events: Json = parse(jsonList).getOrElse(Json.Null)
     val hCursor: HCursor = events.hcursor
     val data = for (json <- hCursor.values) yield {
-      json.headOption.map { x =>
-        {
-          val eventId: Long = x.hcursor.get[Long]("id").getOrElse(0)
-          val eventType: EventType = x.hcursor.get[String]("type").getOrElse("").toEventType
-          val userName: String = x.hcursor.downField("actor").get[String]("login").getOrElse("")
-          val createdAt: Long = ZonedDateTime.parse(x.hcursor.get[String]("created_at").getOrElse("")).toEpochSecond //TODO: Implement DateTimeParseException
-          val repository = this.generateRepositoryObject(x)
-
-          x.hcursor.get[String]("type").getOrElse("").toEventType match {
-            case EventType.CreateEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateCreateEventObject(eventId, userName, createdAt, x))
-            case EventType.ForkEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateForkEventObject(eventId, userName, createdAt, repository.get.id))
-            case EventType.IssueCommentEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateIssueCommentEventObject(eventId, userName, createdAt, repository.get.id, x))
-            case EventType.IssuesEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateIssuesEventObject(eventId, userName, createdAt, repository.get.id, x))
-            case EventType.PullRequestEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestEventObject(eventId, userName, createdAt, repository.get.id, x))
-            case EventType.PullRequestReviewEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewEventObject(eventId, userName, createdAt, repository.get.id, x))
-            case EventType.PullRequestReviewCommentEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewCommentEventObject(eventId, userName, createdAt, repository.get.id, x))
-            case EventType.PushEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generatePushEventObject(eventId, userName, createdAt, repository.get.id, x))
-            case EventType.ReleaseEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateReleaseEventObject(eventId, userName, createdAt, repository.get.id, x))
-            case EventType.WatchEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateWatchEventObject(eventId, userName, createdAt, repository.get.id, x))
-            case EventType.Undefined => {
-              logger.error(s"event id: [$eventId] is undefined event type.")
-              //FIXME
-              EventObject(eventId, eventType, userName, repository, createdAt, Option(DummyEvent()))
-            }
+      for (x <- json.toList) yield {
+        val eventId: Long = x.hcursor.get[Long]("id").getOrElse(0)
+        val eventType: EventType = x.hcursor.get[String]("type").getOrElse("").toEventType
+        val userName: String = x.hcursor.downField("actor").get[String]("login").getOrElse("")
+        val createdAt: Long = ZonedDateTime.parse(x.hcursor.get[String]("created_at").getOrElse("")).toEpochSecond //TODO: Implement DateTimeParseException
+        val repository = this.generateRepositoryObject(x)
+        x.hcursor.get[String]("type").getOrElse("").toEventType match {
+          case EventType.CreateEvent =>
+            EventObject(eventId, eventType, userName, repository, createdAt, generateCreateEventObject(eventId, userName, createdAt, x))
+          case EventType.ForkEvent =>
+            EventObject(eventId, eventType, userName, repository, createdAt, generateForkEventObject(eventId, userName, createdAt, repository.get.id))
+          case EventType.IssueCommentEvent =>
+            EventObject(eventId, eventType, userName, repository, createdAt, generateIssueCommentEventObject(eventId, userName, createdAt, repository.get.id, x))
+          case EventType.IssuesEvent =>
+            EventObject(eventId, eventType, userName, repository, createdAt, generateIssuesEventObject(eventId, userName, createdAt, repository.get.id, x))
+          case EventType.PullRequestEvent =>
+            EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestEventObject(eventId, userName, createdAt, repository.get.id, x))
+          case EventType.PullRequestReviewEvent =>
+            EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewEventObject(eventId, userName, createdAt, repository.get.id, x))
+          case EventType.PullRequestReviewCommentEvent =>
+            EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewCommentEventObject(eventId, userName, createdAt, repository.get.id, x))
+          case EventType.PushEvent =>
+            EventObject(eventId, eventType, userName, repository, createdAt, generatePushEventObject(eventId, userName, createdAt, repository.get.id, x))
+          case EventType.ReleaseEvent =>
+            EventObject(eventId, eventType, userName, repository, createdAt, generateReleaseEventObject(eventId, userName, createdAt, repository.get.id, x))
+          case EventType.WatchEvent =>
+            EventObject(eventId, eventType, userName, repository, createdAt, generateWatchEventObject(eventId, userName, createdAt, repository.get.id, x))
+          case EventType.Undefined => {
+            logger.error(s"event id: [$eventId] is undefined event type.")
+            //FIXME
+            EventObject(eventId, eventType, userName, repository, createdAt, Option(DummyEvent()))
           }
         }
       }
     }
-    data match {
-      case Some(x) => x
-      case None => None
-    }
+    data
   }
 
   def generateRepositoryObject(json: Json): Option[Repositories] = {

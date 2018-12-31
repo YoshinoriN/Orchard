@@ -5,6 +5,6 @@ import net.yoshinorin.selfouettie.models.BaseEvent
 case class ForkEvents(
   eventId: Long,
   userName: String,
-  forkRepositoryId: Long,
+  forkedRepositoryId: Long,
   createdAt: Long
 ) extends BaseEvent[ForkEvents]

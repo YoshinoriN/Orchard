@@ -1,13 +1,12 @@
-package net.yoshinorin.selfouettie.services
+package net.yoshinorin.selfouettie.models.db
 
-import net.yoshinorin.selfouettie.models.db.Repositories
 import org.mockito.Mockito._
 import org.scalatest.FunSuite
 
-class RepositoriesServiceSpec extends FunSuite {
+class RepositoriesRepositorySpec extends FunSuite {
 
   val mockRepositories: Repositories = mock(classOf[Repositories])
-  val mockRepositoriesService: RepositoriesService = mock(classOf[RepositoriesService])
+  val mockRepositoriesService: RepositoriesRepository = mock(classOf[RepositoriesRepository])
   val repo: Repositories = Repositories(1, "test")
 
   when(mockRepositoriesService.findById(1))

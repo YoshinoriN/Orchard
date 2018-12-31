@@ -1,12 +1,12 @@
+package net.yoshinorin.selfouettie.models.db
+
 import org.mockito.Mockito._
 import org.scalatest.FunSuite
-import net.yoshinorin.selfouettie.models.db.Users
-import net.yoshinorin.selfouettie.services.UsersService
 
-class UsersServiceSpec extends FunSuite {
+class UsersRepositorySpec extends FunSuite {
 
   val mockUsers: Users = mock(classOf[Users])
-  val mockUsersService: UsersService = mock(classOf[UsersService])
+  val mockUsersService: UsersRepository = mock(classOf[UsersRepository])
   val user: Users = Users("YoshinoriN", 12345)
 
   when(mockUsersService.findByName("YoshinoriN"))

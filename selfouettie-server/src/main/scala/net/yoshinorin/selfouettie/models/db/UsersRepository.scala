@@ -1,9 +1,9 @@
-package net.yoshinorin.selfouettie.services
+package net.yoshinorin.selfouettie.models.db
 
-import net.yoshinorin.selfouettie.models.db.Users
+import net.yoshinorin.selfouettie.services.QuillProvider
 import net.yoshinorin.selfouettie.utils.Logger
 
-trait UsersService extends QuillProvider with Logger {
+trait UsersRepository extends QuillProvider with Logger {
 
   import ctx._;
 

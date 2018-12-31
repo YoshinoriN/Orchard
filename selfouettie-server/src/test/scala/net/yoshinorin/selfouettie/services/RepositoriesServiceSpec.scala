@@ -1,6 +1,6 @@
 package net.yoshinorin.selfouettie.services
 
-import net.yoshinorin.selfouettie.models.Repositories
+import net.yoshinorin.selfouettie.models.db.Repositories
 import org.mockito.Mockito._
 import org.scalatest.FunSuite
 

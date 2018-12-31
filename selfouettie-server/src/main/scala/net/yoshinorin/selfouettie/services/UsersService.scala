@@ -1,6 +1,6 @@
 package net.yoshinorin.selfouettie.services
 
-import net.yoshinorin.selfouettie.models.Users
+import net.yoshinorin.selfouettie.models.db.Users
 import net.yoshinorin.selfouettie.utils.Logger
 
 trait UsersService extends QuillProvider with Logger {

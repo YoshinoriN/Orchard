@@ -1,6 +1,6 @@
 package net.yoshinorin.selfouettie.services
 
-import net.yoshinorin.selfouettie.models.Repositories
+import net.yoshinorin.selfouettie.models.db.Repositories
 import net.yoshinorin.selfouettie.utils.Logger
 
 trait RepositoriesService extends QuillProvider with Logger {

@@ -1,4 +1,4 @@
-package net.yoshinorin.selfouettie.models
+package net.yoshinorin.selfouettie.models.db
 
 case class Repositories(
   id: Long,

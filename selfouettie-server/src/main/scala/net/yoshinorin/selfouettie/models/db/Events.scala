@@ -1,6 +1,4 @@
-package net.yoshinorin.selfouettie.models
-
-import net.yoshinorin.selfouettie.types.Action.Action
+package net.yoshinorin.selfouettie.models.db
 
 case class Events(
   id: Long,

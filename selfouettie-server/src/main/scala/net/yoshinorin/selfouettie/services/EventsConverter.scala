@@ -4,6 +4,7 @@ import java.time.ZonedDateTime
 import io.circe._
 import io.circe.parser._
 import net.yoshinorin.selfouettie.models._
+import net.yoshinorin.selfouettie.models.db._
 import net.yoshinorin.selfouettie.utils.Converter.eventTypeConverter
 import net.yoshinorin.selfouettie.utils.Logger
 import net.yoshinorin.selfouettie.types.EventType

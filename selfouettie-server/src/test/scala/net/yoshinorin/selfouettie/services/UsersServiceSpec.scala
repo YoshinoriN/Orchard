@@ -1,6 +1,6 @@
 import org.mockito.Mockito._
 import org.scalatest.FunSuite
-import net.yoshinorin.selfouettie.models.Users
+import net.yoshinorin.selfouettie.models.db.Users
 import net.yoshinorin.selfouettie.services.UsersService
 
 class UsersServiceSpec extends FunSuite {

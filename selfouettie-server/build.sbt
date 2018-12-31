@@ -25,6 +25,7 @@ libraryDependencies ++= Seq(
   "org.mariadb.jdbc" % "mariadb-java-client" % "2.3.0",
   "org.slf4j" % "slf4j-api" % "1.7.25",
   "org.scalatest" %% "scalatest" % "3.0.5" % "test",
+  "org.mockito" % "mockito-core" % "2.23.4" % Test
 )
 
 scalafmtOnCompile := true

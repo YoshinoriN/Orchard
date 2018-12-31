@@ -1,6 +1,6 @@
 CREATE TABLE fork_events (
   event_id BIGINT UNSIGNED PRIMARY KEY,
-  user_name VARCHAR(255) UNIQUE NOT NULL,
+  user_name VARCHAR(255) NOT NULL,
   forked_repository_id BIGINT UNSIGNED NOT NULL,
   created_at BIGINT UNSIGNED,
   FOREIGN KEY(event_id) REFERENCES events(id),

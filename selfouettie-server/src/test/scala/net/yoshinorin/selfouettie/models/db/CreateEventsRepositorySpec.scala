@@ -15,11 +15,11 @@ class CreateEventsRepositorySpec extends FunSuite {
   when(mockRepository.findById(2))
     .thenReturn(None)
 
-  test("user found") {
+  test("found") {
     assert(mockRepository.findById(1) == Some(event))
   }
 
-  test("user not found") {
+  test("not found") {
     assert(mockRepository.findById(2) == None)
   }
 

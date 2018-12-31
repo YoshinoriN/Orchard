@@ -15,11 +15,11 @@ class UsersRepositorySpec extends FunSuite {
   when(mockUsersService.findByName("Yoshinori"))
     .thenReturn(None)
 
-  test("user found") {
+  test("found") {
     assert(mockUsersService.findByName("YoshinoriN") == Some(user))
   }
 
-  test("user not found") {
+  test("not found") {
     assert(mockUsersService.findByName("Yoshinori") == None)
   }
 

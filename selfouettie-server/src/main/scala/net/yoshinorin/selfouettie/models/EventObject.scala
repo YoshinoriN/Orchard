@@ -6,7 +6,7 @@ case class EventObject(
   id: Long,
   eventType: EventType,
   userName: String,
-  repository: Option[Repository],
+  repository: Option[Repositories],
   createdAt: Long,
   event: Option[BaseEvent[AnyRef]]
 )

@@ -5,8 +5,8 @@ import net.yoshinorin.selfouettie.utils.Logger
 
 trait IssuesEventsRepository {
 
-  def insert(issuesEvent: IssuesEvents): Unit
-  def findById(id: Long): Option[IssuesEvents]
+  def insert(issuesEvent: IssueEvents): Unit
+  def findById(id: Long): Option[IssueEvents]
 
 }
 
@@ -19,9 +19,9 @@ object IssuesEventsRepository extends IssuesEventsRepository with QuillProvider 
    *
    * @param issuesEvent IssuesEvents case class
    */
-  def insert(issuesEvent: IssuesEvents): Unit = {
+  def insert(issuesEvent: IssueEvents): Unit = {
     this.findById(issuesEvent.eventId) match {
-      case None => run(query[IssuesEvents].insert(lift(issuesEvent)))
+      case None => run(query[IssueEvents].insert(lift(issuesEvent)))
       case Some(e) => logger.info(s"Event id [${e.eventId}] is already exists. skip ForkEvents event.")
     }
   }
@@ -32,8 +32,8 @@ object IssuesEventsRepository extends IssuesEventsRepository with QuillProvider 
    * @param id event id
    * @return
    */
-  def findById(id: Long): Option[IssuesEvents] = {
-    run(query[IssuesEvents].filter(e => e.eventId == lift(id))).headOption
+  def findById(id: Long): Option[IssueEvents] = {
+    run(query[IssueEvents].filter(e => e.eventId == lift(id))).headOption
   }
 
 }

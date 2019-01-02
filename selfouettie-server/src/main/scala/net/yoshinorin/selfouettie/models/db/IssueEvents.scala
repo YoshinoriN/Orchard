@@ -2,11 +2,11 @@ package net.yoshinorin.selfouettie.models.db
 
 import net.yoshinorin.selfouettie.models.BaseEvent
 
-case class IssuesEvents(
+case class IssueEvents(
   eventId: Long,
   userName: String,
   repositoryId: Long,
-  issueNumber: Long,
+  issueNumber: Int,
   action: String,
   createdAt: Long
-) extends BaseEvent[IssuesEvents]
+) extends BaseEvent[IssueEvents]

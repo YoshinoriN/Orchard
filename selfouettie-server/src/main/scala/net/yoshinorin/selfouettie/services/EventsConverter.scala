@@ -93,13 +93,13 @@ trait EventsConverter extends Logger {
     }
   }
 
-  def generateIssuesEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssuesEvents] = {
+  def generateIssuesEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueEvents] = {
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
     val issueNumber: Long = json.hcursor.downField("payload").downField("issue").get[Long]("number").getOrElse(0)
 
     //FIXME
     if (action != "" && issueNumber != 0) {
-      Some(IssuesEvents(eventId, userName, repositoryId, issueNumber, action, createdAt))
+      Some(IssueEvents(eventId, userName, repositoryId, issueNumber, action, createdAt))
     } else {
       None
     }

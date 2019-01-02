@@ -3,11 +3,11 @@ package net.yoshinorin.selfouettie.models.db
 import org.mockito.Mockito._
 import org.scalatest.FunSuite
 
-class IssuesEventsRepositorySpec extends FunSuite {
+class IssueEventsRepositorySpec extends FunSuite {
 
-  val mockEvent: IssuesEvents = mock(classOf[IssuesEvents])
+  val mockEvent: IssueEvents = mock(classOf[IssueEvents])
   val mockRepository: IssuesEventsRepository = mock(classOf[IssuesEventsRepository])
-  val event: IssuesEvents = IssuesEvents(1, "YoshinoriN", 987, 1234, "created", 98765)
+  val event: IssueEvents = IssueEvents(1, "YoshinoriN", 987, 1234, "created", 98765)
 
   when(mockRepository.findById(1))
     .thenReturn(Some(event))

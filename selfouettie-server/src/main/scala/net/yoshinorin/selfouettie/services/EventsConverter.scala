@@ -83,7 +83,7 @@ trait EventsConverter extends Logger {
 
   def generateIssueCommentEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueCommentEvents] = {
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
-    val issueNumber: Long = json.hcursor.downField("payload").downField("issue").get[Long]("number").getOrElse(0)
+    val issueNumber: Int = json.hcursor.downField("payload").downField("issue").get[Int]("number").getOrElse(0)
 
     //FIXME
     if (action != "" && issueNumber != 0) {

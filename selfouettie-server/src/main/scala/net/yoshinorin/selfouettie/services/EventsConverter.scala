@@ -27,21 +27,21 @@ trait EventsConverter extends Logger {
           case EventType.ForkEvent =>
             EventObject(eventId, eventType, userName, repository, createdAt, generateForkEventObject(eventId, userName, createdAt, repository.get.id))
           case EventType.IssueCommentEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generateIssueCommentEventObject(eventId, userName, createdAt, repository.get.id, x))
+            EventObject(eventId, eventType, userName, repository, createdAt, generateIssueCommentEventObject(eventId, userName, repository.get.id, createdAt, x))
           case EventType.IssuesEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generateIssuesEventObject(eventId, userName, createdAt, repository.get.id, x))
+            EventObject(eventId, eventType, userName, repository, createdAt, generateIssuesEventObject(eventId, userName, repository.get.id, createdAt, x))
           case EventType.PullRequestEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestEventObject(eventId, userName, createdAt, repository.get.id, x))
+            EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestEventObject(eventId, userName, repository.get.id, createdAt, x))
           case EventType.PullRequestReviewEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewEventObject(eventId, userName, createdAt, repository.get.id, x))
+            EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewEventObject(eventId, userName, repository.get.id, createdAt, x))
           case EventType.PullRequestReviewCommentEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewCommentEventObject(eventId, userName, createdAt, repository.get.id, x))
+            EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewCommentEventObject(eventId, userName, repository.get.id, createdAt, x))
           case EventType.PushEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generatePushEventObject(eventId, userName, createdAt, repository.get.id, x))
+            EventObject(eventId, eventType, userName, repository, createdAt, generatePushEventObject(eventId, userName, repository.get.id, createdAt, x))
           case EventType.ReleaseEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generateReleaseEventObject(eventId, userName, createdAt, repository.get.id, x))
+            EventObject(eventId, eventType, userName, repository, createdAt, generateReleaseEventObject(eventId, userName, repository.get.id, createdAt, x))
           case EventType.WatchEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generateWatchEventObject(eventId, userName, createdAt, repository.get.id, x))
+            EventObject(eventId, eventType, userName, repository, createdAt, generateWatchEventObject(eventId, userName, repository.get.id, createdAt, x))
           case EventType.Undefined => {
             logger.error(s"event id: [$eventId] is undefined event type.")
             //FIXME

@@ -5,6 +5,7 @@ sealed abstract class EventType(val value: String)
 object EventType {
 
   object CreateEvent extends EventType("CreateEvent")
+  object DeleteEvent extends EventType("DeleteEvent")
   object ForkEvent extends EventType("ForkEvent")
   object IssueCommentEvent extends EventType("IssueCommentEvent")
   object IssuesEvent extends EventType("IssuesEvent")

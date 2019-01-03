@@ -23,6 +23,7 @@ trait EventService extends QuillProvider with Logger {
 
   def create(event: EventObject): Unit = {
 
+    //FIXME: more clean
     if (event.id == 0) {
       logger.info("skip insert record. event id is undefined.")
       return
@@ -60,6 +61,9 @@ trait EventService extends QuillProvider with Logger {
             case EventType.CreateEvent =>
               EventsRepository.insert(this.generateEvent(event, Action.created.toString))
               CreateEventsRepository.insert(e.asInstanceOf[CreateEvents])
+            case EventType.DeleteEvent =>
+              EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              DeleteEventsRepository.insert(e.asInstanceOf[DeleteEvents])
             case EventType.ForkEvent =>
               EventsRepository.insert(this.generateEvent(event, Action.fork.toString))
               ForkEventsRepository.insert(e.asInstanceOf[ForkEvents])
@@ -82,15 +86,24 @@ trait EventService extends QuillProvider with Logger {
               val pullRequestReviewEvents: PullRequestReviewEvents = e.asInstanceOf[PullRequestReviewEvents]
               EventsRepository.insert(this.generateEvent(event, Action.created.toString))
               PullRequestRepository.insert(PullRequests(event.repository.get.id, pullRequestReviewEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
-
+              PullRequestReviewEventsRepository.insert(pullRequestReviewEvents)
             case EventType.PullRequestReviewCommentEvent =>
+              val pullRequestReviewCommentEvents: PullRequestReviewCommentEvents = e.asInstanceOf[PullRequestReviewCommentEvents]
               EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              PullRequestRepository.insert(PullRequests(event.repository.get.id, pullRequestReviewCommentEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
+              PullRequestReviewCommentEventsRepository.insert(pullRequestReviewCommentEvents)
             case EventType.PushEvent =>
+              val pushEvents: PushEvents = e.asInstanceOf[PushEvents]
               EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              PushEventsRepository.insert(pushEvents)
             case EventType.ReleaseEvent =>
+              val releaseEvents: ReleaseEvents = e.asInstanceOf[ReleaseEvents]
               EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              ReleaseEventsRepository.insert(releaseEvents)
             case EventType.WatchEvent =>
+              val watchEvents: WatchEvents = e.asInstanceOf[WatchEvents]
               EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              WatchEventsRepository.insert(watchEvents)
             case EventType.Undefined => logger.info("Undefined event skip insert.")
           }
         }

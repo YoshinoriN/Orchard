@@ -24,6 +24,8 @@ trait EventsConverter extends Logger {
         x.hcursor.get[String]("type").getOrElse("").toEventType match {
           case EventType.CreateEvent =>
             EventObject(eventId, eventType, userName, repository, createdAt, generateCreateEventObject(eventId, userName, createdAt, x))
+          case EventType.DeleteEvent =>
+            EventObject(eventId, eventType, userName, repository, createdAt, generateDeleteEventObject(eventId, userName, createdAt, x))
           case EventType.ForkEvent =>
             EventObject(eventId, eventType, userName, repository, createdAt, generateForkEventObject(eventId, userName, createdAt, repository.get.id))
           case EventType.IssueCommentEvent =>
@@ -72,6 +74,18 @@ trait EventsConverter extends Logger {
     //FIXME
     if (ref != "" && refType != "") {
       Some(CreateEvents(eventId, userName, refType, ref, createdAt))
+    } else {
+      None
+    }
+  }
+
+  def generateDeleteEventObject(eventId: Long, userName: String, createdAt: Long, json: Json): Option[DeleteEvents] = {
+    val ref: String = json.hcursor.downField("payload").get[String]("ref").getOrElse("")
+    val refType: String = json.hcursor.downField("payload").get[String]("ref_type").getOrElse("")
+
+    //FIXME
+    if (ref != "" && refType != "") {
+      Some(DeleteEvents(eventId, userName, refType, ref, createdAt))
     } else {
       None
     }

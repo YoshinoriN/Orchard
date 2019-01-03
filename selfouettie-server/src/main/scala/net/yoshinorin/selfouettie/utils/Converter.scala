@@ -10,6 +10,7 @@ object Converter {
     def toEventType: EventType = {
       s match {
         case "CreateEvent" => EventType.CreateEvent
+        case "DeleteEvent" => EventType.DeleteEvent
         case "ForkEvent" => EventType.ForkEvent
         case "IssueCommentEvent" => EventType.IssueCommentEvent
         case "IssuesEvent" => EventType.IssuesEvent

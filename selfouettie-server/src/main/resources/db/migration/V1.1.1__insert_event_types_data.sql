@@ -1,4 +1,5 @@
 INSERT INTO event_types VALUES ('CreateEvent');
+INSERT INTO event_types VALUES ('DeleteEvent');
 INSERT INTO event_types VALUES ('ForkEvent');
 INSERT INTO event_types VALUES ('IssueCommentEvent');
 INSERT INTO event_types VALUES ('IssuesEvent');

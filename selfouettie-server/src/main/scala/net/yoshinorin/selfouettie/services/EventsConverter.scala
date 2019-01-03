@@ -95,7 +95,7 @@ trait EventsConverter extends Logger {
 
   def generateIssuesEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueEvents] = {
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
-    val issueNumber: Long = json.hcursor.downField("payload").downField("issue").get[Long]("number").getOrElse(0)
+    val issueNumber: Int = json.hcursor.downField("payload").downField("issue").get[Int]("number").getOrElse(0)
 
     //FIXME
     if (action != "" && issueNumber != 0) {
@@ -107,7 +107,7 @@ trait EventsConverter extends Logger {
 
   def generatePullRequestEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestEvents] = {
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
-    val prNumber: Long = json.hcursor.downField("payload").downField("pull_request").get[Long]("number").getOrElse(0)
+    val prNumber: Int = json.hcursor.downField("payload").downField("pull_request").get[Int]("number").getOrElse(0)
 
     //FIXME
     if (action != "" && prNumber != 0) {
@@ -119,7 +119,7 @@ trait EventsConverter extends Logger {
 
   def generatePullRequestReviewEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewEvents] = {
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
-    val prNumber: Long = json.hcursor.downField("payload").downField("pull_request").get[Long]("number").getOrElse(0)
+    val prNumber: Int = json.hcursor.downField("payload").downField("pull_request").get[Int]("number").getOrElse(0)
 
     //FIXME
     if (action != "" && prNumber != 0) {
@@ -131,7 +131,7 @@ trait EventsConverter extends Logger {
 
   def generatePullRequestReviewCommentEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewCommentEvents] = {
     val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
-    val prNumber: Long = json.hcursor.downField("payload").downField("pull_request").get[Long]("number").getOrElse(0)
+    val prNumber: Int = json.hcursor.downField("payload").downField("pull_request").get[Int]("number").getOrElse(0)
 
     //FIXME
     if (action != "" && prNumber != 0) {

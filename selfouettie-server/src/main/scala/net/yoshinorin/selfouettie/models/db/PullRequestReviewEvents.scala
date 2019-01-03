@@ -6,7 +6,7 @@ case class PullRequestReviewEvents(
   eventId: Long,
   userName: String,
   repositoryId: Long,
-  pullRequestNumber: Long,
+  pullRequestNumber: Int,
   action: String,
   createdAt: Long
 ) extends BaseEvent[PullRequestReviewEvents]

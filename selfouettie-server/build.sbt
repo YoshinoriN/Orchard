@@ -16,6 +16,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http" % "10.1.5",
   "com.typesafe.akka" %% "akka-actor" % "2.5.18",
   "com.typesafe.akka" %% "akka-stream" % "2.5.18",
+  "com.enragedginger" %% "akka-quartz-scheduler" % "1.7.1-akka-2.5.x",
   "com.typesafe" % "config" % "1.3.3",
   "io.circe" %% "circe-core" % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion,

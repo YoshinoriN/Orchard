@@ -1,12 +1,11 @@
 package net.yoshinorin.selfouettie.services
 
-import akka.actor.{ActorSystem, Props}
+import akka.actor.Props
 import com.typesafe.akka.extension.quartz.QuartzSchedulerExtension
 import net.yoshinorin.selfouettie.actor.GitHubEventActor
 
-trait GitHubEventActorService {
+trait GitHubEventActorService extends ActorService {
 
-  private val actorSystem = ActorSystem("GetGitHubEventActor")
   private val gitHubEventActor = actorSystem.actorOf(Props(classOf[GitHubEventActor]))
   private val scheduler = QuartzSchedulerExtension(actorSystem)
 

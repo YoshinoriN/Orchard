@@ -1,12 +1,14 @@
 package net.yoshinorin.selfouettie.utils
 
-import java.io.File
+import java.io.{File, FileNotFoundException}
 import java.nio.charset.Charset
 import java.nio.file
-import java.nio.file.{Files, Path, Paths}
+import java.nio.file.{Files, Paths}
 import java.util.stream.Collectors
 
-object File {
+import scala.util.{Failure, Success, Try}
+
+object File extends Logger {
 
   /**
    * Get file list in directory
@@ -57,6 +59,41 @@ object File {
       .lines(Paths.get(path), Charset.forName("UTF-8"))
       .collect(Collectors.joining(System.lineSeparator()))
       .stripMargin
+  }
+
+  /**
+   * Create file
+   *
+   * @param path file path
+   * @return scala.util.Try
+   */
+  def create(path: String): Try[Unit] = Try {
+    Files.createFile(Paths.get(path))
+  }
+
+  /**
+   * Write content to file
+   *
+   * @param path file path
+   * @param content content
+   * @return scala.util.Try
+   */
+  def write(path: String, content: String): Try[Unit] = Try {
+    Files.exists(Paths.get(path)) match {
+      case true => {
+        val writer = Files.newBufferedWriter(Paths.get(path))
+        try {
+          writer.write(content)
+        } finally {
+          writer.close()
+        }
+        Success()
+      }
+      case false => {
+        logger.error(s"$path does not exists.")
+        Failure(new FileNotFoundException)
+      }
+    }
   }
 
 }

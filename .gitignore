@@ -26,3 +26,6 @@ project/plugins/project/
 # For Application
 selfouettie-server/src/main/resources/data/import/*
 !.gitignore
+
+selfouettie-server/src/main/resources/data/store/*
+!.gitignore

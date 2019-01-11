@@ -11,11 +11,11 @@ object File {
   /**
    * Get file list in directory
    *
-   * @param dir directory path
+   * @param path directory path
    * @return list of files in specify directory
    */
   def get(path: String): Option[File] = {
-    return Some(new File(path))
+    Some(new File(path))
   }
 
   /**
@@ -49,7 +49,7 @@ object File {
   /**
    * Read all text from file
    *
-   * @param String file path
+   * @param path file path
    * @return text
    */
   def readAll(path: String): String = {

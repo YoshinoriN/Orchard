@@ -1,4 +1,4 @@
-package net.yoshinorin.selfouettie
+package net.yoshinorin.selfouettie.http
 
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._

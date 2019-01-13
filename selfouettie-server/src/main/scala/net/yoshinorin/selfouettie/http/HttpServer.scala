@@ -7,11 +7,14 @@ import net.yoshinorin.selfouettie.services.ActorService
 
 object HttpServer extends App with ActorService with Route {
 
-  val bindingFuture = Http().bindAndHandle(route, HttpServerConfig.host, HttpServerConfig.port)
+  def start: Unit = {
 
-  StdIn.readLine()
-  bindingFuture
-    .flatMap(_.unbind())
-    .onComplete(_ => actorSystem.terminate())
+    val bindingFuture = Http().bindAndHandle(route, HttpServerConfig.host, HttpServerConfig.port)
+
+    StdIn.readLine()
+    bindingFuture
+      .flatMap(_.unbind())
+      .onComplete(_ => actorSystem.terminate())
+  }
 
 }

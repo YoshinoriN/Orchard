@@ -3,7 +3,7 @@ package net.yoshinorin.selfouettie.models.db
 import net.yoshinorin.selfouettie.services.QuillProvider
 import net.yoshinorin.selfouettie.utils.Logger
 
-trait PullRequestRepository {
+trait PullRequestsRepository {
 
   def insert(issue: PullRequests): Unit
   def find(repoId: Long, pullRequestNo: Int): Option[PullRequests]
@@ -12,7 +12,7 @@ trait PullRequestRepository {
 
 }
 
-object PullRequestRepository extends PullRequestRepository with QuillProvider with Logger {
+object PullRequestsRepository extends PullRequestsRepository with QuillProvider with Logger {
 
   import ctx._;
 

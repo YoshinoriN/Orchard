@@ -5,7 +5,7 @@ import net.yoshinorin.selfouettie.utils.Logger
 
 trait CreateEventsRepository {
 
-  def insert(cEvent: CreateEvents): Unit
+  def insert(createEvent: CreateEvents): Unit
   def findById(id: Long): Option[CreateEvents]
 
 }
@@ -15,13 +15,13 @@ object CreateEventsRepository extends CreateEventsRepository with QuillProvider 
   import ctx._;
 
   /**
-   * Insert CreateEvents
+   * Insert CreateEvent
    *
-   * @param cEvent CreateEvents case class
+   * @param createEvent CreateEvents case class
    */
-  def insert(cEvent: CreateEvents): Unit = {
-    this.findById(cEvent.eventId) match {
-      case None => run(query[CreateEvents].insert(lift(cEvent)))
+  def insert(createEvent: CreateEvents): Unit = {
+    this.findById(createEvent.eventId) match {
+      case None => run(query[CreateEvents].insert(lift(createEvent)))
       case Some(e) => logger.info(s"Event id [${e.eventId}] is already exists. skip CreateEvents event.")
     }
   }

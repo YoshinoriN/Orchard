@@ -5,7 +5,7 @@ import net.yoshinorin.selfouettie.utils.Logger
 
 trait EventsRepository {
 
-  def insert(events: Events): Unit
+  def insert(event: Events): Unit
   def findById(id: Long): Option[Events]
 
 }
@@ -14,6 +14,11 @@ object EventsRepository extends EventsRepository with QuillProvider with Logger 
 
   import ctx._;
 
+  /**
+   * Insert Event
+   *
+   * @param event Events case class
+   */
   def insert(event: Events): Unit = {
     this.findById(event.id) match {
       case None => run(query[Events].insert(lift(event)))

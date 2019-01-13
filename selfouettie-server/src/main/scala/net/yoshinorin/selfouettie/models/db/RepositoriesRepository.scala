@@ -5,7 +5,7 @@ import net.yoshinorin.selfouettie.utils.Logger
 
 trait RepositoriesRepository {
 
-  def insert(events: Repositories): Unit
+  def insert(repo: Repositories): Unit
   def findById(id: Long): Option[Repositories]
 
 }

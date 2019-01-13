@@ -3,14 +3,14 @@ package net.yoshinorin.selfouettie.models.db
 import net.yoshinorin.selfouettie.services.QuillProvider
 import net.yoshinorin.selfouettie.utils.Logger
 
-trait PullRequestEventRepository {
+trait PullRequestEventsRepository {
 
   def insert(pullRequestEvent: PullRequestEvents): Unit
   def findById(eventId: Long): Option[PullRequestEvents]
 
 }
 
-object PullRequestEventRepository extends PullRequestEventRepository with QuillProvider with Logger {
+object PullRequestEventsRepository extends PullRequestEventsRepository with QuillProvider with Logger {
 
   import ctx._;
 

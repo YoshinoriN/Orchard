@@ -55,17 +55,17 @@ trait EventService extends QuillProvider with Logger {
             case EventType.PullRequestEvent =>
               val pullRequestEvents: PullRequestEvents = e.asInstanceOf[PullRequestEvents]
               EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
-              PullRequestRepository.insert(PullRequests(event.repository.get.id, pullRequestEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
-              PullRequestEventRepository.insert(pullRequestEvents)
+              PullRequestsRepository.insert(PullRequests(event.repository.get.id, pullRequestEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
+              PullRequestEventsRepository.insert(pullRequestEvents)
             case EventType.PullRequestReviewEvent =>
               val pullRequestReviewEvents: PullRequestReviewEvents = e.asInstanceOf[PullRequestReviewEvents]
               EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
-              PullRequestRepository.insert(PullRequests(event.repository.get.id, pullRequestReviewEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
+              PullRequestsRepository.insert(PullRequests(event.repository.get.id, pullRequestReviewEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
               PullRequestReviewEventsRepository.insert(pullRequestReviewEvents)
             case EventType.PullRequestReviewCommentEvent =>
               val pullRequestReviewCommentEvents: PullRequestReviewCommentEvents = e.asInstanceOf[PullRequestReviewCommentEvents]
               EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
-              PullRequestRepository.insert(PullRequests(event.repository.get.id, pullRequestReviewCommentEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
+              PullRequestsRepository.insert(PullRequests(event.repository.get.id, pullRequestReviewCommentEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
               PullRequestReviewCommentEventsRepository.insert(pullRequestReviewCommentEvents)
             case EventType.PushEvent =>
               val pushEvents: PushEvents = e.asInstanceOf[PushEvents]

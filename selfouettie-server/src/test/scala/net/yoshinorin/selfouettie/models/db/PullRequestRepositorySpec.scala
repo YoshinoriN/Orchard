@@ -6,7 +6,7 @@ import org.scalatest.FunSuite
 class PullRequestRepositorySpec extends FunSuite {
 
   val mockEvent: PullRequests = mock(classOf[PullRequests])
-  val mockRepository: PullRequestRepository = mock(classOf[PullRequestRepository])
+  val mockRepository: PullRequestsRepository = mock(classOf[PullRequestsRepository])
   val event: PullRequests = PullRequests(1, 20, "Test issue", true)
 
   when(mockRepository.find(1, 20))

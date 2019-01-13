@@ -5,7 +5,7 @@ import net.yoshinorin.selfouettie.utils.Logger
 
 trait ForkEventsRepository {
 
-  def insert(fEvent: ForkEvents): Unit
+  def insert(forkEvent: ForkEvents): Unit
   def findById(id: Long): Option[ForkEvents]
 
 }
@@ -17,11 +17,11 @@ object ForkEventsRepository extends ForkEventsRepository with QuillProvider with
   /**
    * Insert ForkEvents
    *
-   * @param fEvent ForkEvents case class
+   * @param forkEvent ForkEvents case class
    */
-  def insert(fEvent: ForkEvents): Unit = {
-    this.findById(fEvent.eventId) match {
-      case None => run(query[ForkEvents].insert(lift(fEvent)))
+  def insert(forkEvent: ForkEvents): Unit = {
+    this.findById(forkEvent.eventId) match {
+      case None => run(query[ForkEvents].insert(lift(forkEvent)))
       case Some(e) => logger.info(s"Event id [${e.eventId}] is already exists. skip ForkEvents event.")
     }
   }

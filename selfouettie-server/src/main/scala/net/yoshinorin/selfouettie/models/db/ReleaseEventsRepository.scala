@@ -17,7 +17,7 @@ object ReleaseEventsRepository extends ReleaseEventsRepository with QuillProvide
   /**
    * Insert ReleaseEvents
    *
-   * @param pushEvents ReleaseEvents case class
+   * @param releaseEvents ReleaseEvents case class
    */
   def insert(releaseEvents: ReleaseEvents): Unit = {
     this.findById(releaseEvents.eventId) match {

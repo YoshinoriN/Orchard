@@ -5,7 +5,7 @@ import net.yoshinorin.selfouettie.utils.Logger
 
 trait IssueCommentEventsRepository {
 
-  def insert(ecEvent: IssueCommentEvents): Unit
+  def insert(issueCommentEvent: IssueCommentEvents): Unit
   def findById(id: Long): Option[IssueCommentEvents]
 
 }
@@ -17,11 +17,11 @@ object IssueCommentEventsRepository extends IssueCommentEventsRepository with Qu
   /**
    * Insert IssueCommentEvents
    *
-   * @param ecEvent IssueCommentEvents case class
+   * @param issueCommentEvent IssueCommentEvents case class
    */
-  def insert(ecEvent: IssueCommentEvents): Unit = {
-    this.findById(ecEvent.eventId) match {
-      case None => run(query[IssueCommentEvents].insert(lift(ecEvent)))
+  def insert(issueCommentEvent: IssueCommentEvents): Unit = {
+    this.findById(issueCommentEvent.eventId) match {
+      case None => run(query[IssueCommentEvents].insert(lift(issueCommentEvent)))
       case Some(e) => logger.info(s"Event id [${e.eventId}] is already exists. skip ForkEvents event.")
     }
   }

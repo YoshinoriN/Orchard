@@ -5,7 +5,7 @@ import net.yoshinorin.selfouettie.utils.Logger
 
 trait WatchEventsRepository {
 
-  def insert(watchEvents: WatchEvents): Unit
+  def insert(watchEvent: WatchEvents): Unit
   def findById(eventId: Long): Option[WatchEvents]
 
 }
@@ -17,12 +17,12 @@ object WatchEventsRepository extends WatchEventsRepository with QuillProvider wi
   /**
    * Insert WatchEvents
    *
-   * @param watchEvents WatchEvents case class
+   * @param watchEvent WatchEvents case class
    */
-  def insert(watchEvents: WatchEvents): Unit = {
-    this.findById(watchEvents.eventId) match {
-      case None => run(query[WatchEvents].insert(lift(watchEvents)))
-      case Some(_) => logger.info(s"Event id [${watchEvents.eventId}] is already exists. skip ForkEvents event.")
+  def insert(watchEvent: WatchEvents): Unit = {
+    this.findById(watchEvent.eventId) match {
+      case None => run(query[WatchEvents].insert(lift(watchEvent)))
+      case Some(_) => logger.info(s"Event id [${watchEvent.eventId}] is already exists. skip ForkEvents event.")
     }
   }
 

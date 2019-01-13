@@ -1,6 +1,5 @@
 package net.yoshinorin.selfouettie.commands
 
-import net.yoshinorin.selfouettie.services.EventsConverter
 import net.yoshinorin.selfouettie.services.EventService
 import net.yoshinorin.selfouettie.utils.File
 import net.yoshinorin.selfouettie.utils.Logger
@@ -8,7 +7,7 @@ import net.yoshinorin.selfouettie.utils.Logger
 /**
  * Import GitHub events from JSON files
  */
-object Import extends App with EventsConverter with Logger with EventService {
+object Import extends App with Logger with EventService {
 
   logger.info("Start import from JSON files.")
 

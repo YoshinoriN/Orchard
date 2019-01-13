@@ -10,7 +10,7 @@ import akka.http.scaladsl.unmarshalling.Unmarshal
 import net.yoshinorin.selfouettie.config.ConfigProvider
 import net.yoshinorin.selfouettie.utils.{File, Logger}
 
-object GitHubEventService extends ActorService with EventsConverter with EventService with ConfigProvider with Logger {
+object GitHubEventService extends ActorService with EventService with ConfigProvider with Logger {
 
   private val api = configuration.getString("github.api")
   private val token = configuration.getString("github.token")

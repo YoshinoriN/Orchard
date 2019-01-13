@@ -13,7 +13,7 @@ object GitHubEventService extends ActorService with EventsConverter with EventSe
 
   private val api = configuration.getString("github.api")
   private val token = configuration.getString("github.token")
-  private val store = configuration.getBoolean("github.storeResult")
+  private val doStoreToLocalStorage = configuration.getBoolean("github.storeToLocalStorage")
 
   def getEvents(): Unit = {
 
@@ -27,7 +27,7 @@ object GitHubEventService extends ActorService with EventsConverter with EventSe
       case Success(s) => {
         Unmarshal(s.entity).to[String].onComplete {
           case Success(json) => {
-            if (this.store) {
+            if (this.doStoreToLocalStorage) {
               this.storeJson(json)
             }
             convert(json) match {

@@ -13,16 +13,8 @@ trait EventService extends QuillProvider with Logger {
 
   import ctx._;
 
-  private[this] def generateEvent(event: EventObject, action: String): Events = {
-    Events(
-      event.id,
-      event.eventType.value,
-      event.userName,
-      event.repository.get.id,
-      action,
-      event.repository.get.name,
-      event.createdAt
-    )
+  private[this] def generateEventCaseClass(event: EventObject, action: String): Events = {
+    Events(event.id, event.eventType.value, event.userName, event.repository.get.id, action, event.repository.get.name, event.createdAt)
   }
 
   def create(event: EventObject): Unit = {
@@ -42,50 +34,50 @@ trait EventService extends QuillProvider with Logger {
         case Some(e) => {
           eventType match {
             case EventType.CreateEvent =>
-              EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
               CreateEventsRepository.insert(e.asInstanceOf[CreateEvents])
             case EventType.DeleteEvent =>
-              EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
               DeleteEventsRepository.insert(e.asInstanceOf[DeleteEvents])
             case EventType.ForkEvent =>
-              EventsRepository.insert(this.generateEvent(event, Action.fork.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, Action.fork.toString))
               ForkEventsRepository.insert(e.asInstanceOf[ForkEvents])
             case EventType.IssueCommentEvent =>
               val issueCommentEvents: IssueCommentEvents = e.asInstanceOf[IssueCommentEvents]
-              EventsRepository.insert(this.generateEvent(event, issueCommentEvents.action))
+              EventsRepository.insert(this.generateEventCaseClass(event, issueCommentEvents.action))
               IssuesRepository.insert(Issues(event.repository.get.id, issueCommentEvents.issueNumber, "TODO"))
               IssueCommentEventsRepository.insert(issueCommentEvents)
             case EventType.IssuesEvent =>
               val issuesEvent: IssueEvents = e.asInstanceOf[IssueEvents]
               IssuesRepository.insert(Issues(event.repository.get.id, issuesEvent.issueNumber, "TODO"))
-              EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
               IssuesEventsRepository.insert(issuesEvent)
             case EventType.PullRequestEvent =>
               val pullRequestEvents: PullRequestEvents = e.asInstanceOf[PullRequestEvents]
-              EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
               PullRequestRepository.insert(PullRequests(event.repository.get.id, pullRequestEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
               PullRequestEventRepository.insert(pullRequestEvents)
             case EventType.PullRequestReviewEvent =>
               val pullRequestReviewEvents: PullRequestReviewEvents = e.asInstanceOf[PullRequestReviewEvents]
-              EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
               PullRequestRepository.insert(PullRequests(event.repository.get.id, pullRequestReviewEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
               PullRequestReviewEventsRepository.insert(pullRequestReviewEvents)
             case EventType.PullRequestReviewCommentEvent =>
               val pullRequestReviewCommentEvents: PullRequestReviewCommentEvents = e.asInstanceOf[PullRequestReviewCommentEvents]
-              EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
               PullRequestRepository.insert(PullRequests(event.repository.get.id, pullRequestReviewCommentEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
               PullRequestReviewCommentEventsRepository.insert(pullRequestReviewCommentEvents)
             case EventType.PushEvent =>
               val pushEvents: PushEvents = e.asInstanceOf[PushEvents]
-              EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
               PushEventsRepository.insert(pushEvents)
             case EventType.ReleaseEvent =>
               val releaseEvents: ReleaseEvents = e.asInstanceOf[ReleaseEvents]
-              EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
               ReleaseEventsRepository.insert(releaseEvents)
             case EventType.WatchEvent =>
               val watchEvents: WatchEvents = e.asInstanceOf[WatchEvents]
-              EventsRepository.insert(this.generateEvent(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
               WatchEventsRepository.insert(watchEvents)
             case EventType.Undefined => logger.info("Undefined event skip insert.")
           }
@@ -138,7 +130,7 @@ trait EventService extends QuillProvider with Logger {
           }
         }
 
-        val repository = this.generateRepositoryObject(x)
+        val repository = this.generateRepositoryCaseClass(x)
 
         if (mayBeEventId.isLeft || mayBeEventType.isLeft || mayBeUserName.isLeft || mayBeCreatedAt.isLeft || repository.isEmpty) {
           return None
@@ -150,27 +142,27 @@ trait EventService extends QuillProvider with Logger {
 
           eventType match {
             case EventType.CreateEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateCreateEventObject(eventId, userName, createdAt, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateCreateEventCaseClass(eventId, userName, createdAt, x))
             case EventType.DeleteEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateDeleteEventObject(eventId, userName, createdAt, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateDeleteEventCaseClass(eventId, userName, createdAt, x))
             case EventType.ForkEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateForkEventObject(eventId, userName, createdAt, repository.get.id))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateForkEventCaseClass(eventId, userName, createdAt, repository.get.id))
             case EventType.IssueCommentEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateIssueCommentEventObject(eventId, userName, repository.get.id, createdAt, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateIssueCommentEventCaseClass(eventId, userName, repository.get.id, createdAt, x))
             case EventType.IssuesEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateIssuesEventObject(eventId, userName, repository.get.id, createdAt, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateIssuesEventCaseClass(eventId, userName, repository.get.id, createdAt, x))
             case EventType.PullRequestEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestEventObject(eventId, userName, repository.get.id, createdAt, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestEventCaseClass(eventId, userName, repository.get.id, createdAt, x))
             case EventType.PullRequestReviewEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewEventObject(eventId, userName, repository.get.id, createdAt, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewEventCaseClass(eventId, userName, repository.get.id, createdAt, x))
             case EventType.PullRequestReviewCommentEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewCommentEventObject(eventId, userName, repository.get.id, createdAt, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewCommentEventCaseClass(eventId, userName, repository.get.id, createdAt, x))
             case EventType.PushEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generatePushEventObject(eventId, userName, repository.get.id, createdAt, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generatePushEventCaseClass(eventId, userName, repository.get.id, createdAt, x))
             case EventType.ReleaseEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateReleaseEventObject(eventId, userName, repository.get.id, createdAt, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateReleaseEventCaseClass(eventId, userName, repository.get.id, createdAt, x))
             case EventType.WatchEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateWatchEventObject(eventId, userName, repository.get.id, createdAt, x))
+              EventObject(eventId, eventType, userName, repository, createdAt, generateWatchEventCaseClass(eventId, userName, repository.get.id, createdAt, x))
             case EventType.Undefined => {
               logger.error(s"event id: [$eventId] is undefined event type.")
               //FIXME
@@ -189,7 +181,7 @@ trait EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateRepositoryObject(json: Json): Option[Repositories] = {
+  private[this] def generateRepositoryCaseClass(json: Json): Option[Repositories] = {
     val id: Decoder.Result[Long] = json.hcursor.downField("repo").get[Long]("id")
     val name: Decoder.Result[String] = json.hcursor.downField("repo").get[String]("name")
 
@@ -210,7 +202,7 @@ trait EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateCreateEventObject(eventId: Long, userName: String, createdAt: Long, json: Json): Option[CreateEvents] = {
+  private[this] def generateCreateEventCaseClass(eventId: Long, userName: String, createdAt: Long, json: Json): Option[CreateEvents] = {
     val ref: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref")
     val refType: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref_type")
 
@@ -231,7 +223,7 @@ trait EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateDeleteEventObject(eventId: Long, userName: String, createdAt: Long, json: Json): Option[DeleteEvents] = {
+  private[this] def generateDeleteEventCaseClass(eventId: Long, userName: String, createdAt: Long, json: Json): Option[DeleteEvents] = {
     val ref: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref")
     val refType: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref_type")
 
@@ -252,7 +244,7 @@ trait EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateForkEventObject(eventId: Long, userName: String, createdAt: Long, repositoryId: Long): Option[ForkEvents] = {
+  private[this] def generateForkEventCaseClass(eventId: Long, userName: String, createdAt: Long, repositoryId: Long): Option[ForkEvents] = {
     Some(ForkEvents(eventId, userName, repositoryId, createdAt))
   }
 
@@ -265,7 +257,7 @@ trait EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateIssueCommentEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueCommentEvents] = {
+  private[this] def generateIssueCommentEventCaseClass(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueCommentEvents] = {
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
     val issueNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("issue").get[Int]("number")
 
@@ -286,7 +278,7 @@ trait EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateIssuesEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueEvents] = {
+  private[this] def generateIssuesEventCaseClass(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueEvents] = {
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
     val issueNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("issue").get[Int]("number")
 
@@ -307,7 +299,7 @@ trait EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generatePullRequestEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestEvents] = {
+  private[this] def generatePullRequestEventCaseClass(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestEvents] = {
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
     val prNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
 
@@ -328,7 +320,7 @@ trait EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generatePullRequestReviewEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewEvents] = {
+  private[this] def generatePullRequestReviewEventCaseClass(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewEvents] = {
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
     val prNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
 
@@ -349,7 +341,7 @@ trait EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generatePullRequestReviewCommentEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewCommentEvents] = {
+  private[this] def generatePullRequestReviewCommentEventCaseClass(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewCommentEvents] = {
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
     val prNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
 
@@ -370,7 +362,7 @@ trait EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generatePushEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PushEvents] = {
+  private[this] def generatePushEventCaseClass(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PushEvents] = {
     val ref: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref")
     val size: Decoder.Result[Int] = json.hcursor.downField("payload").get[Int]("size")
 
@@ -391,7 +383,7 @@ trait EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateReleaseEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[ReleaseEvents] = {
+  private[this] def generateReleaseEventCaseClass(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[ReleaseEvents] = {
     val tagName: Decoder.Result[String] = json.hcursor.downField("payload").downField("release").get[String]("tag_name")
     val name: Decoder.Result[String] = json.hcursor.downField("payload").downField("release").get[String]("name")
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
@@ -413,7 +405,7 @@ trait EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateWatchEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[WatchEvents] = {
+  private[this] def generateWatchEventCaseClass(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[WatchEvents] = {
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
 
     if (action.isRight) {

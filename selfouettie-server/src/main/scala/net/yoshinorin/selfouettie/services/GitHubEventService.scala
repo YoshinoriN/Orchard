@@ -48,7 +48,7 @@ object GitHubEventService extends ActorService with EventsConverter with EventSe
     val filePath = System.getProperty("user.dir") + "/src/main/resources/data/store/" + ZonedDateTime.now.toEpochSecond.toString + ".json"
     File.create(filePath) match {
       case Success(_) => File.write(filePath, json)
-      case Failure(_) => logger.error("GitHub event data failed to store file.")
+      case Failure(f) => logger.error(f.getMessage)
     }
   }
 

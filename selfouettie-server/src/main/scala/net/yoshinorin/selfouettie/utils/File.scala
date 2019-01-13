@@ -87,11 +87,9 @@ object File extends Logger {
         } finally {
           writer.close()
         }
-        Success()
       }
       case false => {
-        logger.error(s"$path does not exists.")
-        Failure(new FileNotFoundException)
+        Failure(new FileNotFoundException(s"$path does not exists."))
       }
     }
   }

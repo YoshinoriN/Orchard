@@ -25,7 +25,7 @@ project/plugins/project/
 
 # For Application
 selfouettie-server/src/main/resources/data/import/*
-!.gitignore
+!.gitkeep
 
 selfouettie-server/src/main/resources/data/store/*
-!.gitignore
+!.gitkeep

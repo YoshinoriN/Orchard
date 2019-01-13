@@ -1,9 +1,8 @@
 package net.yoshinorin.selfouettie.services
 
 import java.time.ZonedDateTime
-
 import io.circe.parser.parse
-import io.circe.{HCursor, Json}
+import io.circe.{Decoder, DecodingFailure, HCursor, Json}
 import net.yoshinorin.selfouettie.models._
 import net.yoshinorin.selfouettie.models.db._
 import net.yoshinorin.selfouettie.types.{Action, EventType}
@@ -27,27 +26,6 @@ trait EventService extends QuillProvider with Logger {
   }
 
   def create(event: EventObject): Unit = {
-
-    //FIXME: more clean
-    if (event.id == 0) {
-      logger.info("skip insert record. event id is undefined.")
-      return
-    }
-
-    if (event.userName == "") {
-      logger.info("skip insert record. username is undefined.")
-      return
-    }
-
-    if (event.createdAt == 0) {
-      logger.info("skip insert record. created_at is undefined.")
-      return
-    }
-
-    if (event.event.isEmpty) {
-      logger.info("skip insert record. event is undefined.")
-      return
-    }
 
     transaction {
       UsersRepository.insert(Users(event.userName, event.createdAt))
@@ -116,43 +94,88 @@ trait EventService extends QuillProvider with Logger {
     }
   }
 
+  /**
+   * Parse GitHub events to EventObject
+   *
+   * @param jsonList GitHub events JSON
+   * @return parsed object
+   */
   def convert(jsonList: String): Option[List[EventObject]] = {
     val events: Json = parse(jsonList).getOrElse(Json.Null)
     val hCursor: HCursor = events.hcursor
     val data = for (json <- hCursor.values) yield {
       for (x <- json.toList) yield {
-        val eventId: Long = x.hcursor.get[Long]("id").getOrElse(0)
-        val eventType: EventType = x.hcursor.get[String]("type").getOrElse("").toEventType
-        val userName: String = x.hcursor.downField("actor").get[String]("login").getOrElse("")
-        val createdAt: Long = ZonedDateTime.parse(x.hcursor.get[String]("created_at").getOrElse("")).toEpochSecond //TODO: Implement DateTimeParseException
+
+        val mayBeEventId: Either[DecodingFailure, Long] = x.hcursor.get[Long]("id") match {
+          case Right(r) => Right(r)
+          case Left(l) => {
+            logger.error("Can not parse event id.")
+            Left(l)
+          }
+        }
+
+        val mayBeEventType: Either[DecodingFailure, EventType] = x.hcursor.get[String]("type") match {
+          case Right(r) => Right(r.toEventType)
+          case Left(l) => {
+            logger.error("Can not parse event type.")
+            Left(l)
+          }
+        }
+
+        val mayBeUserName: Either[DecodingFailure, String] = x.hcursor.downField("actor").get[String]("login") match {
+          case Right(r) => Right(r)
+          case Left(l) => {
+            logger.error("Can not parse userName.")
+            Left(l)
+          }
+        }
+
+        val mayBeCreatedAt: Either[DecodingFailure, Long] = x.hcursor.get[String]("created_at") match {
+          case Right(r) => Right(ZonedDateTime.parse(r).toEpochSecond)
+          case Left(l) => {
+            logger.error("Can not parse createdAt.")
+            Left(l)
+          }
+        }
+
         val repository = this.generateRepositoryObject(x)
-        x.hcursor.get[String]("type").getOrElse("").toEventType match {
-          case EventType.CreateEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generateCreateEventObject(eventId, userName, createdAt, x))
-          case EventType.DeleteEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generateDeleteEventObject(eventId, userName, createdAt, x))
-          case EventType.ForkEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generateForkEventObject(eventId, userName, createdAt, repository.get.id))
-          case EventType.IssueCommentEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generateIssueCommentEventObject(eventId, userName, repository.get.id, createdAt, x))
-          case EventType.IssuesEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generateIssuesEventObject(eventId, userName, repository.get.id, createdAt, x))
-          case EventType.PullRequestEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestEventObject(eventId, userName, repository.get.id, createdAt, x))
-          case EventType.PullRequestReviewEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewEventObject(eventId, userName, repository.get.id, createdAt, x))
-          case EventType.PullRequestReviewCommentEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewCommentEventObject(eventId, userName, repository.get.id, createdAt, x))
-          case EventType.PushEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generatePushEventObject(eventId, userName, repository.get.id, createdAt, x))
-          case EventType.ReleaseEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generateReleaseEventObject(eventId, userName, repository.get.id, createdAt, x))
-          case EventType.WatchEvent =>
-            EventObject(eventId, eventType, userName, repository, createdAt, generateWatchEventObject(eventId, userName, repository.get.id, createdAt, x))
-          case EventType.Undefined => {
-            logger.error(s"event id: [$eventId] is undefined event type.")
-            //FIXME
-            EventObject(eventId, eventType, userName, repository, createdAt, Option(DummyEvent()))
+
+        if (mayBeEventId.isLeft || mayBeEventType.isLeft || mayBeUserName.isLeft || mayBeCreatedAt.isLeft || repository.isEmpty) {
+          return None
+        } else {
+          val eventId = mayBeEventId.right.get
+          val eventType = mayBeEventType.right.get
+          val userName = mayBeUserName.right.get
+          val createdAt = mayBeCreatedAt.right.get
+
+          eventType match {
+            case EventType.CreateEvent =>
+              EventObject(eventId, eventType, userName, repository, createdAt, generateCreateEventObject(eventId, userName, createdAt, x))
+            case EventType.DeleteEvent =>
+              EventObject(eventId, eventType, userName, repository, createdAt, generateDeleteEventObject(eventId, userName, createdAt, x))
+            case EventType.ForkEvent =>
+              EventObject(eventId, eventType, userName, repository, createdAt, generateForkEventObject(eventId, userName, createdAt, repository.get.id))
+            case EventType.IssueCommentEvent =>
+              EventObject(eventId, eventType, userName, repository, createdAt, generateIssueCommentEventObject(eventId, userName, repository.get.id, createdAt, x))
+            case EventType.IssuesEvent =>
+              EventObject(eventId, eventType, userName, repository, createdAt, generateIssuesEventObject(eventId, userName, repository.get.id, createdAt, x))
+            case EventType.PullRequestEvent =>
+              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestEventObject(eventId, userName, repository.get.id, createdAt, x))
+            case EventType.PullRequestReviewEvent =>
+              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewEventObject(eventId, userName, repository.get.id, createdAt, x))
+            case EventType.PullRequestReviewCommentEvent =>
+              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewCommentEventObject(eventId, userName, repository.get.id, createdAt, x))
+            case EventType.PushEvent =>
+              EventObject(eventId, eventType, userName, repository, createdAt, generatePushEventObject(eventId, userName, repository.get.id, createdAt, x))
+            case EventType.ReleaseEvent =>
+              EventObject(eventId, eventType, userName, repository, createdAt, generateReleaseEventObject(eventId, userName, repository.get.id, createdAt, x))
+            case EventType.WatchEvent =>
+              EventObject(eventId, eventType, userName, repository, createdAt, generateWatchEventObject(eventId, userName, repository.get.id, createdAt, x))
+            case EventType.Undefined => {
+              logger.error(s"event id: [$eventId] is undefined event type.")
+              //FIXME
+              EventObject(eventId, eventType, userName, repository, createdAt, Option(DummyEvent()))
+            }
           }
         }
       }
@@ -160,138 +183,243 @@ trait EventService extends QuillProvider with Logger {
     data
   }
 
-  def generateRepositoryObject(json: Json): Option[Repositories] = {
-    val id: Long = json.hcursor.downField("repo").get[Long]("id").getOrElse(0)
-    val name: String = json.hcursor.downField("repo").get[String]("name").getOrElse("")
+  /**
+   * Generate Repository case class from JSON
+   *
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private[this] def generateRepositoryObject(json: Json): Option[Repositories] = {
+    val id: Decoder.Result[Long] = json.hcursor.downField("repo").get[Long]("id")
+    val name: Decoder.Result[String] = json.hcursor.downField("repo").get[String]("name")
 
-    //FIXME
-    if (id != 0 && name != "") {
-      Some(Repositories(id, name))
+    if (id.isRight && name.isRight) {
+      Some(Repositories(id.right.get, name.right.get))
     } else {
+      logger.error("Can not parse Repository.")
       None
     }
   }
 
-  def generateCreateEventObject(eventId: Long, userName: String, createdAt: Long, json: Json): Option[CreateEvents] = {
-    val ref: String = json.hcursor.downField("payload").get[String]("ref").getOrElse("")
-    val refType: String = json.hcursor.downField("payload").get[String]("ref_type").getOrElse("")
+  /**
+   * Generate CreateEvents case class from JSON
+   *
+   * @param eventId event id
+   * @param userName user name
+   * @param createdAt created at (epoch second)
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private[this] def generateCreateEventObject(eventId: Long, userName: String, createdAt: Long, json: Json): Option[CreateEvents] = {
+    val ref: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref")
+    val refType: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref_type")
 
-    //FIXME
-    if (ref != "" && refType != "") {
-      Some(CreateEvents(eventId, userName, refType, ref, createdAt))
+    if (ref.isRight && refType.isRight) {
+      Some(CreateEvents(eventId, userName, refType.right.get, ref.right.get, createdAt))
     } else {
+      logger.error(s"Event id [${eventId}]. Failed parse to CreateEvents.")
       None
     }
   }
 
-  def generateDeleteEventObject(eventId: Long, userName: String, createdAt: Long, json: Json): Option[DeleteEvents] = {
-    val ref: String = json.hcursor.downField("payload").get[String]("ref").getOrElse("")
-    val refType: String = json.hcursor.downField("payload").get[String]("ref_type").getOrElse("")
+  /**
+   * Generate DeleteEvents case class from JSON
+   *
+   * @param eventId event id
+   * @param userName user name
+   * @param createdAt created at (epoch second)
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private[this] def generateDeleteEventObject(eventId: Long, userName: String, createdAt: Long, json: Json): Option[DeleteEvents] = {
+    val ref: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref")
+    val refType: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref_type")
 
-    //FIXME
-    if (ref != "" && refType != "") {
-      Some(DeleteEvents(eventId, userName, refType, ref, createdAt))
+    if (ref.isRight && refType.isRight) {
+      Some(DeleteEvents(eventId, userName, refType.right.get, ref.right.get, createdAt))
     } else {
+      logger.error(s"Event id [${eventId}]. Failed parse to DeleteEvents.")
       None
     }
   }
 
-  def generateForkEventObject(eventId: Long, userName: String, createdAt: Long, repositoryId: Long): Option[ForkEvents] = {
+  /**
+   * Generate ForkEvents case class from JSON
+   *
+   * @param eventId event id
+   * @param userName user name
+   * @param createdAt created at (epoch second)
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private[this] def generateForkEventObject(eventId: Long, userName: String, createdAt: Long, repositoryId: Long): Option[ForkEvents] = {
     Some(ForkEvents(eventId, userName, repositoryId, createdAt))
   }
 
-  def generateIssueCommentEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueCommentEvents] = {
-    val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
-    val issueNumber: Int = json.hcursor.downField("payload").downField("issue").get[Int]("number").getOrElse(0)
+  /**
+   * Generate IssueCommentEvents case class from JSON
+   *
+   * @param eventId event id
+   * @param userName user name
+   * @param createdAt created at (epoch second)
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private[this] def generateIssueCommentEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueCommentEvents] = {
+    val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
+    val issueNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("issue").get[Int]("number")
 
-    //FIXME
-    if (action != "" && issueNumber != 0) {
-      Some(IssueCommentEvents(eventId, userName, repositoryId, issueNumber, action, createdAt))
+    if (action.isRight && issueNumber.isRight) {
+      Some(IssueCommentEvents(eventId, userName, repositoryId, issueNumber.right.get, action.right.get, createdAt))
     } else {
+      logger.error(s"Event id [${eventId}]. Failed parse to IssueCommentEvents.")
       None
     }
   }
 
-  def generateIssuesEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueEvents] = {
-    val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
-    val issueNumber: Int = json.hcursor.downField("payload").downField("issue").get[Int]("number").getOrElse(0)
+  /**
+   * Generate IssueEvents case class from JSON
+   *
+   * @param eventId event id
+   * @param userName user name
+   * @param createdAt created at (epoch second)
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private[this] def generateIssuesEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueEvents] = {
+    val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
+    val issueNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("issue").get[Int]("number")
 
-    //FIXME
-    if (action != "" && issueNumber != 0) {
-      Some(IssueEvents(eventId, userName, repositoryId, issueNumber, action, createdAt))
+    if (action.isRight && issueNumber.isRight) {
+      Some(IssueEvents(eventId, userName, repositoryId, issueNumber.right.get, action.right.get, createdAt))
     } else {
+      logger.error(s"Event id [${eventId}]. Failed parse to IssueEvents.")
       None
     }
   }
 
-  def generatePullRequestEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestEvents] = {
-    val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
-    val prNumber: Int = json.hcursor.downField("payload").downField("pull_request").get[Int]("number").getOrElse(0)
+  /**
+   * Generate PullRequestEvents case class from JSON
+   *
+   * @param eventId event id
+   * @param userName user name
+   * @param createdAt created at (epoch second)
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private[this] def generatePullRequestEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestEvents] = {
+    val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
+    val prNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
 
-    //FIXME
-    if (action != "" && prNumber != 0) {
-      Some(PullRequestEvents(eventId, userName, repositoryId, prNumber, action, createdAt))
+    if (action.isRight && prNumber.isRight) {
+      Some(PullRequestEvents(eventId, userName, repositoryId, prNumber.right.get, action.right.get, createdAt))
     } else {
+      logger.error(s"Event id [${eventId}]. Failed parse to PullRequestEvents.")
       None
     }
   }
 
-  def generatePullRequestReviewEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewEvents] = {
-    val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
-    val prNumber: Int = json.hcursor.downField("payload").downField("pull_request").get[Int]("number").getOrElse(0)
+  /**
+   * Generate PullRequestReviewEvents case class from JSON
+   *
+   * @param eventId event id
+   * @param userName user name
+   * @param createdAt created at (epoch second)
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private[this] def generatePullRequestReviewEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewEvents] = {
+    val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
+    val prNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
 
-    //FIXME
-    if (action != "" && prNumber != 0) {
-      Some(PullRequestReviewEvents(eventId, userName, repositoryId, prNumber, action, createdAt))
+    if (action.isRight && prNumber.isRight) {
+      Some(PullRequestReviewEvents(eventId, userName, repositoryId, prNumber.right.get, action.right.get, createdAt))
     } else {
+      logger.error(s"Event id [${eventId}]. Failed parse to PullRequestReviewEvents.")
       None
     }
   }
 
-  def generatePullRequestReviewCommentEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewCommentEvents] = {
-    val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
-    val prNumber: Int = json.hcursor.downField("payload").downField("pull_request").get[Int]("number").getOrElse(0)
+  /**
+   * Generate PullRequestReviewCommentEvents case class from JSON
+   *
+   * @param eventId event id
+   * @param userName user name
+   * @param createdAt created at (epoch second)
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private[this] def generatePullRequestReviewCommentEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewCommentEvents] = {
+    val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
+    val prNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
 
-    //FIXME
-    if (action != "" && prNumber != 0) {
-      Some(PullRequestReviewCommentEvents(eventId, userName, repositoryId, prNumber, action, createdAt))
+    if (action.isRight && prNumber.isRight) {
+      Some(PullRequestReviewCommentEvents(eventId, userName, repositoryId, prNumber.right.get, action.right.get, createdAt))
     } else {
+      logger.error(s"Event id [${eventId}]. Failed parse to PullRequestReviewCommentEvents.")
       None
     }
   }
 
-  def generatePushEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PushEvents] = {
-    val ref: String = json.hcursor.downField("payload").get[String]("ref").getOrElse("")
-    val size: Int = json.hcursor.downField("payload").get[Int]("size").getOrElse(0)
+  /**
+   * Generate PushEvents case class from JSON
+   *
+   * @param eventId event id
+   * @param userName user name
+   * @param createdAt created at (epoch second)
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private[this] def generatePushEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PushEvents] = {
+    val ref: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref")
+    val size: Decoder.Result[Int] = json.hcursor.downField("payload").get[Int]("size")
 
-    //FIXME
-    if (ref != "" && size != 0) {
-      Some(PushEvents(eventId, userName, repositoryId, ref, size, createdAt))
+    if (ref.isRight && size.isRight) {
+      Some(PushEvents(eventId, userName, repositoryId, ref.right.get, size.right.get, createdAt))
     } else {
+      logger.error(s"Event id [${eventId}]. Failed parse to PushEvents.")
       None
     }
   }
 
-  def generateReleaseEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[ReleaseEvents] = {
-    val tagName: String = json.hcursor.downField("payload").downField("release").get[String]("tag_name").getOrElse("")
-    val name: String = json.hcursor.downField("payload").downField("release").get[String]("name").getOrElse("")
-    val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
+  /**
+   * Generate ReleaseEvents case class from JSON
+   *
+   * @param eventId event id
+   * @param userName user name
+   * @param createdAt created at (epoch second)
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private[this] def generateReleaseEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[ReleaseEvents] = {
+    val tagName: Decoder.Result[String] = json.hcursor.downField("payload").downField("release").get[String]("tag_name")
+    val name: Decoder.Result[String] = json.hcursor.downField("payload").downField("release").get[String]("name")
+    val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
 
-    //FIXME
-    if (tagName != "" && name != "" && action != "") {
-      Some(ReleaseEvents(eventId, userName, repositoryId, tagName, name, action, createdAt))
+    if (tagName.isRight && name.isRight && action.isRight) {
+      Some(ReleaseEvents(eventId, userName, repositoryId, tagName.right.get, name.right.get, action.right.get, createdAt))
     } else {
+      logger.error(s"Event id [${eventId}]. Failed parse to ReleaseEvents.")
       None
     }
   }
 
-  def generateWatchEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[WatchEvents] = {
-    val action: String = json.hcursor.downField("payload").get[String]("action").getOrElse("")
+  /**
+   * Generate WatchEvents case class from JSON
+   *
+   * @param eventId event id
+   * @param userName user name
+   * @param createdAt created at (epoch second)
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private[this] def generateWatchEventObject(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[WatchEvents] = {
+    val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
 
-    //FIXME
-    if (action != "") {
-      Some(WatchEvents(eventId, userName, repositoryId, action, createdAt))
+    if (action.isRight) {
+      Some(WatchEvents(eventId, userName, repositoryId, action.right.get, createdAt))
     } else {
+      logger.error(s"Event id [${eventId}]. Failed parse to WatchEvents.")
       None
     }
   }

@@ -1,9 +1,10 @@
 package net.yoshinorin.selfouettie.services
 
 import java.time.ZonedDateTime
+import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import akka.http.scaladsl.model.headers.{Authorization, OAuth2BearerToken}
-import akka.http.scaladsl.model.{HttpMethods, HttpRequest, Uri}
+import akka.http.scaladsl.model.{HttpMethods, HttpRequest, HttpResponse, Uri}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import net.yoshinorin.selfouettie.config.ConfigProvider
@@ -16,15 +17,17 @@ object GitHubEventService extends ActorService with EventsConverter with EventSe
   private val doStoreToLocalStorage = configuration.getBoolean("github.storeToLocalStorage")
   private val storagePath = System.getProperty("user.dir") + "/src/main/resources/data/store/" + ZonedDateTime.now.toEpochSecond.toString + ".json"
 
-  def getEvents(): Unit = {
-
+  def getEvents(): Future[HttpResponse] = {
     val request = HttpRequest(
       HttpMethods.GET,
       uri = Uri(api),
       headers = List(Authorization(OAuth2BearerToken(token)))
     )
+    Http().singleRequest(request)
+  }
 
-    Http().singleRequest(request).onComplete {
+  def save(): Unit = {
+    this.getEvents().onComplete {
       case Success(s) => {
         Unmarshal(s.entity).to[String].onComplete {
           case Success(json) => {

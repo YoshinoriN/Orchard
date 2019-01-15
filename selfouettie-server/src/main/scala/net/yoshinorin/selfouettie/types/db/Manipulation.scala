@@ -12,4 +12,4 @@ object Limit {
   }
 }
 
-case class EpochSecondFromTo(from: Int, to: Int)
+case class FromTo(from: Option[Int] = None, to: Option[Int])

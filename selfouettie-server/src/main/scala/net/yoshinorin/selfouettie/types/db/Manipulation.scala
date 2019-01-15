@@ -12,4 +12,4 @@ object Limit {
   }
 }
 
-case class FromTo(from: Option[Int] = None, to: Option[Int])
+case class FromTo(from: Option[Long] = None, to: Option[Long])

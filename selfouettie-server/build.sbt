@@ -31,3 +31,4 @@ libraryDependencies ++= Seq(
 
 scalafmtOnCompile := true
 coverageExcludedPackages := ".*Plugin.*;.*applicationlogs.html.*"
+org.scoverage.coveralls.Imports.CoverallsKeys.coverallsGitRepoLocation := Some("..")

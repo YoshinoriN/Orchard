@@ -8,7 +8,7 @@ trait EventsRepository {
 
   def insert(event: Events): Unit
   def findById(id: Long): Option[Events]
-  def findByUserName(userName: String, limit: Limit, createdAtBetween: FromTo): Option[Events]
+  def findByUserName(userName: String, limit: Limit, createdAtBetween: Option[FromTo] = None): List[Events]
 
 }
 
@@ -46,17 +46,22 @@ object EventsRepository extends EventsRepository with QuillProvider with Logger 
    * @param createdAtBetween created at range (from to)
    * @return
    */
-  def findByUserName(userName: String, limit: Limit, createdAtBetween: FromTo): Option[Events] = {
+  def findByUserName(userName: String, limit: Limit, createdAtBetween: Option[FromTo] = None): List[Events] = {
     val q = quote {
       query[Events].filter(_.userName == lift(userName)).take(lift(limit.limit))
     }
-    if (createdAtBetween.from.isDefined) {
-      quote { q.filter(_.createdAt >= lift(createdAtBetween.from.get)) }
+    createdAtBetween match {
+      case Some(ft) => {
+        if (ft.from.isDefined) {
+          quote { q.filter(_.createdAt >= lift(ft.from.get)) }
+        }
+        if (ft.to.isDefined) {
+          quote { q.filter(_.createdAt <= lift(ft.to.get)) }
+        }
+      }
+      case _ => //Nothing to do
     }
-    if (createdAtBetween.to.isDefined) {
-      quote { q.filter(_.createdAt <= lift(createdAtBetween.to.get)) }
-    }
-    run(q.sortBy(_.createdAt)(Ord.desc)).headOption
+    run(q.sortBy(_.createdAt)(Ord.desc))
   }
 
 }

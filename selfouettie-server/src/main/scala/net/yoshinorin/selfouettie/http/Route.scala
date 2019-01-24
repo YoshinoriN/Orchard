@@ -13,8 +13,8 @@ import net.yoshinorin.selfouettie.utils.File
 trait Route extends EventService with UsersService {
 
   //TODO: consider move to service object
-  implicit val decodeEvent: Encoder[Events] = deriveEncoder[Events]
-  implicit val decodeEvents: Encoder[List[Events]] = Encoder.encodeList[Events]
+  implicit val encodeEvent: Encoder[Events] = deriveEncoder[Events]
+  implicit val encodeEvents: Encoder[List[Events]] = Encoder.encodeList[Events]
 
   //TODO: devide route file
   val route = get {

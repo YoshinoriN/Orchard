@@ -1,14 +1,14 @@
 package net.yoshinorin.selfouettie.models.db
 
 import net.yoshinorin.selfouettie.services.QuillProvider
-import net.yoshinorin.selfouettie.types.db.{FromTo, Limit}
+import net.yoshinorin.selfouettie.types.db.{Between, Limit}
 import net.yoshinorin.selfouettie.utils.Logger
 
 trait EventsRepository {
 
   def insert(event: Events): Unit
   def findById(id: Long): Option[Events]
-  def findByUserName(userName: String, limit: Limit, createdAtBetween: Option[FromTo] = None): List[Events]
+  def findByUserName(userName: String, limit: Limit, createdAtBetween: Option[Between] = None): List[Events]
 
 }
 
@@ -43,14 +43,14 @@ object EventsRepository extends EventsRepository with QuillProvider with Logger 
    *
    * @param userName user name
    * @param limit max number of records return from database
-   * @param createdAtBetween created at range (from to)
+   * @param betweenCreatedAt created at range (from to)
    * @return
    */
-  def findByUserName(userName: String, limit: Limit, createdAtBetween: Option[FromTo] = None): List[Events] = {
+  def findByUserName(userName: String, limit: Limit, betweenCreatedAt: Option[Between] = None): List[Events] = {
     val q = quote {
       query[Events].filter(_.userName == lift(userName)).take(lift(limit.limit))
     }
-    createdAtBetween match {
+    betweenCreatedAt match {
       case Some(ft) => {
         if (ft.from.isDefined) {
           quote { q.filter(_.createdAt >= lift(ft.from.get)) }

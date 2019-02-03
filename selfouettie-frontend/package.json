@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "export": "next export",
-    "start": "next start",
+    "dev": "next src",
+    "build": "next build src",
+    "export": "next export src",
     "lint": "eslint .",
     "fix": "eslint --fix .",
     "watch": "jest --watchAll"

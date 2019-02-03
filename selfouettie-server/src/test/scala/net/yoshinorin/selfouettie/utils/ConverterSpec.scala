@@ -1,7 +1,5 @@
 package net.yoshinorin.selfouettie.utils
 
-import java.time.ZonedDateTime
-
 import org.scalatest.FunSuite
 import net.yoshinorin.selfouettie.types.EventType
 import net.yoshinorin.selfouettie.utils.Converter.{eventTypeConverter, zonedDateTimeConverter}

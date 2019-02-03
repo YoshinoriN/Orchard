@@ -12,6 +12,10 @@ A GitHub events collecting application.
 
 * [Documentation](./selfouettie-server)
 
+## Front end
+
+* [Documentation](./selfouettie-frontend)
+
 ## Setup
 
 #### 1. Create database

@@ -50,16 +50,16 @@ object EventsRepository extends EventsRepository with QuillProvider with Logger 
     val q = betweenCreatedAt match {
       case Some(ft) => {
         if (ft.from.isDefined && !ft.to.isDefined) {
-          quote { query[Events].filter(_.userName == lift(userName)).take(lift(limit.limit)).filter(_.createdAt >= lift(ft.from.get)) }
+          quote { query[Events].filter(_.createdAt >= lift(ft.from.get)) }
         } else if (ft.to.isDefined && !ft.from.isDefined) {
-          quote { query[Events].filter(_.userName == lift(userName)).take(lift(limit.limit)).filter(_.createdAt <= lift(ft.to.get)) }
+          quote { query[Events].filter(_.createdAt <= lift(ft.to.get)) }
         } else {
-          quote { query[Events].filter(_.userName == lift(userName)).take(lift(limit.limit)).filter(_.createdAt >= lift(ft.from.get)).filter(_.createdAt <= lift(ft.to.get)) }
+          quote { query[Events].filter(_.createdAt >= lift(ft.from.get)).filter(_.createdAt <= lift(ft.to.get)) }
         }
       }
-      case _ => quote { query[Events].filter(_.userName == lift(userName)).take(lift(limit.limit)).filter(_.createdAt != 0) }
+      case _ => quote { query[Events].filter(_.createdAt != 0) }
     }
-    run(q.sortBy(_.createdAt)(Ord.desc))
+    run(q.filter(_.userName == lift(userName)).take(lift(limit.limit)).sortBy(_.createdAt)(Ord.desc))
   }
 
 }

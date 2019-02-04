@@ -7,7 +7,7 @@ import io.circe.syntax._
 import io.circe.generic.semiauto._
 import net.yoshinorin.selfouettie.models.db.Events
 import net.yoshinorin.selfouettie.services.{EventService, UsersService}
-import net.yoshinorin.selfouettie.types.db.Limit
+import net.yoshinorin.selfouettie.types.db.{Between, Limit}
 import net.yoshinorin.selfouettie.utils.File
 
 trait Route extends EventService with UsersService {
@@ -29,6 +29,10 @@ trait Route extends EventService with UsersService {
       path(".+".r) { userName =>
         pathEndOrSingleSlash {
           val events = getEventsByUser(userName, Limit(), None).asJson
+          complete(HttpEntity(ContentTypes.`application/json`, s"$events"))
+        }
+        parameters('from) { (from) =>
+          val events = getEventsByUser(userName, Limit(), Some(Between(Some(from.toLong), None))).asJson
           complete(HttpEntity(ContentTypes.`application/json`, s"$events"))
         }
       }

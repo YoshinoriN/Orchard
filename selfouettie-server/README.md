@@ -3,7 +3,12 @@
 ### Run server
 
 ```sh
-runMain net.yoshinorin.selfouettie.HttpServer
+> sbt
+> runMain net.yoshinorin.selfouettie.BootStrap
+
+or 
+
+sbt "runMain net.yoshinorin.selfouettie.BootStrap"
 ```
 
 ### Stop Server

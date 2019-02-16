@@ -5,7 +5,7 @@ import io.circe.parser.parse
 import io.circe.{Decoder, DecodingFailure, HCursor, Json}
 import net.yoshinorin.selfouettie.models._
 import net.yoshinorin.selfouettie.models.db._
-import net.yoshinorin.selfouettie.types.{Action, EventType}
+import net.yoshinorin.selfouettie.types.{ActionType, EventType}
 import net.yoshinorin.selfouettie.utils.Converter.eventTypeConverter
 import net.yoshinorin.selfouettie.utils.Logger
 
@@ -29,13 +29,13 @@ trait EventService extends QuillProvider with Logger {
         case Some(e) => {
           eventType match {
             case EventType.CreateEvent =>
-              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, ActionType.Created.toString))
               CreateEventsRepository.insert(e.asInstanceOf[CreateEvents])
             case EventType.DeleteEvent =>
-              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, ActionType.Created.toString))
               DeleteEventsRepository.insert(e.asInstanceOf[DeleteEvents])
             case EventType.ForkEvent =>
-              EventsRepository.insert(this.generateEventCaseClass(event, Action.fork.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, ActionType.Fork.toString))
               ForkEventsRepository.insert(e.asInstanceOf[ForkEvents])
             case EventType.IssueCommentEvent =>
               val issueCommentEvents: IssueCommentEvents = e.asInstanceOf[IssueCommentEvents]
@@ -45,34 +45,34 @@ trait EventService extends QuillProvider with Logger {
             case EventType.IssuesEvent =>
               val issuesEvent: IssueEvents = e.asInstanceOf[IssueEvents]
               IssuesRepository.insert(Issues(event.repository.id, issuesEvent.issueNumber, "TODO"))
-              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, ActionType.Created.toString))
               IssuesEventsRepository.insert(issuesEvent)
             case EventType.PullRequestEvent =>
               val pullRequestEvents: PullRequestEvents = e.asInstanceOf[PullRequestEvents]
-              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, ActionType.Created.toString))
               PullRequestsRepository.insert(PullRequests(event.repository.id, pullRequestEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
               PullRequestEventsRepository.insert(pullRequestEvents)
             case EventType.PullRequestReviewEvent =>
               val pullRequestReviewEvents: PullRequestReviewEvents = e.asInstanceOf[PullRequestReviewEvents]
-              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, ActionType.Created.toString))
               PullRequestsRepository.insert(PullRequests(event.repository.id, pullRequestReviewEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
               PullRequestReviewEventsRepository.insert(pullRequestReviewEvents)
             case EventType.PullRequestReviewCommentEvent =>
               val pullRequestReviewCommentEvents: PullRequestReviewCommentEvents = e.asInstanceOf[PullRequestReviewCommentEvents]
-              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, ActionType.Created.toString))
               PullRequestsRepository.insert(PullRequests(event.repository.id, pullRequestReviewCommentEvents.pullRequestNumber, "TODO", false)) //TODO: update merged Boolean
               PullRequestReviewCommentEventsRepository.insert(pullRequestReviewCommentEvents)
             case EventType.PushEvent =>
               val pushEvents: PushEvents = e.asInstanceOf[PushEvents]
-              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, ActionType.Created.toString))
               PushEventsRepository.insert(pushEvents)
             case EventType.ReleaseEvent =>
               val releaseEvents: ReleaseEvents = e.asInstanceOf[ReleaseEvents]
-              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, ActionType.Created.toString))
               ReleaseEventsRepository.insert(releaseEvents)
             case EventType.WatchEvent =>
               val watchEvents: WatchEvents = e.asInstanceOf[WatchEvents]
-              EventsRepository.insert(this.generateEventCaseClass(event, Action.created.toString))
+              EventsRepository.insert(this.generateEventCaseClass(event, ActionType.Created.toString))
               WatchEventsRepository.insert(watchEvents)
             case EventType.Undefined => logger.info("Undefined event skip insert.")
           }

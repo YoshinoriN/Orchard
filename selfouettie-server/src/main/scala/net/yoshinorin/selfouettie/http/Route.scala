@@ -26,15 +26,19 @@ trait Route extends EventService with UsersService {
         case _ => complete(HttpResponse(404, entity = "Not Found."))
       }
     } ~ pathPrefix("users") {
-      path(".+".r) { userName =>
-        pathEndOrSingleSlash {
-          val events = getEventsByUser(userName, Limit(), None).asJson
-          complete(HttpEntity(ContentTypes.`application/json`, s"$events"))
-        }
-        parameters('from) { (from) =>
-          val events = getEventsByUser(userName, Limit(), Some(Between(Some(from.toLong), None))).asJson
-          complete(HttpEntity(ContentTypes.`application/json`, s"$events"))
-        }
+      // hostname/users/YoshinoriN
+      pathPrefix(".+".r) { userName =>
+        // hostname/users/YoshinoriN/activity
+        path("activity") {
+          // hostname/users/YoshinoriN/activity?from=<number>
+          parameters('from.as[Long]) { (from) =>
+            val events = getEventsByUser(userName, Limit(), Some(Between(Some(from), None))).asJson
+            complete(HttpEntity(ContentTypes.`application/json`, s"$events"))
+          }
+        } ~ // hostname/users/YoshinoriN/statistics
+          path("statistics") {
+            complete(HttpResponse(200, entity = "TODO"))
+          }
       }
     }
 

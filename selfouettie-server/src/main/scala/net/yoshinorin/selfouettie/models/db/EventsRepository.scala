@@ -1,5 +1,6 @@
 package net.yoshinorin.selfouettie.models.db
 
+import net.yoshinorin.selfouettie.models.EventStatistics
 import net.yoshinorin.selfouettie.services.QuillProvider
 import net.yoshinorin.selfouettie.types.db.{Between, Limit}
 import net.yoshinorin.selfouettie.utils.Logger
@@ -60,6 +61,16 @@ object EventsRepository extends EventsRepository with QuillProvider with Logger 
       case _ => quote { query[Events].filter(_.createdAt != 0) }
     }
     run(q.filter(_.userName == lift(userName)).take(lift(limit.limit)).sortBy(_.createdAt)(Ord.desc))
+  }
+
+  /**
+   * Get event type by userName
+   *
+   * @param userName user name
+   * @return
+   */
+  def getEventsByUserName(userName: String): List[String] = {
+    run(query[Events].filter(_.userName == lift(userName)).map(_.eventType))
   }
 
 }

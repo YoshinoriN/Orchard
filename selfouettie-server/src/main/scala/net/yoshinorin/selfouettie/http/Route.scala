@@ -5,6 +5,7 @@ import akka.http.scaladsl.server.Directives._
 import io.circe.Encoder
 import io.circe.syntax._
 import io.circe.generic.semiauto._
+import net.yoshinorin.selfouettie.models.EventStatistics
 import net.yoshinorin.selfouettie.models.db.Events
 import net.yoshinorin.selfouettie.services.{EventService, UsersService}
 import net.yoshinorin.selfouettie.types.db.{Between, Limit}
@@ -15,6 +16,7 @@ trait Route extends EventService with UsersService {
   //TODO: consider move to service object
   implicit val encodeEvent: Encoder[Events] = deriveEncoder[Events]
   implicit val encodeEvents: Encoder[List[Events]] = Encoder.encodeList[Events]
+  implicit val encodeEventStatistics: Encoder[EventStatistics] = deriveEncoder[EventStatistics]
 
   //TODO: devide route file
   val route = get {
@@ -42,7 +44,8 @@ trait Route extends EventService with UsersService {
             }
           } ~ // hostname/users/YoshinoriN/statistics
           path("statistics") {
-            complete(HttpResponse(200, entity = "TODO: implement statistics"))
+            val eventStatisticsJson = getEventStatisticsByUserName(userName).asJson
+            complete(HttpEntity(ContentTypes.`application/json`, s"$eventStatisticsJson"))
           }
       }
     }

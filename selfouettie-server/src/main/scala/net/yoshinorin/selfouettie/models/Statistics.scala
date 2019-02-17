@@ -14,3 +14,10 @@ case class EventStatistics(
   Release: Int = 0,
   Watch: Int = 0
 )
+
+case class ContributeCount(
+  RepositoryId: Long,
+  RepositoryName: String,
+  Count: Long
+)
+

@@ -5,18 +5,20 @@ import akka.http.scaladsl.server.Directives._
 import io.circe.Encoder
 import io.circe.syntax._
 import io.circe.generic.semiauto._
-import net.yoshinorin.selfouettie.models.EventStatistics
+import net.yoshinorin.selfouettie.models.{ContributeCount, EventStatistics}
 import net.yoshinorin.selfouettie.models.db.Events
-import net.yoshinorin.selfouettie.services.{EventService, UsersService}
+import net.yoshinorin.selfouettie.services.{ContributeService, EventService, UsersService}
 import net.yoshinorin.selfouettie.types.db.{Between, Limit}
 import net.yoshinorin.selfouettie.utils.File
 
-trait Route extends EventService with UsersService {
+trait Route extends EventService with UsersService with ContributeService {
 
   //TODO: consider move to service object
   implicit val encodeEvent: Encoder[Events] = deriveEncoder[Events]
   implicit val encodeEvents: Encoder[List[Events]] = Encoder.encodeList[Events]
   implicit val encodeEventStatistics: Encoder[EventStatistics] = deriveEncoder[EventStatistics]
+  implicit val encodeContributeCount: Encoder[ContributeCount] = deriveEncoder[ContributeCount]
+  implicit val encodeContributeCounts: Encoder[List[ContributeCount]] = Encoder.encodeList[ContributeCount]
 
   //TODO: devide route file
   val route = get {
@@ -46,6 +48,10 @@ trait Route extends EventService with UsersService {
           path("statistics") {
             val eventStatisticsJson = getEventStatisticsByUserName(userName).asJson
             complete(HttpEntity(ContentTypes.`application/json`, s"$eventStatisticsJson"))
+          } ~
+          path("contributions") {
+            val contributeCountJson = getContributeCountByRepositoryByUserName(userName).asJson
+            complete(HttpEntity(ContentTypes.`application/json`, s"$contributeCountJson"))
           }
       }
     }

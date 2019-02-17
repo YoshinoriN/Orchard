@@ -1,6 +1,5 @@
 package net.yoshinorin.selfouettie.models.db
 
-import net.yoshinorin.selfouettie.models.EventStatistics
 import net.yoshinorin.selfouettie.services.QuillProvider
 import net.yoshinorin.selfouettie.types.db.{Between, Limit}
 import net.yoshinorin.selfouettie.utils.Logger

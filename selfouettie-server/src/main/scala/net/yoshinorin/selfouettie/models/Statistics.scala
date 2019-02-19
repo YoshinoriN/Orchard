@@ -2,22 +2,22 @@ package net.yoshinorin.selfouettie.models
 import net.yoshinorin.selfouettie.types.{ActionType, EventType}
 
 case class EventStatistics(
-  Create: Int = 0,
-  Delete: Int = 0,
-  Fork: Int = 0,
-  IssueComment: Int = 0,
-  Issue: Int = 0,
-  PullRequest: Int = 0,
-  PullRequestEventReviewComment: Int = 0,
-  PullRequestReview: Int = 0,
-  Push: Int = 0,
-  Release: Int = 0,
-  Watch: Int = 0
+  create: Int = 0,
+  delete: Int = 0,
+  fork: Int = 0,
+  issueComment: Int = 0,
+  issue: Int = 0,
+  pullRequest: Int = 0,
+  pullRequestEventReviewComment: Int = 0,
+  pullRequestReview: Int = 0,
+  push: Int = 0,
+  release: Int = 0,
+  watch: Int = 0
 )
 
 case class ContributeCount(
-  RepositoryId: Long,
-  RepositoryName: String,
-  Count: Long
+  repositoryId: Long,
+  repositoryName: String,
+  count: Long
 )
 

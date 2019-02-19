@@ -2,6 +2,7 @@ package net.yoshinorin.selfouettie.services
 
 import net.yoshinorin.selfouettie.models.ContributeCount
 import net.yoshinorin.selfouettie.models.db._
+import net.yoshinorin.selfouettie.types.EventType
 import net.yoshinorin.selfouettie.utils.Logger
 
 trait ContributeService extends QuillProvider with Logger {
@@ -35,6 +36,16 @@ trait ContributeService extends QuillProvider with Logger {
         .join(query[Repositories])
         .on(_.repositoryId == _.id)
         .filter(_._1.userName == lift(userName))
+        .filter(e =>
+          liftQuery(Set(
+            EventType.IssueCommentEvent.value,
+            EventType.IssuesEvent.value,
+            EventType.PushEvent.value,
+            EventType.PullRequestReviewCommentEvent.value,
+            EventType.PullRequestReviewEvent.value,
+            EventType.PullRequestEvent.value,
+            EventType.ReleaseEvent.value
+          )).contains(e._1.eventType))
         .groupBy(r => (r._2.id, r._2.name))
         .map {
           case (repo, name) => {

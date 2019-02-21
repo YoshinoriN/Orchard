@@ -15,9 +15,16 @@ case class EventStatistics(
   watch: Int = 0
 )
 
-case class ContributedRepository(
-  repositoryId: Long,
-  repositoryName: String,
-  count: Long
+class ContributedRepository(
+  val repositoryId: Long,
+  val repositoryName: String,
+  val url: String,
+  val count: Long
 )
+
+object ContributedRepository {
+  def apply(repositoryId: Long, repositoryName: String, url: String, count: Long): ContributedRepository = {
+    new ContributedRepository(repositoryId, repositoryName, "https://github.com/" + url, count)
+  }
+}
 

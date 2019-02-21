@@ -58,6 +58,7 @@ trait ContributeService extends QuillProvider with Logger {
       ContributedRepository(
         x._1._1,
         x._1._2,
+        x._1._2,
         x._2
       )
     }

@@ -7,6 +7,5 @@ $ docker build .
 
 ## Using with docker-compose
 
-```sh
-docker-compose up -d
-```
+Put your settings in `volumes/selfouettie/resources/`.
+After that do `docker-compose up -d`

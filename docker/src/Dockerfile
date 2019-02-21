@@ -16,7 +16,8 @@ RUN git clone https://github.com/YoshinoriN/Selfouettie.git \
   && rm -rf selfouettie-frontend .git \
   && rm .editorconfig \
   && cd selfouettie-server \
-  && rm -rf docs
+  && rm -rf docs \
+  && sbt exit
 
 EXPOSE 9001
 

@@ -17,20 +17,6 @@ trait ContributeService extends QuillProvider with Logger {
    */
   def getContributeCountByRepositoryByUserName(userName: String): List[ContributedRepository] = {
 
-    /* Why not work???
-
-    val rawQuery = quote { (name: String) =>
-      infix"""
-        SELECT repositories.id, repositories.name, count(repositories.id) as cnt
-          FROM events
-        INNER JOIN repositories ON repositories.id = events.repository_id
-         WHERE events.user_name = $name
-        GROUP BY repositories.id;
-      """.as[Query[(Long, String, Int)]]
-    }
-    val result = run(rawQuery($userName))
-     */
-
     val q = quote {
       query[Events]
         .join(query[Repositories])

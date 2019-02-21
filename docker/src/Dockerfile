@@ -23,6 +23,4 @@ EXPOSE 9001
 
 WORKDIR /usr/opt/Selfouettie/selfouettie-server
 
-COPY docker-entrypoint.sh .
-
-ENTRYPOINT "/usr/opt/Selfouettie/selfouettie-server/docker-entrypoint.sh"
+CMD [sbt, "runMain net.yoshinorin.selfouettie.BootStrap"]

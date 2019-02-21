@@ -1,6 +1,6 @@
 package net.yoshinorin.selfouettie.services
 
-import net.yoshinorin.selfouettie.models.ContributeCount
+import net.yoshinorin.selfouettie.models.ContributedRepository
 import net.yoshinorin.selfouettie.models.db._
 import net.yoshinorin.selfouettie.types.EventType
 import net.yoshinorin.selfouettie.utils.Logger
@@ -15,7 +15,7 @@ trait ContributeService extends QuillProvider with Logger {
    * @param userName user name
    * @return
    */
-  def getContributeCountByRepositoryByUserName(userName: String): List[ContributeCount] = {
+  def getContributeCountByRepositoryByUserName(userName: String): List[ContributedRepository] = {
 
     /* Why not work???
 
@@ -34,7 +34,7 @@ trait ContributeService extends QuillProvider with Logger {
     val q = quote {
       query[Events]
         .join(query[Repositories])
-        .on(_.repositoryId == _.id)
+        .on((event, repo) => event.repositoryId == repo.id)
         .filter(_._1.userName == lift(userName))
         .filter(e =>
           liftQuery(Set(
@@ -55,7 +55,7 @@ trait ContributeService extends QuillProvider with Logger {
     }
 
     for (x <- run(q)) yield {
-      ContributeCount(
+      ContributedRepository(
         x._1._1,
         x._1._2,
         x._2

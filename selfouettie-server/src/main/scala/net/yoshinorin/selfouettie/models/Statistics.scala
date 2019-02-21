@@ -15,7 +15,7 @@ case class EventStatistics(
   watch: Int = 0
 )
 
-case class ContributeCount(
+case class ContributedRepository(
   repositoryId: Long,
   repositoryName: String,
   count: Long

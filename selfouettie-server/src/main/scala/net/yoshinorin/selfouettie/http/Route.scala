@@ -5,7 +5,7 @@ import akka.http.scaladsl.server.Directives._
 import io.circe.Encoder
 import io.circe.syntax._
 import io.circe.generic.semiauto._
-import net.yoshinorin.selfouettie.models.{ContributeCount, EventStatistics}
+import net.yoshinorin.selfouettie.models.{ContributedRepository, EventStatistics}
 import net.yoshinorin.selfouettie.models.db.Events
 import net.yoshinorin.selfouettie.services.{ContributeService, EventService, UsersService}
 import net.yoshinorin.selfouettie.types.db.{Between, Limit}
@@ -17,8 +17,8 @@ trait Route extends EventService with UsersService with ContributeService {
   implicit val encodeEvent: Encoder[Events] = deriveEncoder[Events]
   implicit val encodeEvents: Encoder[List[Events]] = Encoder.encodeList[Events]
   implicit val encodeEventStatistics: Encoder[EventStatistics] = deriveEncoder[EventStatistics]
-  implicit val encodeContributeCount: Encoder[ContributeCount] = deriveEncoder[ContributeCount]
-  implicit val encodeContributeCounts: Encoder[List[ContributeCount]] = Encoder.encodeList[ContributeCount]
+  implicit val encodeContributeCount: Encoder[ContributedRepository] = deriveEncoder[ContributedRepository]
+  implicit val encodeContributeCounts: Encoder[List[ContributedRepository]] = Encoder.encodeList[ContributedRepository]
 
   //TODO: devide route file
   val route = get {

@@ -23,4 +23,4 @@ EXPOSE 9001
 
 WORKDIR /usr/opt/Selfouettie/selfouettie-server
 
-CMD [sbt, "runMain net.yoshinorin.selfouettie.BootStrap"]
+CMD ["sbt", "runMain net.yoshinorin.selfouettie.BootStrap"]

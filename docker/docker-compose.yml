@@ -9,6 +9,7 @@ services:
       - "9001:9001"
     volumes:
       - './volumes/selfouettie/resources:/usr/opt/Selfouettie/selfouettie-server/src/main/resources'
+    command: ["sbt", "runMain net.yoshinorin.selfouettie.BootStrap"]
     restart: always
   mariadb:
     image: yoshinorin/docker-mariadb:10.4.2

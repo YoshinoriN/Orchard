@@ -1,14 +1,14 @@
 version: '3'
 services:
   selfouettie:
-    build: ./src
+    image: yoshinorin/docker-selfouettie:latest
     environment:
       TZ: Asia/Tokyo
     hostname: selfouettie
     ports:
       - "9001:9001"
     volumes:
-      - ./volumes/selfouettie/resources:/usr/opt/selfouettie-server/src/main/resources
+      - './volumes/selfouettie/resources:/usr/opt/Selfouettie/selfouettie-server/src/main/resources'
     restart: always
   mariadb:
     image: yoshinorin/docker-mariadb:10.4.2
@@ -19,8 +19,8 @@ services:
       MYSQL_DATABASE: selfouettie
       TZ: Asia/Tokyo
     volumes:
-      - ./volumes/mariadb/data:/var/lib/mysql
-      #- ./volumes/mariadb/config/my.cnf:/etc/mysql/my.cnf
+      - './volumes/mariadb/data:/var/lib/mysql'
+      - './volumes/mariadb/config:/etc/mysql'
     hostname: mariadb
     ports:
       - "3306:3306"

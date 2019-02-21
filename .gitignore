@@ -29,3 +29,7 @@ selfouettie-server/src/main/resources/data/import/*
 
 selfouettie-server/src/main/resources/data/store/*
 !.gitkeep
+
+# Docker
+docker/volumes/*
+!.gitkeep

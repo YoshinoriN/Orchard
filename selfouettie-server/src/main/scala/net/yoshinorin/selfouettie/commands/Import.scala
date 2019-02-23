@@ -16,8 +16,7 @@ object Import extends App with Logger with EventService {
       File.filterByExtension(result, "json") match {
         case Some(jsonFiles) => {
           jsonFiles.foreach(jsonFile => {
-            val data = convert(File.readAll(jsonFile.getAbsolutePath))
-            data match {
+            convert(File.readAll(jsonFile.getAbsolutePath)) match {
               case Some(x) => {
                 x.foreach(y => create(y))
               }

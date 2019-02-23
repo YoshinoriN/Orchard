@@ -1,6 +1,8 @@
 package net.yoshinorin.selfouettie.http
 
 import scala.io.StdIn
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 import akka.http.scaladsl.Http
 import net.yoshinorin.selfouettie.config.HttpServerConfig
 import net.yoshinorin.selfouettie.services.ActorService
@@ -15,6 +17,8 @@ object HttpServer extends App with ActorService with Route {
     bindingFuture
       .flatMap(_.unbind())
       .onComplete(_ => actorSystem.terminate())
+
+    Await.ready(bindingFuture, Duration.Inf)
   }
 
 }

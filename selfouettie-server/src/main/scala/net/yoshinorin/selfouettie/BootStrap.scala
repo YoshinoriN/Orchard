@@ -7,6 +7,6 @@ import net.yoshinorin.selfouettie.utils.Logger
 object BootStrap extends App with Logger {
 
   Migrate.run
-  HttpServer.start
+  HttpServer.run(args.toList)
 
 }

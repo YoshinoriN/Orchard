@@ -1,15 +1,15 @@
 version: '3'
 services:
-  selfouettie:
-    image: yoshinorin/docker-selfouettie:latest
+  orchard:
+    image: yoshinorin/docker-orchard:latest
     environment:
       TZ: Asia/Tokyo
-    hostname: selfouettie
+    hostname: orchard
     ports:
       - "9001:9001"
     volumes:
-      - './volumes/selfouettie/resources:/usr/opt/Selfouettie/selfouettie-server/src/main/resources'
-    command: ["sbt", "runMain net.yoshinorin.selfouettie.BootStrap"]
+      - './volumes/orchard/resources:/usr/opt/orchard/orchard-server/src/main/resources'
+    command: ["sbt", "runMain net.yoshinorin.orchard.BootStrap"]
     restart: always
   mariadb:
     image: yoshinorin/docker-mariadb:10.4.2
@@ -17,7 +17,7 @@ services:
       MYSQL_ROOT_PASSWORD: pass
       MYSQL_USER: mariadb
       MYSQL_PASSWORD: pass
-      MYSQL_DATABASE: selfouettie
+      MYSQL_DATABASE: orchard
       TZ: Asia/Tokyo
     volumes:
       - './volumes/mariadb/data:/var/lib/mysql'

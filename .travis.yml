@@ -5,7 +5,7 @@ scala:
 jdk:
   - openjdk11
 before_script:
-  - "cd selfouettie-server"
+  - "cd orchard-server"
 script:
   - "sbt clean coverage test"
 after_success: "sbt coverageReport coveralls"

@@ -1,2 +1,2 @@
 @echo off
-docker rmi -f yoshinorin/docker-selfouettie:latest
+docker rmi -f yoshinorin/docker-orchard:latest

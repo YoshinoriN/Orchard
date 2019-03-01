@@ -11,16 +11,16 @@ RUN apt-get update -y \
  && apt-get autoremove \
  && apt-get autoclean
 
-RUN git clone https://github.com/YoshinoriN/Selfouettie.git \
-  && cd Selfouettie \
-  && rm -rf selfouettie-frontend .git \
+RUN git clone https://github.com/YoshinoriN/Orchard.git \
+  && cd orchard \
+  && rm -rf orchard-frontend .git \
   && rm .editorconfig \
-  && cd selfouettie-server \
+  && cd orchard-server \
   && rm -rf docs \
   && sbt exit
 
 EXPOSE 9001
 
-WORKDIR /usr/opt/Selfouettie/selfouettie-server
+WORKDIR /usr/opt/Orchard/orchard-server
 
-CMD ["sbt", "runMain net.yoshinorin.selfouettie.BootStrap"]
+CMD ["sbt", "runMain net.yoshinorin.orchard.BootStrap"]

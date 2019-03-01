@@ -24,10 +24,10 @@ project/plugins/project/
 .idea_modules/
 
 # For Application
-selfouettie-server/src/main/resources/data/import/*
+orchard-server/src/main/resources/data/import/*
 !.gitkeep
 
-selfouettie-server/src/main/resources/data/store/*
+orchard-server/src/main/resources/data/store/*
 !.gitkeep
 
 # Docker

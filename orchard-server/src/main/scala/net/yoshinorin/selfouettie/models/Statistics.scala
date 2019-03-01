@@ -27,4 +27,3 @@ object ContributedRepository {
     new ContributedRepository(repositoryId, repositoryName, "https://github.com/" + url, count)
   }
 }
-

@@ -12,7 +12,7 @@ RUN apt-get update -y \
  && apt-get autoclean
 
 RUN git clone https://github.com/YoshinoriN/Orchard.git \
-  && cd orchard \
+  && cd Orchard \
   && rm -rf orchard-frontend .git \
   && rm .editorconfig \
   && cd orchard-server \

@@ -8,7 +8,7 @@ services:
     ports:
       - "9001:9001"
     volumes:
-      - './volumes/orchard/resources:/usr/opt/orchard/orchard-server/src/main/resources'
+      - './volumes/orchard/resources:/usr/opt/Orchard/orchard-server/src/main/resources'
     command: ["sbt", "runMain net.yoshinorin.orchard.BootStrap"]
     restart: always
   mariadb:

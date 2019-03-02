@@ -53,6 +53,26 @@ class GitHubEventServiceJsonSpec extends FunSuite {
   }
    */
 
+  test("ConvertJson to should return None if json have not event id") {
+    val result = GitHubEventJsonService.convertToEventObject(File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/noneEventId.json"))
+    assert(result.isEmpty)
+  }
+
+  test("ConvertJson to should return None if json have not event type") {
+    val result = GitHubEventJsonService.convertToEventObject(File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/noneEventType.json"))
+    assert(result.isEmpty)
+  }
+
+  test("ConvertJson to should return None if json have not userName") {
+    val result = GitHubEventJsonService.convertToEventObject(File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/noneUserName.json"))
+    assert(result.isEmpty)
+  }
+
+  test("ConvertJson to should return None if json have not createdAt") {
+    val result = GitHubEventJsonService.convertToEventObject(File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/noneCreatedAt.json"))
+    assert(result.isEmpty)
+  }
+
   test("ConvertJson to should return EventObject with CreateEvent case class") {
     val result = GitHubEventJsonService.convertToEventObject(File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/createEvent.json"))
     val eventObject = Some(

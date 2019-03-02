@@ -1,0 +1,25 @@
+[
+  {
+    "id": "9023498449",
+    "actor": {
+      "id": 11273093,
+      "login": "YoshinoriN",
+      "display_login": "YoshinoriN",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/YoshinoriN",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11273093?"
+    },
+    "repo": {
+      "id": 9999999998,
+      "name": "YoshinoriN/testDeleteEvent",
+      "url": "https://api.github.com/repos/YoshinoriN/testDeleteEvent"
+    },
+    "payload": {
+      "ref": "YoshinoriN/test-delete",
+      "ref_type": "branch",
+      "pusher_type": "user"
+    },
+    "public": true,
+    "created_at": "2019-02-07T07:29:39Z"
+  }
+]

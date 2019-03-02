@@ -9,6 +9,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import io.circe.parser.parse
 import io.circe.{Decoder, DecodingFailure, HCursor, Json}
+import net.yoshinorin.orchard.actor.ActorService
 import net.yoshinorin.orchard.config.ConfigProvider
 import net.yoshinorin.orchard.models.{DummyEvent, EventObject}
 import net.yoshinorin.orchard.models.db._

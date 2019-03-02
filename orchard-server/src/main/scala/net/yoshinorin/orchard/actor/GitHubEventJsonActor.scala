@@ -2,9 +2,9 @@ package net.yoshinorin.orchard.actor
 
 import akka.actor.Actor
 
-class GitHubEventActor extends Actor {
+class GitHubEventJsonActor extends Actor {
 
-  import GitHubEventActor._
+  import GitHubEventJsonActor._
 
   override def receive: Receive = {
     case GetEventsJson => println("TODO")
@@ -12,7 +12,7 @@ class GitHubEventActor extends Actor {
 
 }
 
-object GitHubEventActor {
+object GitHubEventJsonActor {
 
   sealed case class GetEventsJson()
 

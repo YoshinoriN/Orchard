@@ -4,8 +4,8 @@ import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 import scala.io.StdIn
 import akka.http.scaladsl.Http
+import net.yoshinorin.orchard.actor.ActorService
 import net.yoshinorin.orchard.config.HttpServerConfig
-import net.yoshinorin.orchard.services.ActorService
 
 object HttpServer extends App with ActorService with Route {
 

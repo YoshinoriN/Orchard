@@ -248,7 +248,7 @@ object EventService extends QuillProvider with Logger {
    * @param eventId event id
    * @param userName user name
    * @param createdAt created at (epoch second)
-   * @param json GitHub Event JSON
+   * @param repositoryId repository id
    * @return
    */
   private def generateForkEvent(eventId: Long, userName: String, createdAt: Long, repositoryId: Long): Option[ForkEvents] = {

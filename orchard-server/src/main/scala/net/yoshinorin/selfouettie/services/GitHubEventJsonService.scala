@@ -54,7 +54,7 @@ object GitHubEventJsonService extends ActorService with ConfigProvider with Logg
     }
   }
 
-  private[this] def store(json: String): Unit = {
+  private def store(json: String): Unit = {
     File.create(storagePath) match {
       case Success(_) => File.write(storagePath, json)
       case Failure(f) => logger.error(f.getMessage)

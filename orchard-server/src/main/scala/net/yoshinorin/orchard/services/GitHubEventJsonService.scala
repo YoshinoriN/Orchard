@@ -22,7 +22,7 @@ object GitHubEventJsonService extends ActorService with ConfigProvider with Logg
   private val api = configuration.getString("github.api")
   private val token = configuration.getString("github.token")
   private val doStoreToLocalStorage = configuration.getBoolean("github.storeToLocalStorage")
-  private val storagePath = System.getProperty("user.dir") + "/src/main/resources/data/store/" + ZonedDateTime.now.toEpochSecond.toString + ".json"
+  private val baseStoragePath = System.getProperty("user.dir") + "/src/main/resources/data/store/"
 
   def get(): Future[HttpResponse] = {
     val request = HttpRequest(
@@ -56,8 +56,9 @@ object GitHubEventJsonService extends ActorService with ConfigProvider with Logg
   }
 
   private def store(json: String): Unit = {
-    File.create(storagePath) match {
-      case Success(_) => File.write(storagePath, json)
+    val path = baseStoragePath + ZonedDateTime.now.toEpochSecond.toString + ".json"
+    File.create(path) match {
+      case Success(_) => File.write(path, json)
       case Failure(f) => logger.error(f.getMessage)
     }
   }

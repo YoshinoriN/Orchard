@@ -138,27 +138,38 @@ trait EventService extends QuillProvider with Logger {
 
           eventType match {
             case EventType.CreateEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateCreateEventCaseClass(eventId, userName, createdAt, x))
+              val createEvent: Option[CreateEvents] = generateCreateEventCaseClass(eventId, userName, createdAt, x)
+              EventObject(eventId, eventType, userName, repository, createdAt, createEvent)
             case EventType.DeleteEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateDeleteEventCaseClass(eventId, userName, createdAt, x))
+              val deleteEvent: Option[DeleteEvents] = generateDeleteEventCaseClass(eventId, userName, createdAt, x)
+              EventObject(eventId, eventType, userName, repository, createdAt, deleteEvent)
             case EventType.ForkEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateForkEventCaseClass(eventId, userName, createdAt, repository.id))
+              val forkEvent: Option[ForkEvents] = generateForkEventCaseClass(eventId, userName, createdAt, repository.id)
+              EventObject(eventId, eventType, userName, repository, createdAt, forkEvent)
             case EventType.IssueCommentEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateIssueCommentEventCaseClass(eventId, userName, repository.id, createdAt, x))
+              val issueCommentEvent: Option[IssueCommentEvents] = generateIssueCommentEventCaseClass(eventId, userName, repository.id, createdAt, x)
+              EventObject(eventId, eventType, userName, repository, createdAt, issueCommentEvent)
             case EventType.IssuesEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateIssuesEventCaseClass(eventId, userName, repository.id, createdAt, x))
+              val issueEvent: Option[IssueEvents] = generateIssuesEventCaseClass(eventId, userName, repository.id, createdAt, x)
+              EventObject(eventId, eventType, userName, repository, createdAt, issueEvent)
             case EventType.PullRequestEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestEventCaseClass(eventId, userName, repository.id, createdAt, x))
+              val pullRequestEvent: Option[PullRequestEvents] = generatePullRequestEventCaseClass(eventId, userName, repository.id, createdAt, x)
+              EventObject(eventId, eventType, userName, repository, createdAt, pullRequestEvent)
             case EventType.PullRequestReviewEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewEventCaseClass(eventId, userName, repository.id, createdAt, x))
+              val pullRequestReviewEvent: Option[PullRequestReviewEvents] = generatePullRequestReviewEventCaseClass(eventId, userName, repository.id, createdAt, x)
+              EventObject(eventId, eventType, userName, repository, createdAt, pullRequestReviewEvent)
             case EventType.PullRequestReviewCommentEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generatePullRequestReviewCommentEventCaseClass(eventId, userName, repository.id, createdAt, x))
+              val pullRequestReviewCommentEvent: Option[PullRequestReviewCommentEvents] = generatePullRequestReviewCommentEventCaseClass(eventId, userName, repository.id, createdAt, x)
+              EventObject(eventId, eventType, userName, repository, createdAt, pullRequestReviewCommentEvent)
             case EventType.PushEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generatePushEventCaseClass(eventId, userName, repository.id, createdAt, x))
+              val pushEvent: Option[PushEvents] = generatePushEventCaseClass(eventId, userName, repository.id, createdAt, x)
+              EventObject(eventId, eventType, userName, repository, createdAt, pushEvent)
             case EventType.ReleaseEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateReleaseEventCaseClass(eventId, userName, repository.id, createdAt, x))
+              val releaseEvent: Option[ReleaseEvents] = generateReleaseEventCaseClass(eventId, userName, repository.id, createdAt, x)
+              EventObject(eventId, eventType, userName, repository, createdAt, releaseEvent)
             case EventType.WatchEvent =>
-              EventObject(eventId, eventType, userName, repository, createdAt, generateWatchEventCaseClass(eventId, userName, repository.id, createdAt, x))
+              val watchEvent: Option[WatchEvents] = generateWatchEventCaseClass(eventId, userName, repository.id, createdAt, x)
+              EventObject(eventId, eventType, userName, repository, createdAt, watchEvent)
             case EventType.Undefined => {
               logger.error(s"event id: [$eventId] is undefined event type.")
               //FIXME

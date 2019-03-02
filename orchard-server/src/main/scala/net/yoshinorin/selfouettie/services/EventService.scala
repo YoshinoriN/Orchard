@@ -13,7 +13,7 @@ object EventService extends QuillProvider with Logger {
 
   import ctx._;
 
-  private[this] def generateEvent(event: EventObject, action: String): Events = {
+  private def generateEvent(event: EventObject, action: String): Events = {
     Events(event.id, event.eventType.value, event.userName, event.repository.id, action, event.repository.name, event.createdAt)
   }
 
@@ -188,7 +188,7 @@ object EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateRepository(json: Json): Option[Repositories] = {
+  private def generateRepository(json: Json): Option[Repositories] = {
     val id: Decoder.Result[Long] = json.hcursor.downField("repo").get[Long]("id")
     val name: Decoder.Result[String] = json.hcursor.downField("repo").get[String]("name")
 
@@ -209,7 +209,7 @@ object EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateCreateEvent(eventId: Long, userName: String, createdAt: Long, json: Json): Option[CreateEvents] = {
+  private def generateCreateEvent(eventId: Long, userName: String, createdAt: Long, json: Json): Option[CreateEvents] = {
     val ref: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref")
     val refType: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref_type")
 
@@ -230,7 +230,7 @@ object EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateDeleteEvent(eventId: Long, userName: String, createdAt: Long, json: Json): Option[DeleteEvents] = {
+  private def generateDeleteEvent(eventId: Long, userName: String, createdAt: Long, json: Json): Option[DeleteEvents] = {
     val ref: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref")
     val refType: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref_type")
 
@@ -251,7 +251,7 @@ object EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateForkEvent(eventId: Long, userName: String, createdAt: Long, repositoryId: Long): Option[ForkEvents] = {
+  private def generateForkEvent(eventId: Long, userName: String, createdAt: Long, repositoryId: Long): Option[ForkEvents] = {
     Some(ForkEvents(eventId, userName, repositoryId, createdAt))
   }
 
@@ -264,7 +264,7 @@ object EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateIssueCommentEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueCommentEvents] = {
+  private def generateIssueCommentEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueCommentEvents] = {
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
     val issueNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("issue").get[Int]("number")
 
@@ -285,7 +285,7 @@ object EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateIssuesEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueEvents] = {
+  private def generateIssuesEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[IssueEvents] = {
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
     val issueNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("issue").get[Int]("number")
 
@@ -306,7 +306,7 @@ object EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generatePullRequestEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestEvents] = {
+  private def generatePullRequestEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestEvents] = {
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
     val prNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
 
@@ -327,7 +327,7 @@ object EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generatePullRequestReviewEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewEvents] = {
+  private def generatePullRequestReviewEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewEvents] = {
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
     val prNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
 
@@ -348,7 +348,7 @@ object EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generatePullRequestReviewCommentEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewCommentEvents] = {
+  private def generatePullRequestReviewCommentEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PullRequestReviewCommentEvents] = {
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
     val prNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
 
@@ -369,7 +369,7 @@ object EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generatePushEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PushEvents] = {
+  private def generatePushEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[PushEvents] = {
     val ref: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref")
     val size: Decoder.Result[Int] = json.hcursor.downField("payload").get[Int]("size")
 
@@ -390,7 +390,7 @@ object EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateReleaseEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[ReleaseEvents] = {
+  private def generateReleaseEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[ReleaseEvents] = {
     val tagName: Decoder.Result[String] = json.hcursor.downField("payload").downField("release").get[String]("tag_name")
     val name: Decoder.Result[String] = json.hcursor.downField("payload").downField("release").get[String]("name")
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
@@ -412,7 +412,7 @@ object EventService extends QuillProvider with Logger {
    * @param json GitHub Event JSON
    * @return
    */
-  private[this] def generateWatchEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[WatchEvents] = {
+  private def generateWatchEvent(eventId: Long, userName: String, repositoryId: Long, createdAt: Long, json: Json): Option[WatchEvents] = {
     val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
 
     if (action.isRight) {

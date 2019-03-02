@@ -11,7 +11,7 @@ import net.yoshinorin.orchard.services.{ContributeService, EventService, UsersSe
 import net.yoshinorin.orchard.types.db.{Between, Limit}
 import net.yoshinorin.orchard.utils.File
 
-trait Route extends EventService with UsersService with ContributeService {
+trait Route extends UsersService with ContributeService {
 
   //TODO: consider move to service object
   implicit val encodeEvent: Encoder[Events] = deriveEncoder[Events]

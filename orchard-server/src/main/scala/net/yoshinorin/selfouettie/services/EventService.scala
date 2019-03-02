@@ -9,7 +9,7 @@ import net.yoshinorin.orchard.types.{ActionType, EventType}
 import net.yoshinorin.orchard.utils.Converter.eventTypeConverter
 import net.yoshinorin.orchard.utils.Logger
 
-trait EventService extends QuillProvider with Logger {
+object EventService extends QuillProvider with Logger {
 
   import ctx._;
 

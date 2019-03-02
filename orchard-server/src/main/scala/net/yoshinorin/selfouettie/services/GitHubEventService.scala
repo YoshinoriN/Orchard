@@ -10,7 +10,7 @@ import akka.http.scaladsl.unmarshalling.Unmarshal
 import net.yoshinorin.orchard.config.ConfigProvider
 import net.yoshinorin.orchard.utils.{File, Logger}
 
-object GitHubEventService extends ActorService with EventService with ConfigProvider with Logger {
+object GitHubEventService extends ActorService with ConfigProvider with Logger {
 
   private val api = configuration.getString("github.api")
   private val token = configuration.getString("github.token")
@@ -34,9 +34,9 @@ object GitHubEventService extends ActorService with EventService with ConfigProv
             if (this.doStoreToLocalStorage) {
               this.storeJson(json)
             }
-            convert(json) match {
+            EventService.convert(json) match {
               case Some(x) => {
-                x.foreach(y => create(y))
+                x.foreach(y => EventService.create(y))
               }
               case None => logger.info("GitHub Events is nothing.")
             }

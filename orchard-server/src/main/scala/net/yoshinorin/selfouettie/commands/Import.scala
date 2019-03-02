@@ -7,7 +7,7 @@ import net.yoshinorin.orchard.utils.Logger
 /**
  * Import GitHub events from JSON files
  */
-object Import extends App with Logger with EventService {
+object Import extends App with Logger {
 
   logger.info("Start import from JSON files.")
 
@@ -16,9 +16,9 @@ object Import extends App with Logger with EventService {
       File.filterByExtension(result, "json") match {
         case Some(jsonFiles) => {
           jsonFiles.foreach(jsonFile => {
-            convert(File.readAll(jsonFile.getAbsolutePath)) match {
+            EventService.convert(File.readAll(jsonFile.getAbsolutePath)) match {
               case Some(x) => {
-                x.foreach(y => create(y))
+                x.foreach(y => EventService.create(y))
               }
               case None => logger.info("Import records are nothing.")
             }

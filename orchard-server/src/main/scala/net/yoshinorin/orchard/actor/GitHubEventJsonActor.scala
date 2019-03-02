@@ -1,13 +1,14 @@
 package net.yoshinorin.orchard.actor
 
 import akka.actor.Actor
+import net.yoshinorin.orchard.services.GitHubEventJsonService
 
 class GitHubEventJsonActor extends Actor {
 
   import GitHubEventJsonActor._
 
   override def receive: Receive = {
-    case GetEventsJson => println("TODO")
+    case GetEventsJson => GitHubEventJsonService.save()
   }
 
 }

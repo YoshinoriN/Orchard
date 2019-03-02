@@ -1,5 +1,7 @@
 package net.yoshinorin.orchard.services
 
+import io.circe.Encoder
+import io.circe.generic.semiauto.deriveEncoder
 import net.yoshinorin.orchard.models.ContributedRepository
 import net.yoshinorin.orchard.models.db._
 import net.yoshinorin.orchard.types.EventType
@@ -7,6 +9,8 @@ import net.yoshinorin.orchard.utils.Logger
 
 trait ContributeService extends QuillProvider with Logger {
 
+  implicit val encodeContributeCount: Encoder[ContributedRepository] = deriveEncoder[ContributedRepository]
+  implicit val encodeContributeCounts: Encoder[List[ContributedRepository]] = Encoder.encodeList[ContributedRepository]
   import ctx._;
 
   /**

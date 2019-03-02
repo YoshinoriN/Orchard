@@ -1,11 +1,17 @@
 package net.yoshinorin.orchard.services
 
+import io.circe.Encoder
+import io.circe.generic.semiauto.deriveEncoder
 import net.yoshinorin.orchard.utils.Logger
 import net.yoshinorin.orchard.models.EventStatistics
 import net.yoshinorin.orchard.models.db.{Events, EventsRepository, Users, UsersRepository}
 import net.yoshinorin.orchard.types.db.{Between, Limit}
 
 trait UsersService extends QuillProvider with Logger {
+
+  implicit val encodeEvent: Encoder[Events] = deriveEncoder[Events]
+  implicit val encodeEvents: Encoder[List[Events]] = Encoder.encodeList[Events]
+  implicit val encodeEventStatistics: Encoder[EventStatistics] = deriveEncoder[EventStatistics]
 
   /**
    * Get user

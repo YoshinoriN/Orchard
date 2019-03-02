@@ -2,23 +2,12 @@ package net.yoshinorin.orchard.http
 
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
-import io.circe.Encoder
 import io.circe.syntax._
-import io.circe.generic.semiauto._
-import net.yoshinorin.orchard.models.{ContributedRepository, EventStatistics}
-import net.yoshinorin.orchard.models.db.Events
-import net.yoshinorin.orchard.services.{ContributeService, EventService, UsersService}
+import net.yoshinorin.orchard.services.{ContributeService, UsersService}
 import net.yoshinorin.orchard.types.db.{Between, Limit}
 import net.yoshinorin.orchard.utils.File
 
 trait Route extends UsersService with ContributeService {
-
-  //TODO: consider move to service object
-  implicit val encodeEvent: Encoder[Events] = deriveEncoder[Events]
-  implicit val encodeEvents: Encoder[List[Events]] = Encoder.encodeList[Events]
-  implicit val encodeEventStatistics: Encoder[EventStatistics] = deriveEncoder[EventStatistics]
-  implicit val encodeContributeCount: Encoder[ContributedRepository] = deriveEncoder[ContributedRepository]
-  implicit val encodeContributeCounts: Encoder[List[ContributedRepository]] = Encoder.encodeList[ContributedRepository]
 
   //TODO: devide route file
   val route = get {

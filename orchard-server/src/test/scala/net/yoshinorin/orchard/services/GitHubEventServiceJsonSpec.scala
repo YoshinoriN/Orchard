@@ -1,14 +1,12 @@
 package net.yoshinorin.selfouettie.services
 
 import java.time.ZonedDateTime
-
-import io.circe.Json
-import io.circe.parser.parse
-import net.yoshinorin.orchard.models.EventObject
-import net.yoshinorin.orchard.models.db.{PushEvents, ReleaseEvents, Repositories, WatchEvents}
+import net.yoshinorin.orchard.models.{DummyEvent, EventObject}
+import net.yoshinorin.orchard.models.db._
 import net.yoshinorin.orchard.types.EventType
 import net.yoshinorin.orchard.utils.File
 import net.yoshinorin.orchard.services.GitHubEventJsonService
+import net.yoshinorin.orchard.types.EventType.CreateEvent
 import org.scalatest.FunSuite
 //import org.scalatest.{FunSuite, PrivateMethodTester}
 
@@ -53,7 +51,35 @@ class GitHubEventServiceJsonSpec extends FunSuite {
       ))
     assert(result == eventObject)
   }
-  */
+   */
+
+  test("ConvertJson to should return EventObject with CreateEvent case class") {
+    val result = GitHubEventJsonService.convertToEventObject(File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/createEvent.json"))
+    val eventObject = Some(
+      List(EventObject(
+        "9876543".toLong,
+        EventType.CreateEvent,
+        "YoshinoriN",
+        Repositories("9999999999".toLong, "YoshinoriN/testCreateEvent"),
+        1549524579,
+        Some(CreateEvents("9876543".toLong, "YoshinoriN", "tag", "test-tag", 1549524579))
+      )))
+    assert(result == eventObject)
+  }
+
+  test("ConvertJson to should return EventObject with DeleteEvent case class") {
+    val result = GitHubEventJsonService.convertToEventObject(File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/deleteEvent.json"))
+    val eventObject = Some(
+      List(EventObject(
+        "99876543".toLong,
+        EventType.DeleteEvent,
+        "YoshinoriN",
+        Repositories("9999999998".toLong, "YoshinoriN/testDeleteEvent"),
+        1549524579,
+        Some(DeleteEvents("99876543".toLong, "YoshinoriN", "branch", "YoshinoriN/test-delete", 1549524579))
+      )))
+    assert(result == eventObject)
+  }
 
   test("ConvertJson to should return EventObject with WatchEvent case class") {
     val result = GitHubEventJsonService.convertToEventObject(File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/watchEvent.json"))
@@ -66,6 +92,21 @@ class GitHubEventServiceJsonSpec extends FunSuite {
         1549524579,
         Some(WatchEvents("9023498449".toLong, "YoshinoriN", 94911145, "started", 1549524579))
       )))
+    assert(result == eventObject)
+  }
+
+  test("ConvertJson to should return EventObject for undefined") {
+    val result = GitHubEventJsonService.convertToEventObject(File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/dummyEvent.json"))
+    val eventObject = Some(
+      List(
+        EventObject(
+          "9023498449".toLong,
+          EventType.Undefined,
+          "YoshinoriN",
+          Repositories(94911145, "test/WatchEvent"),
+          1549524579,
+          Some(DummyEvent())
+        )))
     assert(result == eventObject)
   }
 

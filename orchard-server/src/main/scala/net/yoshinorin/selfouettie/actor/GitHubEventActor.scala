@@ -7,13 +7,13 @@ class GitHubEventActor extends Actor {
   import GitHubEventActor._
 
   override def receive: Receive = {
-    case GetEvents => println("TODO")
+    case GetEventsJson => println("TODO")
   }
 
 }
 
 object GitHubEventActor {
 
-  sealed case class GetEvents()
+  sealed case class GetEventsJson()
 
 }

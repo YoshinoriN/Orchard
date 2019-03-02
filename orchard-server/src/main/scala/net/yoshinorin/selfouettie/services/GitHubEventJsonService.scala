@@ -10,14 +10,14 @@ import akka.http.scaladsl.unmarshalling.Unmarshal
 import net.yoshinorin.orchard.config.ConfigProvider
 import net.yoshinorin.orchard.utils.{File, Logger}
 
-object GitHubEventService extends ActorService with ConfigProvider with Logger {
+object GitHubEventJsonService extends ActorService with ConfigProvider with Logger {
 
   private val api = configuration.getString("github.api")
   private val token = configuration.getString("github.token")
   private val doStoreToLocalStorage = configuration.getBoolean("github.storeToLocalStorage")
   private val storagePath = System.getProperty("user.dir") + "/src/main/resources/data/store/" + ZonedDateTime.now.toEpochSecond.toString + ".json"
 
-  def getEvents(): Future[HttpResponse] = {
+  def get(): Future[HttpResponse] = {
     val request = HttpRequest(
       HttpMethods.GET,
       uri = Uri(api),
@@ -27,12 +27,12 @@ object GitHubEventService extends ActorService with ConfigProvider with Logger {
   }
 
   def save(): Unit = {
-    this.getEvents().onComplete {
+    this.get().onComplete {
       case Success(s) => {
         Unmarshal(s.entity).to[String].onComplete {
           case Success(json) => {
             if (this.doStoreToLocalStorage) {
-              this.storeJson(json)
+              this.store(json)
             }
             EventService.convert(json) match {
               case Some(x) => {
@@ -48,7 +48,7 @@ object GitHubEventService extends ActorService with ConfigProvider with Logger {
     }
   }
 
-  private[this] def storeJson(json: String): Unit = {
+  private[this] def store(json: String): Unit = {
     File.create(storagePath) match {
       case Success(_) => File.write(storagePath, json)
       case Failure(f) => logger.error(f.getMessage)

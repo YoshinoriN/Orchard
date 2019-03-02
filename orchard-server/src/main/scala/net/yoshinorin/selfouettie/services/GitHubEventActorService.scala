@@ -10,7 +10,7 @@ trait GitHubEventActorService extends ActorService {
   private val scheduler = QuartzSchedulerExtension(actorSystem)
 
   def initializeGitHubEventActor(): Unit = {
-    scheduler.schedule("GetGitHubEvent", gitHubEventActor, GitHubEventActor.GetEvents)
+    scheduler.schedule("GetGitHubEventsJson", gitHubEventActor, GitHubEventActor.GetEventsJson)
   }
 
 }

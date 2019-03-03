@@ -217,10 +217,10 @@ object GitHubEventJsonService extends ActorService with ConfigProvider with Logg
   private def generatePullRequest(repositoryId: Long, json: Json): Option[PullRequests] = {
     val number: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
     val title: Decoder.Result[String] = json.hcursor.downField("payload").downField("pull_request").get[String]("title")
-    val merged: Decoder.Result[Boolean] = json.hcursor.downField("payload").downField("pull_request").get[Boolean]("merged")
+    val merged: Boolean = json.hcursor.downField("payload").downField("pull_request").get[Boolean]("merged").getOrElse(false)
 
-    if (number.isRight && title.isRight && merged.isRight) {
-      Some(PullRequests(repositoryId, number.right.get, title.right.get, merged.right.get))
+    if (number.isRight && title.isRight) {
+      Some(PullRequests(repositoryId, number.right.get, title.right.get, merged))
     } else {
       logger.error("Can not parse PullRequest")
       None

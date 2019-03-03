@@ -1,6 +1,6 @@
 package net.yoshinorin.orchard.models
 
-import net.yoshinorin.orchard.models.db.Repositories
+import net.yoshinorin.orchard.models.db.{Issues, PullRequests, Repositories}
 import net.yoshinorin.orchard.types.EventType
 
 case class EventObject(
@@ -8,6 +8,8 @@ case class EventObject(
   eventType: EventType,
   userName: String,
   repository: Repositories,
+  issue: Option[Issues],
+  pullRequest: Option[PullRequests],
   createdAt: Long,
   event: Option[BaseEvent[AnyRef]]
 )

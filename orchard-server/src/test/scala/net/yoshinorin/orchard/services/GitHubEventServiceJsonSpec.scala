@@ -81,6 +81,8 @@ class GitHubEventServiceJsonSpec extends FunSuite {
         EventType.CreateEvent,
         "YoshinoriN",
         Repositories("9999999999".toLong, "YoshinoriN/testCreateEvent"),
+        None,
+        None,
         1549524579,
         Some(CreateEvents("9876543".toLong, "YoshinoriN", "tag", "test-tag", 1549524579))
       )))
@@ -95,6 +97,8 @@ class GitHubEventServiceJsonSpec extends FunSuite {
         EventType.DeleteEvent,
         "YoshinoriN",
         Repositories("9999999998".toLong, "YoshinoriN/testDeleteEvent"),
+        None,
+        None,
         1549524579,
         Some(DeleteEvents("99876543".toLong, "YoshinoriN", "branch", "YoshinoriN/test-delete", 1549524579))
       )))
@@ -109,6 +113,8 @@ class GitHubEventServiceJsonSpec extends FunSuite {
         EventType.WatchEvent,
         "YoshinoriN",
         Repositories(94911145, "test/WatchEvent"),
+        None,
+        None,
         1549524579,
         Some(WatchEvents("9023498449".toLong, "YoshinoriN", 94911145, "started", 1549524579))
       )))
@@ -124,6 +130,8 @@ class GitHubEventServiceJsonSpec extends FunSuite {
           EventType.Undefined,
           "YoshinoriN",
           Repositories(94911145, "test/WatchEvent"),
+          None,
+          None,
           1549524579,
           Some(DummyEvent())
         )))

@@ -121,41 +121,46 @@ object GitHubEventJsonService extends ActorService with ConfigProvider with Logg
           eventType match {
             case EventType.CreateEvent =>
               val createEvent: Option[CreateEvents] = generateCreateEvent(eventId, userName, createdAt, x)
-              EventObject(eventId, eventType, userName, repository, createdAt, createEvent)
+              EventObject(eventId, eventType, userName, repository, None, None, createdAt, createEvent)
             case EventType.DeleteEvent =>
               val deleteEvent: Option[DeleteEvents] = generateDeleteEvent(eventId, userName, createdAt, x)
-              EventObject(eventId, eventType, userName, repository, createdAt, deleteEvent)
+              EventObject(eventId, eventType, userName, repository, None, None, createdAt, deleteEvent)
             case EventType.ForkEvent =>
               val forkEvent: Option[ForkEvents] = generateForkEvent(eventId, userName, createdAt, repository.id)
-              EventObject(eventId, eventType, userName, repository, createdAt, forkEvent)
+              EventObject(eventId, eventType, userName, repository, None, None, createdAt, forkEvent)
             case EventType.IssueCommentEvent =>
+              val issue: Option[Issues] = generateIssue(repository.id, x)
               val issueCommentEvent: Option[IssueCommentEvents] = generateIssueCommentEvent(eventId, userName, repository.id, createdAt, x)
-              EventObject(eventId, eventType, userName, repository, createdAt, issueCommentEvent)
+              EventObject(eventId, eventType, userName, repository, issue, None, createdAt, issueCommentEvent)
             case EventType.IssuesEvent =>
+              val issue: Option[Issues] = generateIssue(repository.id, x)
               val issueEvent: Option[IssueEvents] = generateIssuesEvent(eventId, userName, repository.id, createdAt, x)
-              EventObject(eventId, eventType, userName, repository, createdAt, issueEvent)
+              EventObject(eventId, eventType, userName, repository, issue, None, createdAt, issueEvent)
             case EventType.PullRequestEvent =>
+              val pullRequests: Option[PullRequests] = generatePullRequest(repository.id, x)
               val pullRequestEvent: Option[PullRequestEvents] = generatePullRequestEvent(eventId, userName, repository.id, createdAt, x)
-              EventObject(eventId, eventType, userName, repository, createdAt, pullRequestEvent)
+              EventObject(eventId, eventType, userName, repository, None, pullRequests, createdAt, pullRequestEvent)
             case EventType.PullRequestReviewEvent =>
+              val pullRequests: Option[PullRequests] = generatePullRequest(repository.id, x)
               val pullRequestReviewEvent: Option[PullRequestReviewEvents] = generatePullRequestReviewEvent(eventId, userName, repository.id, createdAt, x)
-              EventObject(eventId, eventType, userName, repository, createdAt, pullRequestReviewEvent)
+              EventObject(eventId, eventType, userName, repository, None, pullRequests, createdAt, pullRequestReviewEvent)
             case EventType.PullRequestReviewCommentEvent =>
+              val pullRequests: Option[PullRequests] = generatePullRequest(repository.id, x)
               val pullRequestReviewCommentEvent: Option[PullRequestReviewCommentEvents] = generatePullRequestReviewCommentEvent(eventId, userName, repository.id, createdAt, x)
-              EventObject(eventId, eventType, userName, repository, createdAt, pullRequestReviewCommentEvent)
+              EventObject(eventId, eventType, userName, repository, None, pullRequests, createdAt, pullRequestReviewCommentEvent)
             case EventType.PushEvent =>
               val pushEvent: Option[PushEvents] = generatePushEvent(eventId, userName, repository.id, createdAt, x)
-              EventObject(eventId, eventType, userName, repository, createdAt, pushEvent)
+              EventObject(eventId, eventType, userName, repository, None, None, createdAt, pushEvent)
             case EventType.ReleaseEvent =>
               val releaseEvent: Option[ReleaseEvents] = generateReleaseEvent(eventId, userName, repository.id, createdAt, x)
-              EventObject(eventId, eventType, userName, repository, createdAt, releaseEvent)
+              EventObject(eventId, eventType, userName, repository, None, None, createdAt, releaseEvent)
             case EventType.WatchEvent =>
               val watchEvent: Option[WatchEvents] = generateWatchEvent(eventId, userName, repository.id, createdAt, x)
-              EventObject(eventId, eventType, userName, repository, createdAt, watchEvent)
+              EventObject(eventId, eventType, userName, repository, None, None, createdAt, watchEvent)
             case EventType.Undefined => {
               logger.error(s"event id: [$eventId] is undefined event type.")
               //FIXME
-              EventObject(eventId, eventType, userName, repository, createdAt, Option(DummyEvent()))
+              EventObject(eventId, eventType, userName, repository, None, None, createdAt, Option(DummyEvent()))
             }
           }
         }
@@ -178,6 +183,46 @@ object GitHubEventJsonService extends ActorService with ConfigProvider with Logg
       Some(Repositories(id.right.get, name.right.get))
     } else {
       logger.error("Can not parse Repository.")
+      None
+    }
+  }
+
+  /**
+   * Generate Issues case class
+   *
+   * @param repositoryId repository id
+   * @param issueNo issue no
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private def generateIssue(repositoryId: Long, json: Json): Option[Issues] = {
+    val issueNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("issue").get[Int]("number")
+    val title: Decoder.Result[String] = json.hcursor.downField("payload").downField("issue").get[String]("title")
+
+    if (issueNumber.isRight && title.isRight) {
+      Some(Issues(repositoryId, issueNumber.right.get, title.right.get))
+    } else {
+      logger.error("Can not parse Issue")
+      None
+    }
+  }
+
+  /**
+   * Generate PullRequest case class
+   *
+   * @param repositoryId repository id
+   * @param json GitHub Event JSON
+   * @return
+   */
+  private def generatePullRequest(repositoryId: Long, json: Json): Option[PullRequests] = {
+    val number: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
+    val title: Decoder.Result[String] = json.hcursor.downField("payload").downField("pull_request").get[String]("title")
+    val merged: Decoder.Result[Boolean] = json.hcursor.downField("payload").downField("pull_request").get[Boolean]("merged")
+
+    if (number.isRight && title.isRight && merged.isRight) {
+      Some(PullRequests(repositoryId, number.right.get, title.right.get, merged.right.get))
+    } else {
+      logger.error("Can not parse PullRequest")
       None
     }
   }

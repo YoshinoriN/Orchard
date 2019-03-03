@@ -26,6 +26,26 @@ Please execute create database DDL. For example...
 CREATE DATABASE orchard;
 ```
 
-#### 2. Set database configulation
+#### 2. Change Caracter set & collation
+
+```sql
+show variables like "chara%";
+
+SET character_set_database=utf8mb4;
+SET character_set_client=utf8mb4;
+SET character_set_connection=utf8mb4;
+SET character_set_server=utf8mb4;
+SET character_set_results=utf8mb4;
+```
+
+```sql
+show variables like "coll%";
+
+SET collation_connection=utf8mb4_unicode_ci;
+SET collation_database=utf8mb4_unicode_ci;
+SET collation_server=utf8mb4_unicode_ci;
+```
+
+#### 3. Set database configulation
 
 Please change `./resources/db/db.conf` following your database configulation.

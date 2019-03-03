@@ -16,6 +16,10 @@ object EventService extends QuillProvider with Logger {
   def create(event: EventObject): Unit = {
 
     transaction {
+
+      //val rawQuery = quote { """SET NAMES utf8mb4""" }
+      //run(rawQuery)
+
       UsersRepository.insert(Users(event.userName, event.createdAt))
       RepositoriesRepository.insert(event.repository)
 

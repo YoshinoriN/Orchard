@@ -72,4 +72,14 @@ object EventsRepository extends EventsRepository with QuillProvider with Logger 
     run(query[Events].filter(_.userName == lift(userName)).map(_.eventType))
   }
 
+  /**
+   * Get first time event type by userName
+   *
+   * @param userName user name
+   * @return
+   */
+  def getFirstTimeEventByUserName(userName: String): Option[Events] = {
+    run(query[Events].filter(_.userName == lift(userName)).take(1).sortBy(_.createdAt)(Ord.asc)).headOption
+  }
+
 }

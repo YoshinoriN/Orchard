@@ -36,6 +36,16 @@ trait UsersService extends QuillProvider with Logger {
   }
 
   /**
+   * Get first time event of user
+   *
+   * @param userName user name
+   * @return
+   */
+  def getFirstTimeEventByUserName(userName: String): Option[Events] = {
+    EventsRepository.getFirstTimeEventByUserName(userName)
+  }
+
+  /**
    * Get event statistics by userName
    *
    * @param userName user name

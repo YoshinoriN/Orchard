@@ -41,6 +41,10 @@ trait Route extends UsersService with ContributeService {
           path("contributions") {
             val contributeCountJson = getContributeCountByRepositoryByUserName(userName).asJson
             complete(HttpEntity(ContentTypes.`application/json`, s"$contributeCountJson"))
+          } ~
+          path("first-time-event") {
+            val event = getFirstTimeEventByUserName(userName).asJson
+            complete(HttpEntity(ContentTypes.`application/json`, s"$event"))
           }
       }
     }

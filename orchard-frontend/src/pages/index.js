@@ -9,7 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Link from 'next/link';
-import { getActivityByUser } from '../api/activity'
+import UserEvent from '../api/userEvent'
 
 const styles = theme => ({
   root: {
@@ -24,9 +24,18 @@ class Index extends React.Component {
   };
 
   static async getInitialProps() {
-    const activity = await getActivityByUser();
+    const userEvent = new UserEvent("YoshinoriN"); //TODO: get setting file or something...
+
+    const userStatistics = await userEvent.getStatistics();
+    const userContributedRepos = await userEvent.getContributedRepositories();
+    const userActivity = await userEvent.getActivity();
+    const userFirstTimeEvent = await userEvent.getFirstTimeEvent();
+
     return {
-      activity: activity
+      statistics: userStatistics,
+      contributedRepost: userContributedRepos,
+      activity: userActivity,
+      firstTimeEvent: userFirstTimeEvent
     };
   }
 

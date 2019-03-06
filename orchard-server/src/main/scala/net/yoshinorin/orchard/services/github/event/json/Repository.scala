@@ -3,14 +3,13 @@ package net.yoshinorin.orchard.services.github.event.json
 import io.circe.parser.parse
 import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.Repositories
-import net.yoshinorin.orchard.services.github.event.json.JsonBase
 import net.yoshinorin.orchard.utils.Logger
 
 class Repository(jsonString: String) extends JsonBase[Repositories] with Logger {
 
   val parsedJson = parse(jsonString).getOrElse(Json.Null)
 
-  private val repository: Option[Repositories] = this.convert
+  val repository: Option[Repositories] = this.convert
 
   /**
    * Get Converted case class
@@ -22,7 +21,6 @@ class Repository(jsonString: String) extends JsonBase[Repositories] with Logger 
   /**
    * Convert JSON to Repository case class
    *
-   * @param json GitHub Event JSON
    * @return
    */
   override def convert: Option[Repositories] = {

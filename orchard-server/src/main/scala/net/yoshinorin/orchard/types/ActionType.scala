@@ -6,6 +6,7 @@ object ActionType {
 
   object Opened extends ActionType("opened")
   object Created extends ActionType("created")
+  object Commented extends ActionType("commented")
   object Edited extends ActionType("edited")
   object Deleted extends ActionType("deleted")
   object Transferred extends ActionType("transferred")

@@ -2,7 +2,8 @@ package net.yoshinorin.orchard.services
 
 import net.yoshinorin.orchard.models._
 import net.yoshinorin.orchard.models.db._
-import net.yoshinorin.orchard.definitions.{ActionType, EventType}
+import net.yoshinorin.orchard.definitions.event.EventType
+import net.yoshinorin.orchard.definitions.action.ActionType
 import net.yoshinorin.orchard.utils.Logger
 
 object EventService extends QuillProvider with Logger {

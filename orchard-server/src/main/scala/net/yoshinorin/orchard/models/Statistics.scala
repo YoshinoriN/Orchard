@@ -1,5 +1,4 @@
 package net.yoshinorin.orchard.models
-import net.yoshinorin.orchard.definitions.{ActionType, EventType}
 
 case class EventStatistics(
   create: Int = 0,

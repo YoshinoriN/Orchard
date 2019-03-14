@@ -13,7 +13,7 @@ import net.yoshinorin.orchard.actor.ActorService
 import net.yoshinorin.orchard.config.ConfigProvider
 import net.yoshinorin.orchard.models.{DummyEvent, EventObject}
 import net.yoshinorin.orchard.models.db._
-import net.yoshinorin.orchard.definitions.EventType
+import net.yoshinorin.orchard.definitions.event.EventType
 import net.yoshinorin.orchard.utils.{File, Logger}
 import net.yoshinorin.orchard.utils.Converter.eventTypeConverter
 

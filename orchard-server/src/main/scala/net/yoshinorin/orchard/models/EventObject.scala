@@ -1,7 +1,7 @@
 package net.yoshinorin.orchard.models
 
 import net.yoshinorin.orchard.models.db.{Issues, PullRequests, Repositories}
-import net.yoshinorin.orchard.definitions.EventType
+import net.yoshinorin.orchard.definitions.event.EventType
 
 case class EventObject(
   id: Long,

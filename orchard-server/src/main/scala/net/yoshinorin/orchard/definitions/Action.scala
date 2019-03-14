@@ -1,4 +1,5 @@
-package net.yoshinorin.orchard.definitions
+package net.yoshinorin.orchard.definitions.action
+
 
 sealed abstract class ActionType(val value: String)
 

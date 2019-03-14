@@ -1,4 +1,4 @@
-package net.yoshinorin.orchard.definitions
+package net.yoshinorin.orchard.definitions.event
 
 sealed abstract class EventType(val value: String)
 

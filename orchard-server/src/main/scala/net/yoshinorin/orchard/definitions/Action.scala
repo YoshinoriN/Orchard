@@ -1,5 +1,7 @@
 package net.yoshinorin.orchard.definitions.action
 
+import net.yoshinorin.orchard.definitions.event.EventType
+import net.yoshinorin.orchard.utils.Converter.eventTypeConverter
 
 sealed abstract class ActionType(val value: String)
 
@@ -26,5 +28,43 @@ object ActionType {
   object Dismissed extends ActionType("dismissed")
   object ReviewRequested extends ActionType("review_requested")
   object ReviewRequestRemoved extends ActionType("review_request_removed")
+
+}
+
+object DefaultAction {
+
+  /**
+   * get default action by event
+   *
+   * @param eventType
+   * @return
+   */
+  def get(eventType: String): ActionType = {
+    this.get(eventType.toEventType)
+  }
+
+  /**
+   * get default action by event
+   *
+   * @param eventType
+   * @return
+   */
+  def get(eventType: EventType): ActionType = {
+
+    eventType match {
+      case EventType.CreateEvent => ActionType.Created
+      case EventType.DeleteEvent => ActionType.Created
+      case EventType.ForkEvent => ActionType.Fork
+      case EventType.IssueCommentEvent => ActionType.Commented
+      case EventType.IssuesEvent => ActionType.Created
+      case EventType.PullRequestEvent => ActionType.Created
+      case EventType.PullRequestReviewEvent => ActionType.Created
+      case EventType.PullRequestReviewCommentEvent => ActionType.Created
+      case EventType.PushEvent => ActionType.Created
+      case EventType.ReleaseEvent => ActionType.Created
+      case EventType.WatchEvent => ActionType.Created
+    }
+
+  }
 
 }

@@ -1,13 +1,12 @@
 package net.yoshinorin.orchard.services.github.event.json
 
-import io.circe.parser.parse
 import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.PullRequests
 import net.yoshinorin.orchard.utils.Logger
 
 class PullRequest(repository: Repository, jsonString: String) extends JsonBase[PullRequests] with Logger {
 
-  val parsedJson = parse(jsonString).getOrElse(Json.Null)
+  val parsedJson: Json = this.parse(jsonString)
 
   val pullRequest: Option[PullRequests] = this.convert
 

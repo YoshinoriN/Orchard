@@ -1,15 +1,14 @@
 package net.yoshinorin.orchard.services.github.event.json
 
-import io.circe.parser.parse
 import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.Issues
 import net.yoshinorin.orchard.utils.Logger
 
 class Issue(repository: Repository, jsonString: String) extends JsonBase[Issues] with Logger {
 
-  val parsedJson = parse(jsonString).getOrElse(Json.Null)
+  val parsedJson: Json = this.parse(jsonString)
 
-  private val issue: Option[Issues] = this.convert
+  val issue: Option[Issues] = this.convert
 
   /**
    * Get Converted case class

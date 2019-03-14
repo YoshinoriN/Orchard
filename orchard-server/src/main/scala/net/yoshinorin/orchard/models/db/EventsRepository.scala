@@ -1,7 +1,7 @@
 package net.yoshinorin.orchard.models.db
 
+import net.yoshinorin.orchard.definitions.db.manipulation._
 import net.yoshinorin.orchard.services.QuillProvider
-import net.yoshinorin.orchard.types.db.{Between, Limit}
 import net.yoshinorin.orchard.utils.Logger
 
 trait EventsRepository {

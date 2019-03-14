@@ -1,7 +1,7 @@
 package net.yoshinorin.orchard.utils
 
 import java.time.{Instant, ZoneId, ZoneOffset, ZonedDateTime}
-import net.yoshinorin.orchard.types.EventType
+import net.yoshinorin.orchard.definitions.EventType
 
 object Converter {
 

@@ -4,7 +4,7 @@ import io.circe.Encoder
 import io.circe.generic.semiauto.deriveEncoder
 import net.yoshinorin.orchard.models.ContributedRepository
 import net.yoshinorin.orchard.models.db._
-import net.yoshinorin.orchard.types.EventType
+import net.yoshinorin.orchard.definitions.EventType
 import net.yoshinorin.orchard.utils.Logger
 
 trait ContributeService extends QuillProvider with Logger {

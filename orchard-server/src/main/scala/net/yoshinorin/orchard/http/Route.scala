@@ -3,8 +3,8 @@ package net.yoshinorin.orchard.http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import io.circe.syntax._
+import net.yoshinorin.orchard.definitions.db.manipulation._
 import net.yoshinorin.orchard.services.{ContributeService, UsersService}
-import net.yoshinorin.orchard.types.db.{Between, Limit}
 import net.yoshinorin.orchard.utils.File
 
 trait Route extends UsersService with ContributeService {

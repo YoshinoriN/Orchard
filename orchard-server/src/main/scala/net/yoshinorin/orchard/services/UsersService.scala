@@ -2,10 +2,10 @@ package net.yoshinorin.orchard.services
 
 import io.circe.Encoder
 import io.circe.generic.semiauto.deriveEncoder
+import net.yoshinorin.orchard.definitions.db.manipulation._
 import net.yoshinorin.orchard.utils.Logger
 import net.yoshinorin.orchard.models.EventStatistics
 import net.yoshinorin.orchard.models.db.{Events, EventsRepository, Users, UsersRepository}
-import net.yoshinorin.orchard.types.db.{Between, Limit}
 
 trait UsersService extends QuillProvider with Logger {
 

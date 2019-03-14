@@ -1,4 +1,4 @@
-package net.yoshinorin.orchard.types.db
+package net.yoshinorin.orchard.definitions.db.manipulation
 
 import org.scalatest.FunSuite
 

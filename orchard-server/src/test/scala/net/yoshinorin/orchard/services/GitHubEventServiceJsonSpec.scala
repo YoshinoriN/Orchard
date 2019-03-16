@@ -4,8 +4,8 @@ import java.time.ZonedDateTime
 import net.yoshinorin.orchard.models.{DummyEvent, EventObject}
 import net.yoshinorin.orchard.models.db._
 import net.yoshinorin.orchard.definitions.event.EventType
+import net.yoshinorin.orchard.services.github.event.json.GitHubEventJsonService
 import net.yoshinorin.orchard.utils.File
-import net.yoshinorin.orchard.services.GitHubEventJsonService
 import org.scalatest.FunSuite
 //import org.scalatest.{FunSuite, PrivateMethodTester}
 

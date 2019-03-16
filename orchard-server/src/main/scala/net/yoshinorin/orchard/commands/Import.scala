@@ -1,6 +1,7 @@
 package net.yoshinorin.orchard.commands
 
-import net.yoshinorin.orchard.services.{EventService, GitHubEventJsonService}
+import net.yoshinorin.orchard.services.EventService
+import net.yoshinorin.orchard.services.github.event.json.GitHubEventJsonService
 import net.yoshinorin.orchard.utils.File
 import net.yoshinorin.orchard.utils.Logger
 

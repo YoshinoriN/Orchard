@@ -1,28 +1,26 @@
-[
-  {
-    "id": "9876543",
-    "type": "CreateEvent",
-    "actor": {
-      "id": 88888888,
-      "login": "YoshinoriN",
-      "display_login": "YoshinoriN",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/YoshinoriN",
-      "avatar_url": "https://avatars.githubusercontent.com/u/88888888?"
-    },
-    "repo": {
-      "id": 9999999999,
-      "name": "YoshinoriN/testCreateEvent",
-      "url": "https://api.github.com/repos/YoshinoriN/testCreateEvent"
-    },
-    "payload": {
-      "ref": "test-tag",
-      "ref_type": "tag",
-      "master_branch": "master",
-      "description": "WIP",
-      "pusher_type": "user"
-    },
-    "public": true,
-    "created_at": "2019-02-07T07:29:39Z"
-  }
-]
+{
+  "id": "9876543",
+  "type": "CreateEvent",
+  "actor": {
+    "id": 88888888,
+    "login": "YoshinoriN",
+    "display_login": "YoshinoriN",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/YoshinoriN",
+    "avatar_url": "https://avatars.githubusercontent.com/u/88888888?"
+  },
+  "repo": {
+    "id": 9999999999,
+    "name": "YoshinoriN/testCreateEvent",
+    "url": "https://api.github.com/repos/YoshinoriN/testCreateEvent"
+  },
+  "payload": {
+    "ref": "test-tag",
+    "ref_type": "tag",
+    "master_branch": "master",
+    "description": "WIP",
+    "pusher_type": "user"
+  },
+  "public": true,
+  "created_at": "2019-02-07T07:29:39Z"
+}

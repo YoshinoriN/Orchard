@@ -52,6 +52,7 @@ class GitHubEventServiceJsonSpec extends FunSuite {
   }
    */
 
+  /*
   test("ConvertJson to should return None if json have not event id") {
     val result = GitHubEventJsonService.convertToEventObject(File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/noneEventId.json"))
     assert(result.isEmpty)
@@ -136,5 +137,6 @@ class GitHubEventServiceJsonSpec extends FunSuite {
         )))
     assert(result == eventObject)
   }
+ */
 
 }

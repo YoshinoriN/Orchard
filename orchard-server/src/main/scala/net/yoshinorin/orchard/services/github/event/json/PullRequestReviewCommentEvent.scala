@@ -4,7 +4,7 @@ import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.{Events, PullRequestReviewCommentEvents}
 import net.yoshinorin.orchard.utils.Logger
 
-class PullRequestReviewCommentEvent(event: Events, json: Json) extends JsonBase[PullRequestReviewCommentEvents] with Logger {
+class PullRequestReviewCommentEvent(event: Events, json: Json) extends JsonBase[PullRequestReviewCommentEvents] with EventBase with Logger {
 
   val pullRequestReviewCommentEvent: Option[PullRequestReviewCommentEvents] = this.convert
 

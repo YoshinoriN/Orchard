@@ -4,7 +4,7 @@ import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.{DeleteEvents, Events}
 import net.yoshinorin.orchard.utils.Logger
 
-class DeleteEvent(event: Events, json: Json) extends JsonBase[DeleteEvents] with Logger {
+class DeleteEvent(event: Events, json: Json) extends JsonBase[DeleteEvents] with EventBase with Logger {
 
   val deleteEvent: Option[DeleteEvents] = this.convert
 

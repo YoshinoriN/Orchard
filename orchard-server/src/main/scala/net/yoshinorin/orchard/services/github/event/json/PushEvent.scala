@@ -4,7 +4,7 @@ import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.{Events, PushEvents}
 import net.yoshinorin.orchard.utils.Logger
 
-class PushEvent(event: Events, json: Json) extends JsonBase[PushEvents] with Logger {
+class PushEvent(event: Events, json: Json) extends JsonBase[PushEvents] with EventBase with Logger {
 
   val issuesEvent: Option[PushEvents] = this.convert
 

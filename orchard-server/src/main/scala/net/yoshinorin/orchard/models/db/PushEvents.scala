@@ -9,4 +9,6 @@ case class PushEvents(
   ref: String,
   size: Int,
   createdAt: Long
-) extends BaseEvent[PushEvents]
+) extends BaseEvent[PushEvents] {
+  override def insert(): Unit = PushEventsRepository.insert(this)
+}

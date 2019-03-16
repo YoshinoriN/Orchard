@@ -8,4 +8,6 @@ case class Events(
   action: String,
   url: String,
   createdAt: Long
-)
+) {
+  def insert: Option[Long] = EventsRepository.insert(this)
+}

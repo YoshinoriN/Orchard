@@ -8,4 +8,6 @@ case class DeleteEvents(
   refType: String,
   ref: String,
   createdAt: Long
-) extends BaseEvent[DeleteEvents]
+) extends BaseEvent[DeleteEvents] {
+  override def insert(): Unit = DeleteEventsRepository.insert(this)
+}

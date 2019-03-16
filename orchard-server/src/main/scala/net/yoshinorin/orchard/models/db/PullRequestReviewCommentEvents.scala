@@ -9,4 +9,6 @@ case class PullRequestReviewCommentEvents(
   pullRequestNumber: Int,
   action: String,
   createdAt: Long
-) extends BaseEvent[PullRequestReviewCommentEvents]
+) extends BaseEvent[PullRequestReviewCommentEvents] {
+  override def insert(): Unit = PullRequestReviewCommentEventsRepository.insert(this)
+}

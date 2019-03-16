@@ -8,4 +8,6 @@ case class CreateEvents(
   refType: String,
   ref: String,
   createdAt: Long
-) extends BaseEvent[CreateEvents]
+) extends BaseEvent[CreateEvents] {
+  override def insert(): Unit = CreateEventsRepository.insert(this)
+}

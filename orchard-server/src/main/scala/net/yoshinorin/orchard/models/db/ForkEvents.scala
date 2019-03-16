@@ -7,4 +7,6 @@ case class ForkEvents(
   userName: String,
   forkedRepositoryId: Long,
   createdAt: Long
-) extends BaseEvent[ForkEvents]
+) extends BaseEvent[ForkEvents] {
+  override def insert(): Unit = ForkEventsRepository.insert(this)
+}

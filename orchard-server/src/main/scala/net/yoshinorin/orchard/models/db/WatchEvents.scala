@@ -8,4 +8,6 @@ case class WatchEvents(
   repositoryId: Long,
   action: String,
   createdAt: Long
-) extends BaseEvent[WatchEvents]
+) extends BaseEvent[WatchEvents] {
+  override def insert(): Unit = WatchEventsRepository.insert(this)
+}

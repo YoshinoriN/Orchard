@@ -10,4 +10,6 @@ case class ReleaseEvents(
   name: String,
   action: String,
   createdAt: Long
-) extends BaseEvent[ReleaseEvents]
+) extends BaseEvent[ReleaseEvents] {
+  override def insert(): Unit = ReleaseEventsRepository.insert(this)
+}

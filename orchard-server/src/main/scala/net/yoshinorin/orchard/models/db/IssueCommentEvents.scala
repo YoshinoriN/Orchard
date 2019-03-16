@@ -9,4 +9,6 @@ case class IssueCommentEvents(
   issueNumber: Int,
   action: String,
   createdAt: Long
-) extends BaseEvent[IssueCommentEvents]
+) extends BaseEvent[IssueCommentEvents] {
+  override def insert(): Unit = IssueCommentEventsRepository.insert(this)
+}

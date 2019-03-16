@@ -25,9 +25,13 @@ class JsonUtilSpec extends FunSuite {
       |
     """.stripMargin
 
-  test("string to JSON List") {
-    assert("{\n  \"id\" : 123,\n  \"name\" : \"test\"\n}" == json.toJson.head.toString)
-    assert("{\n  \"id\" : 789,\n  \"name\" : \"test3\"\n}" == json.toJson.last.toString)
+  test("should return JSON List") {
+    assert("{\n  \"id\" : 123,\n  \"name\" : \"test\"\n}" == json.toJson.get.head.toString)
+    assert("{\n  \"id\" : 789,\n  \"name\" : \"test3\"\n}" == json.toJson.get.last.toString)
+  }
+
+  test("toJson should return None") {
+    assert("This is not a JSON".toJson.isEmpty)
   }
 
 }

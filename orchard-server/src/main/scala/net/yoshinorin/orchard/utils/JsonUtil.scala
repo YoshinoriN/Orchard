@@ -11,10 +11,11 @@ object JsonUtil {
    * @param s
    * @return
    */
-  def toJsonList(s: String): List[Json] = {
-    val json = parse(s).getOrElse(Json.Null)
-    val hCursor: HCursor = json.hcursor
-    hCursor.values.get.toList
+  def toJsonList(s: String): Option[List[Json]] = {
+    parse(s).getOrElse(None) match {
+      case None => None
+      case x: Json => Option(x.hcursor.values.get.toList)
+    }
   }
 
 }
@@ -28,7 +29,7 @@ object Converter {
      *
      * @return
      */
-    def toJson: List[Json] = {
+    def toJson: Option[List[Json]] = {
       JsonUtil.toJsonList(s)
     }
 

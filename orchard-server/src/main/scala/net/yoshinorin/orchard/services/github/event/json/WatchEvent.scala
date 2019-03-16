@@ -4,9 +4,7 @@ import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.{Events, WatchEvents}
 import net.yoshinorin.orchard.utils.Logger
 
-class WatchEvent(event: Events, jsonString: String) extends JsonBase[WatchEvents] with Logger {
-
-  val parsedJson: Json = this.parse(jsonString)
+class WatchEvent(event: Events, json: Json) extends JsonBase[WatchEvents] with Logger {
 
   val watchEvent: Option[WatchEvents] = this.convert
 
@@ -23,7 +21,7 @@ class WatchEvent(event: Events, jsonString: String) extends JsonBase[WatchEvents
    * @return
    */
   override def convert: Option[WatchEvents] = {
-    val action: Decoder.Result[String] = parsedJson.hcursor.downField("payload").get[String]("action")
+    val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
 
     if (action.isRight) {
       Some(WatchEvents(event.id, event.userName, event.repositoryId, action.right.get, event.createdAt))
@@ -36,6 +34,6 @@ class WatchEvent(event: Events, jsonString: String) extends JsonBase[WatchEvents
 
 object WatchEvent {
 
-  def apply(event: Events, jsonString: String): WatchEvent = new WatchEvent(event, jsonString)
+  def apply(event: Events, json: Json): WatchEvent = new WatchEvent(event, json)
 
 }

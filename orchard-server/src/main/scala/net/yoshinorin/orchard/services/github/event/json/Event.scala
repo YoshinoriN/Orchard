@@ -7,9 +7,7 @@ import net.yoshinorin.orchard.definitions.action.{ActionType, DefaultAction}
 import net.yoshinorin.orchard.models.db.Events
 import net.yoshinorin.orchard.utils.Logger
 
-class Event(repository: Repository, jsonString: String) extends JsonBase[Events] with Logger {
-
-  val parsedJson: Json = this.parse(jsonString)
+class Event(repository: Repository, json: Json) extends JsonBase[Events] with Logger {
 
   val event: Option[Events] = this.convert
 
@@ -26,10 +24,10 @@ class Event(repository: Repository, jsonString: String) extends JsonBase[Events]
    * @return
    */
   override def convert: Option[Events] = {
-    val id: Decoder.Result[Long] = parsedJson.hcursor.get[Long]("id")
-    val eventType: Decoder.Result[String] = parsedJson.hcursor.get[String]("type")
-    val userName: Decoder.Result[String] = parsedJson.hcursor.downField("actor").get[String]("login")
-    val createdAt: Decoder.Result[String] = parsedJson.hcursor.get[String]("created_at")
+    val id: Decoder.Result[Long] = json.hcursor.get[Long]("id")
+    val eventType: Decoder.Result[String] = json.hcursor.get[String]("type")
+    val userName: Decoder.Result[String] = json.hcursor.downField("actor").get[String]("login")
+    val createdAt: Decoder.Result[String] = json.hcursor.get[String]("created_at")
 
     if (id.isRight && eventType.isRight && userName.isRight && repository.repository.isDefined && createdAt.isRight) {
       Some(
@@ -51,6 +49,6 @@ class Event(repository: Repository, jsonString: String) extends JsonBase[Events]
 
 object Event {
 
-  def apply(repository: Repository, jsonString: String): Event = new Event(repository, jsonString)
+  def apply(repository: Repository, json: Json): Event = new Event(repository, json)
 
 }

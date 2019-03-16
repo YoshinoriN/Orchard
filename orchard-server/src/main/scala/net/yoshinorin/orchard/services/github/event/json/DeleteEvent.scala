@@ -4,9 +4,7 @@ import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.{DeleteEvents, Events}
 import net.yoshinorin.orchard.utils.Logger
 
-class DeleteEvent(event: Events, jsonString: String) extends JsonBase[DeleteEvents] with Logger {
-
-  val parsedJson: Json = this.parse(jsonString)
+class DeleteEvent(event: Events, json: Json) extends JsonBase[DeleteEvents] with Logger {
 
   val deleteEvent: Option[DeleteEvents] = this.convert
 
@@ -23,8 +21,8 @@ class DeleteEvent(event: Events, jsonString: String) extends JsonBase[DeleteEven
    * @return
    */
   override def convert: Option[DeleteEvents] = {
-    val ref: Decoder.Result[String] = parsedJson.hcursor.downField("payload").get[String]("ref")
-    val refType: Decoder.Result[String] = parsedJson.hcursor.downField("payload").get[String]("ref_type")
+    val ref: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref")
+    val refType: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref_type")
 
     if (ref.isRight && refType.isRight) {
       Some(DeleteEvents(event.id, event.userName, refType.right.get, ref.right.get, event.createdAt))
@@ -37,6 +35,6 @@ class DeleteEvent(event: Events, jsonString: String) extends JsonBase[DeleteEven
 
 object DeleteEvent {
 
-  def apply(event: Events, jsonString: String): DeleteEvent = new DeleteEvent(event, jsonString)
+  def apply(event: Events, json: Json): DeleteEvent = new DeleteEvent(event, json)
 
 }

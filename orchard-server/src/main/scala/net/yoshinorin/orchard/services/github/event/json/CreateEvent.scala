@@ -4,9 +4,7 @@ import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.{CreateEvents, Events}
 import net.yoshinorin.orchard.utils.Logger
 
-class CreateEvent(event: Events, jsonString: String) extends JsonBase[CreateEvents] with Logger {
-
-  val parsedJson: Json = this.parse(jsonString)
+class CreateEvent(event: Events, json: Json) extends JsonBase[CreateEvents] with Logger {
 
   val createEvent: Option[CreateEvents] = this.convert
 
@@ -23,8 +21,8 @@ class CreateEvent(event: Events, jsonString: String) extends JsonBase[CreateEven
    * @return
    */
   override def convert: Option[CreateEvents] = {
-    val ref: Decoder.Result[String] = parsedJson.hcursor.downField("payload").get[String]("ref")
-    val refType: Decoder.Result[String] = parsedJson.hcursor.downField("payload").get[String]("ref_type")
+    val ref: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref")
+    val refType: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("ref_type")
 
     if (ref.isRight && refType.isRight) {
       Some(CreateEvents(event.id, event.userName, refType.right.get, ref.right.get, event.createdAt))
@@ -37,6 +35,6 @@ class CreateEvent(event: Events, jsonString: String) extends JsonBase[CreateEven
 
 object CreateEvent {
 
-  def apply(event: Events, jsonString: String): CreateEvent = new CreateEvent(event, jsonString)
+  def apply(event: Events, json: Json): CreateEvent = new CreateEvent(event, json)
 
 }

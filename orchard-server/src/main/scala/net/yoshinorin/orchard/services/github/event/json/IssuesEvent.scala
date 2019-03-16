@@ -4,9 +4,7 @@ import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.{Events, IssueEvents}
 import net.yoshinorin.orchard.utils.Logger
 
-class IssuesEvent(event: Events, jsonString: String) extends JsonBase[IssueEvents] with Logger {
-
-  val parsedJson: Json = this.parse(jsonString)
+class IssuesEvent(event: Events, json: Json) extends JsonBase[IssueEvents] with Logger {
 
   val issuesEvent: Option[IssueEvents] = this.convert
 
@@ -23,8 +21,8 @@ class IssuesEvent(event: Events, jsonString: String) extends JsonBase[IssueEvent
    * @return
    */
   override def convert: Option[IssueEvents] = {
-    val action: Decoder.Result[String] = parsedJson.hcursor.downField("payload").get[String]("action")
-    val issueNumber: Decoder.Result[Int] = parsedJson.hcursor.downField("payload").downField("issue").get[Int]("number")
+    val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
+    val issueNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("issue").get[Int]("number")
 
     if (action.isRight && issueNumber.isRight) {
       Some(IssueEvents(event.id, event.userName, event.repositoryId, issueNumber.right.get, action.right.get, event.createdAt))
@@ -37,6 +35,6 @@ class IssuesEvent(event: Events, jsonString: String) extends JsonBase[IssueEvent
 
 object IssuesEvent {
 
-  def apply(event: Events, jsonString: String): IssuesEvent = new IssuesEvent(event, jsonString)
+  def apply(event: Events, json: Json): IssuesEvent = new IssuesEvent(event, json)
 
 }

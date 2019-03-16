@@ -4,9 +4,7 @@ import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.{Events, PullRequestReviewCommentEvents}
 import net.yoshinorin.orchard.utils.Logger
 
-class PullRequestReviewCommentEvent(event: Events, jsonString: String) extends JsonBase[PullRequestReviewCommentEvents] with Logger {
-
-  val parsedJson: Json = this.parse(jsonString)
+class PullRequestReviewCommentEvent(event: Events, json: Json) extends JsonBase[PullRequestReviewCommentEvents] with Logger {
 
   val pullRequestReviewCommentEvent: Option[PullRequestReviewCommentEvents] = this.convert
 
@@ -23,8 +21,8 @@ class PullRequestReviewCommentEvent(event: Events, jsonString: String) extends J
    * @return
    */
   override def convert: Option[PullRequestReviewCommentEvents] = {
-    val action: Decoder.Result[String] = parsedJson.hcursor.downField("payload").get[String]("action")
-    val pullRequestNumber: Decoder.Result[Int] = parsedJson.hcursor.downField("payload").downField("pull_request").get[Int]("number")
+    val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
+    val pullRequestNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
 
     if (action.isRight && pullRequestNumber.isRight) {
       Some(PullRequestReviewCommentEvents(event.id, event.userName, event.repositoryId, pullRequestNumber.right.get, action.right.get, event.createdAt))
@@ -37,6 +35,6 @@ class PullRequestReviewCommentEvent(event: Events, jsonString: String) extends J
 
 object PullRequestReviewCommentEvent {
 
-  def apply(event: Events, jsonString: String): PullRequestReviewCommentEvent = new PullRequestReviewCommentEvent(event, jsonString)
+  def apply(event: Events, json: Json): PullRequestReviewCommentEvent = new PullRequestReviewCommentEvent(event, json)
 
 }

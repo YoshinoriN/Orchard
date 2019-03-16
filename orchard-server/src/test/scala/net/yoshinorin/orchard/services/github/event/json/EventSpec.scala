@@ -1,5 +1,7 @@
 package net.yoshinorin.orchard.services.github.event.json
 
+import io.circe.Json
+import io.circe.parser.parse
 import net.yoshinorin.orchard.definitions.action.ActionType
 import net.yoshinorin.orchard.models.db.{Events, Repositories}
 import net.yoshinorin.orchard.utils.File
@@ -9,10 +11,10 @@ import org.scalatest.FunSuite
 class EventSpec extends FunSuite {
 
   val repositoryJson = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/repository.json")
-  val repositoryInstance = net.yoshinorin.orchard.services.github.event.json.Repository(repositoryJson)
+  val repositoryInstance = net.yoshinorin.orchard.services.github.event.json.Repository(parse(repositoryJson).getOrElse(Json.Null))
 
   val json = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/issue.json")
-  val instance = net.yoshinorin.orchard.services.github.event.json.Event(repositoryInstance, json)
+  val instance = net.yoshinorin.orchard.services.github.event.json.Event(repositoryInstance, parse(json).getOrElse(Json.Null))
 
   test("ConvertJson to Events case class") {
     val eventsCaseClass = Some(

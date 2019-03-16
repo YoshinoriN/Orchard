@@ -4,9 +4,7 @@ import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.Issues
 import net.yoshinorin.orchard.utils.Logger
 
-class Issue(repository: Repository, jsonString: String) extends JsonBase[Issues] with Logger {
-
-  val parsedJson: Json = this.parse(jsonString)
+class Issue(repository: Repository, json: Json) extends JsonBase[Issues] with Logger {
 
   val issue: Option[Issues] = this.convert
 
@@ -23,8 +21,8 @@ class Issue(repository: Repository, jsonString: String) extends JsonBase[Issues]
    * @return
    */
   override def convert: Option[Issues] = {
-    val issueNumber: Decoder.Result[Int] = parsedJson.hcursor.downField("payload").downField("issue").get[Int]("number")
-    val title: Decoder.Result[String] = parsedJson.hcursor.downField("payload").downField("issue").get[String]("title")
+    val issueNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("issue").get[Int]("number")
+    val title: Decoder.Result[String] = json.hcursor.downField("payload").downField("issue").get[String]("title")
 
     if (issueNumber.isRight && title.isRight && repository.repository.isDefined) {
       Some(Issues(repository.repository.get.id, issueNumber.right.get, title.right.get))
@@ -38,6 +36,6 @@ class Issue(repository: Repository, jsonString: String) extends JsonBase[Issues]
 
 object Issue {
 
-  def apply(repository: Repository, jsonString: String): Issue = new Issue(repository, jsonString)
+  def apply(repository: Repository, json: Json): Issue = new Issue(repository, json)
 
 }

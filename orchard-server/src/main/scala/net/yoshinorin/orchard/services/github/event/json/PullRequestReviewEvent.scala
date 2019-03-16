@@ -4,9 +4,7 @@ import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.{Events, PullRequestReviewEvents}
 import net.yoshinorin.orchard.utils.Logger
 
-class PullRequestReviewEvent(event: Events, jsonString: String) extends JsonBase[PullRequestReviewEvents] with Logger {
-
-  val parsedJson: Json = this.parse(jsonString)
+class PullRequestReviewEvent(event: Events, json: Json) extends JsonBase[PullRequestReviewEvents] with Logger {
 
   val pullRequestReviewEvent: Option[PullRequestReviewEvents] = this.convert
 
@@ -23,8 +21,8 @@ class PullRequestReviewEvent(event: Events, jsonString: String) extends JsonBase
    * @return
    */
   override def convert: Option[PullRequestReviewEvents] = {
-    val action: Decoder.Result[String] = parsedJson.hcursor.downField("payload").get[String]("action")
-    val pullRequestNumber: Decoder.Result[Int] = parsedJson.hcursor.downField("payload").downField("pull_request").get[Int]("number")
+    val action: Decoder.Result[String] = json.hcursor.downField("payload").get[String]("action")
+    val pullRequestNumber: Decoder.Result[Int] = json.hcursor.downField("payload").downField("pull_request").get[Int]("number")
 
     if (action.isRight && pullRequestNumber.isRight) {
       Some(PullRequestReviewEvents(event.id, event.userName, event.repositoryId, pullRequestNumber.right.get, action.right.get, event.createdAt))
@@ -37,6 +35,6 @@ class PullRequestReviewEvent(event: Events, jsonString: String) extends JsonBase
 
 object PullRequestReviewEvent {
 
-  def apply(event: Events, jsonString: String): PullRequestReviewEvent = new PullRequestReviewEvent(event, jsonString)
+  def apply(event: Events, json: Json): PullRequestReviewEvent = new PullRequestReviewEvent(event, json)
 
 }

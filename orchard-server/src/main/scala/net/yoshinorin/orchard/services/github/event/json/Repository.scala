@@ -4,9 +4,7 @@ import io.circe.{Decoder, Json}
 import net.yoshinorin.orchard.models.db.Repositories
 import net.yoshinorin.orchard.utils.Logger
 
-class Repository(jsonString: String) extends JsonBase[Repositories] with Logger {
-
-  val parsedJson: Json = this.parse(jsonString)
+class Repository(json: Json) extends JsonBase[Repositories] with Logger {
 
   val repository: Option[Repositories] = this.convert
 
@@ -23,8 +21,8 @@ class Repository(jsonString: String) extends JsonBase[Repositories] with Logger 
    * @return
    */
   override def convert: Option[Repositories] = {
-    val id: Decoder.Result[Long] = parsedJson.hcursor.downField("repo").get[Long]("id")
-    val name: Decoder.Result[String] = parsedJson.hcursor.downField("repo").get[String]("name")
+    val id: Decoder.Result[Long] = json.hcursor.downField("repo").get[Long]("id")
+    val name: Decoder.Result[String] = json.hcursor.downField("repo").get[String]("name")
 
     if (id.isRight && name.isRight) {
       Some(Repositories(id.right.get, name.right.get))
@@ -38,6 +36,6 @@ class Repository(jsonString: String) extends JsonBase[Repositories] with Logger 
 
 object Repository {
 
-  def apply(jsonString: String): Repository = new Repository(jsonString)
+  def apply(json: Json): Repository = new Repository(json)
 
 }

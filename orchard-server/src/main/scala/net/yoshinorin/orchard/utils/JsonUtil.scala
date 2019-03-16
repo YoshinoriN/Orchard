@@ -14,10 +14,7 @@ object JsonUtil {
   def toJsonList(s: String): List[Json] = {
     val json = parse(s).getOrElse(Json.Null)
     val hCursor: HCursor = json.hcursor
-    val x = hCursor.values.get.toList
-
-    println(x.head)
-    x
+    hCursor.values.get.toList
   }
 
 }

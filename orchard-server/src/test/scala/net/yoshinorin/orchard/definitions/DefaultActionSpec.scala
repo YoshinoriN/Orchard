@@ -10,8 +10,8 @@ class DefaultActionSpec extends FunSuite {
     assert(ActionType.Created == DefaultAction.get("CreateEvent"))
   }
 
-  test("get method should return ActionType.Created if eventType is (String)DeleteEvent") {
-    assert(ActionType.Created == DefaultAction.get("DeleteEvent"))
+  test("get method should return ActionType.Deleted if eventType is (String)DeleteEvent") {
+    assert(ActionType.Deleted == DefaultAction.get("DeleteEvent"))
   }
 
   test("get method should return ActionType.Fork if eventType is (String)ForkEvent") {
@@ -34,16 +34,16 @@ class DefaultActionSpec extends FunSuite {
     assert(ActionType.Created == DefaultAction.get("PullRequestReviewEvent"))
   }
 
-  test("get method should return ActionType.Created if eventType is (String)PullRequestReviewCommentEvent") {
-    assert(ActionType.Created == DefaultAction.get("PullRequestReviewCommentEvent"))
+  test("get method should return ActionType.Commented if eventType is (String)PullRequestReviewCommentEvent") {
+    assert(ActionType.Commented == DefaultAction.get("PullRequestReviewCommentEvent"))
   }
 
   test("get method should return ActionType.Created if eventType is (String)PushEvent") {
     assert(ActionType.Created == DefaultAction.get("PushEvent"))
   }
 
-  test("get method should return ActionType.Created if eventType is (String)ReleaseEvent") {
-    assert(ActionType.Created == DefaultAction.get("ReleaseEvent"))
+  test("get method should return ActionType.Published if eventType is (String)ReleaseEvent") {
+    assert(ActionType.Published == DefaultAction.get("ReleaseEvent"))
   }
 
   test("get method should return ActionType.Created if eventType is (String)WatchEvent") {

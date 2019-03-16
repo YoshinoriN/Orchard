@@ -53,15 +53,15 @@ object DefaultAction {
 
     eventType match {
       case EventType.CreateEvent => ActionType.Created
-      case EventType.DeleteEvent => ActionType.Created
+      case EventType.DeleteEvent => ActionType.Deleted
       case EventType.ForkEvent => ActionType.Fork
       case EventType.IssueCommentEvent => ActionType.Commented
       case EventType.IssuesEvent => ActionType.Created
       case EventType.PullRequestEvent => ActionType.Created
       case EventType.PullRequestReviewEvent => ActionType.Created
-      case EventType.PullRequestReviewCommentEvent => ActionType.Created
+      case EventType.PullRequestReviewCommentEvent => ActionType.Commented
       case EventType.PushEvent => ActionType.Created
-      case EventType.ReleaseEvent => ActionType.Created
+      case EventType.ReleaseEvent => ActionType.Published
       case EventType.WatchEvent => ActionType.Created
     }
 

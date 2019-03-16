@@ -1,7 +1,7 @@
 package net.yoshinorin.orchard.definitions.action
 
 import net.yoshinorin.orchard.definitions.event.EventType
-import net.yoshinorin.orchard.utils.Converter.eventTypeConverter
+import net.yoshinorin.orchard.definitions.event.Converter.eventTypeConverter
 
 sealed abstract class ActionType(val value: String)
 

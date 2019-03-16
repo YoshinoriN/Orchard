@@ -2,7 +2,8 @@ package net.yoshinorin.orchard.utils
 
 import org.scalatest.FunSuite
 import net.yoshinorin.orchard.definitions.event.EventType
-import net.yoshinorin.orchard.utils.Converter.{eventTypeConverter, zonedDateTimeConverter}
+import net.yoshinorin.orchard.definitions.event.Converter.eventTypeConverter
+import net.yoshinorin.orchard.utils.Converter.zonedDateTimeConverter
 
 class ConverterSpec extends FunSuite {
 

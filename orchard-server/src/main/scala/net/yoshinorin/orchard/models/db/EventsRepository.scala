@@ -22,7 +22,7 @@ object EventsRepository extends EventsRepository with QuillProvider with Logger 
    * @param event Events case class
    */
   def insert(event: Events): Option[Long] = {
-    this.findById(event.id) match {
+    this.findByGitHubEventId(event.githubEventId) match {
       case None => {
         val q = quote {
           query[Events].insert(lift(event)).returning(_.id)
@@ -44,6 +44,16 @@ object EventsRepository extends EventsRepository with QuillProvider with Logger 
    */
   def findById(id: Long): Option[Events] = {
     run(query[Events].filter(e => e.id == lift(id))).headOption
+  }
+
+  /**
+   * Find event by github event id
+   *
+   * @param gitHubEventid github event id
+   * @return
+   */
+  def findByGitHubEventId(gitHubEventid: Long): Option[Events] = {
+    run(query[Events].filter(e => e.githubEventId == lift(gitHubEventid))).headOption
   }
 
   /**

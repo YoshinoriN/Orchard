@@ -1,9 +1,9 @@
 package net.yoshinorin.orchard.commands
 
 import net.yoshinorin.orchard.services.github.event.EventService
-import net.yoshinorin.orchard.services.github.event.json.GitHubEventJsonService
 import net.yoshinorin.orchard.utils.File
 import net.yoshinorin.orchard.utils.Logger
+import net.yoshinorin.orchard.utils.json.JsonUtil
 
 /**
  * Import GitHub events from JSON files
@@ -17,9 +17,9 @@ object Import extends App with Logger {
       File.filterByExtension(result, "json") match {
         case Some(jsonFiles) => {
           jsonFiles.foreach(jsonFile => {
-            GitHubEventJsonService.convertToEventObject(File.readAll(jsonFile.getAbsolutePath)) match {
+            JsonUtil.toJsonList(File.readAll(jsonFile.getAbsolutePath)) match {
               case Some(x) => {
-                x.foreach(y => EventService.create(y))
+                x.foreach(y => EventService.insert(y))
               }
               case None => logger.info("Import records are nothing.")
             }

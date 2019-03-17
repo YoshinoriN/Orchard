@@ -7,7 +7,7 @@ class EventsRepositorySpec extends FunSuite {
 
   val mockEvent: Events = mock(classOf[Events])
   val mockRepository: EventsRepository = mock(classOf[EventsRepository])
-  val event: Events = Events(1, "TestEvent", "YoshinoriN", 999, "created", "yoshinorin.example.net", 12345)
+  val event: Events = Events(1, 123, "TestEvent", "YoshinoriN", 999, "created", "yoshinorin.example.net", 12345)
 
   when(mockRepository.findById(1))
     .thenReturn(Some(event))

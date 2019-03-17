@@ -13,7 +13,7 @@ case class Events(
   def insert: Option[Long] = EventsRepository.insert(this)
 
   /**
-   * Insert case class to DataBase and get new instance with auto-incremented id
+   * Insert case class to DataBase and return new instance with auto-incremented id or current instance
    *
    * @return
    */
@@ -32,7 +32,7 @@ case class Events(
             this.createdAt
           ))
       }
-      case None => None
+      case None => EventsRepository.findByGitHubEventId(this.githubEventId)
     }
   }
 }

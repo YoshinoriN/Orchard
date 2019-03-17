@@ -5,4 +5,6 @@ case class PullRequests(
   pullRequestNumber: Int,
   title: String,
   merged: Boolean
-)
+){
+  def insert: Unit = PullRequestsRepository.insert(this)
+}

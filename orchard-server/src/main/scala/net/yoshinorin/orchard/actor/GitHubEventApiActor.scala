@@ -8,7 +8,7 @@ class GitHubEventApiActor extends Actor {
   import GitHubEventApiActor._
 
   override def receive: Receive = {
-    case GetEventsJson => EventApiService.save()
+    case GetEventsJson => EventApiService.save
   }
 
 }

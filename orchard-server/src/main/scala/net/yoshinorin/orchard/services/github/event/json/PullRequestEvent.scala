@@ -13,7 +13,14 @@ class PullRequestEvent(event: Events, json: Json) extends JsonBase[PullRequestEv
    *
    * @return
    */
-  override def getConvertedCaseClass: Option[PullRequestEvents] = this.pullRequestEvent
+  override def getConvertedCaseClass[PullRequestEvents]: Option[PullRequestEvents] = this.pullRequestEvent.asInstanceOf[Option[PullRequestEvents]]
+
+  /**
+   * Insert to DataBase
+   *
+   * @tparam PullRequestEvents
+   */
+  override def insert[PullRequestEvents]: Unit = this.pullRequestEvent.map { _.insert }
 
   /**
    * Convert JSON to PullRequestEvents case class

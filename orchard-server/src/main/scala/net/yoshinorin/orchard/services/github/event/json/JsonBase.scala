@@ -4,6 +4,4 @@ trait JsonBase[T] {
 
   def convert: Option[T]
 
-  def getConvertedCaseClass: Option[T]
-
 }

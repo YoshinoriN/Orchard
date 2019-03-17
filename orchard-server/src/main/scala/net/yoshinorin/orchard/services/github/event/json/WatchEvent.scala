@@ -13,7 +13,14 @@ class WatchEvent(event: Events, json: Json) extends JsonBase[WatchEvents] with E
    *
    * @return
    */
-  override def getConvertedCaseClass: Option[WatchEvents] = this.watchEvent
+  override def getConvertedCaseClass[WatchEvents]: Option[WatchEvents] = this.watchEvent.asInstanceOf[Option[WatchEvents]]
+
+  /**
+   * Insert to DataBase
+   *
+   * @tparam WatchEvents
+   */
+  override def insert[WatchEvents]: Unit = this.watchEvent.map { _.insert }
 
   /**
    * Convert JSON to WatchEvents case class

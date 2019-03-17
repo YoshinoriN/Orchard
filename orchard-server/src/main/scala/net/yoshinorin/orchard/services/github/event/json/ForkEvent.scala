@@ -11,7 +11,15 @@ class ForkEvent(events: Events) extends EventBase {
    *
    * @return
    */
-  def getConvertedCaseClass: Option[ForkEvents] = this.forkEvent
+  override def getConvertedCaseClass[ForkEvents]: Option[ForkEvents] = this.forkEvent.asInstanceOf[Option[ForkEvents]]
+
+  /**
+   * Insert to DataBase
+   *
+   * @tparam ForkEvents
+   */
+  override def insert[ForkEvents]: Unit = this.forkEvent.map { _.insert }
+
 }
 
 object ForkEvent {

@@ -13,7 +13,14 @@ class PullRequestReviewCommentEvent(event: Events, json: Json) extends JsonBase[
    *
    * @return
    */
-  override def getConvertedCaseClass: Option[PullRequestReviewCommentEvents] = this.pullRequestReviewCommentEvent
+  override def getConvertedCaseClass[PullRequestReviewCommentEvents]: Option[PullRequestReviewCommentEvents] = this.pullRequestReviewCommentEvent.asInstanceOf[Option[PullRequestReviewCommentEvents]]
+
+  /**
+   * Insert to DataBase
+   *
+   * @tparam PullRequestReviewCommentEvents
+   */
+  override def insert[PullRequestReviewCommentEvents]: Unit = this.pullRequestReviewCommentEvent.map { _.insert }
 
   /**
    * Convert JSON to PullRequestReviewCommentEvents case class

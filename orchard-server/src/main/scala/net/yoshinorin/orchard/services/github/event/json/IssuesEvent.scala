@@ -13,7 +13,14 @@ class IssuesEvent(event: Events, json: Json) extends JsonBase[IssueEvents] with 
    *
    * @return
    */
-  override def getConvertedCaseClass: Option[IssueEvents] = this.issuesEvent
+  override def getConvertedCaseClass[IssueEvents]: Option[IssueEvents] = this.issuesEvent.asInstanceOf[Option[IssueEvents]]
+
+  /**
+   * Insert to DataBase
+   *
+   * @tparam IssueEvents
+   */
+  override def insert[IssueEvents]: Unit = this.issuesEvent.map { _.insert }
 
   /**
    * Convert JSON to IssueEvents case class

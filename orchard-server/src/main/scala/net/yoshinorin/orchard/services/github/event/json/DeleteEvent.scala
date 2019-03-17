@@ -13,7 +13,14 @@ class DeleteEvent(event: Events, json: Json) extends JsonBase[DeleteEvents] with
    *
    * @return
    */
-  override def getConvertedCaseClass: Option[DeleteEvents] = this.deleteEvent
+  override def getConvertedCaseClass[DeleteEvents]: Option[DeleteEvents] = this.deleteEvent.asInstanceOf[Option[DeleteEvents]]
+
+  /**
+   * Insert to DataBase
+   *
+   * @tparam DeleteEvents
+   */
+  override def insert[DeleteEvents]: Unit = this.deleteEvent.map { _.insert }
 
   /**
    * Convert JSON to DeleteEvent case class

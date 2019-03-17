@@ -13,7 +13,14 @@ class CreateEvent(event: Events, json: Json) extends JsonBase[CreateEvents] with
    *
    * @return
    */
-  override def getConvertedCaseClass: Option[CreateEvents] = this.createEvent
+  override def getConvertedCaseClass[CreateEvents]: Option[CreateEvents] = this.createEvent.asInstanceOf[Option[CreateEvents]]
+
+  /**
+   * Insert to DataBase
+   *
+   * @tparam CreateEvents
+   */
+  override def insert[CreateEvents]: Unit = this.createEvent.map { _.insert }
 
   /**
    * Convert JSON to CreateEvent case class

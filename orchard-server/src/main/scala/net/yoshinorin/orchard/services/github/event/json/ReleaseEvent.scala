@@ -13,7 +13,14 @@ class ReleaseEvent(event: Events, json: Json) extends JsonBase[ReleaseEvents] wi
    *
    * @return
    */
-  override def getConvertedCaseClass: Option[ReleaseEvents] = this.releaseEvent
+  override def getConvertedCaseClass[ReleaseEvents]: Option[ReleaseEvents] = this.releaseEvent.asInstanceOf[Option[ReleaseEvents]]
+
+  /**
+   * Insert to DataBase
+   *
+   * @tparam ReleaseEvents
+   */
+  override def insert[ReleaseEvents]: Unit = this.releaseEvent.map { _.insert }
 
   /**
    * Convert JSON to ReleaseEvents case class

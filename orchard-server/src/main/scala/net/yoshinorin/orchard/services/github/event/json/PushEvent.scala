@@ -13,7 +13,14 @@ class PushEvent(event: Events, json: Json) extends JsonBase[PushEvents] with Eve
    *
    * @return
    */
-  override def getConvertedCaseClass: Option[PushEvents] = this.issuesEvent
+  override def getConvertedCaseClass[PushEvents]: Option[PushEvents] = this.issuesEvent.asInstanceOf[Option[PushEvents]]
+
+  /**
+   * Insert to DataBase
+   *
+   * @tparam PushEvents
+   */
+  override def insert[PushEvents]: Unit = this.issuesEvent.map { _.insert }
 
   /**
    * Convert JSON to PushEvents case class

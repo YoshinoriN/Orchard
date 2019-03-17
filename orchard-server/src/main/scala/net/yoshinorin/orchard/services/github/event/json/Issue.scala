@@ -13,7 +13,7 @@ class Issue(repository: Repository, json: Json) extends JsonBase[Issues] with Lo
    *
    * @return
    */
-  override def getConvertedCaseClass: Option[Issues] = this.issue
+  def getConvertedCaseClass: Option[Issues] = this.issue
 
   /**
    * Convert JSON to Issues case class

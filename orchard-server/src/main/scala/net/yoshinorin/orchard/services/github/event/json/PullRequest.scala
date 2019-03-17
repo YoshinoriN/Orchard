@@ -13,7 +13,7 @@ class PullRequest(repository: Repository, json: Json) extends JsonBase[PullReque
    *
    * @return
    */
-  override def getConvertedCaseClass: Option[PullRequests] = this.pullRequest
+  def getConvertedCaseClass: Option[PullRequests] = this.pullRequest
 
   /**
    * Convert JSON to Issues case class

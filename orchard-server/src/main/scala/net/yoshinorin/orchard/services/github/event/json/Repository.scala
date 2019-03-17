@@ -13,7 +13,7 @@ class Repository(json: Json) extends JsonBase[Repositories] with Logger {
    *
    * @return
    */
-  override def getConvertedCaseClass: Option[Repositories] = this.repository
+  def getConvertedCaseClass: Option[Repositories] = this.repository
 
   /**
    * Convert JSON to Repository case class

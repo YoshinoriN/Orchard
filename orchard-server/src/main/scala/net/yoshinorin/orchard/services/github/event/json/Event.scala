@@ -16,7 +16,7 @@ class Event(repository: Repositories, json: Json) extends JsonBase[Events] with 
    *
    * @return
    */
-  override def getConvertedCaseClass: Option[Events] = this.event
+  def getConvertedCaseClass: Option[Events] = this.event
 
   /**
    * Convert JSON to Events case class

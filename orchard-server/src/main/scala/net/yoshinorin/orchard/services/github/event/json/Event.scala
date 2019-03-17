@@ -3,11 +3,11 @@ package net.yoshinorin.orchard.services.github.event.json
 import java.time.ZonedDateTime
 
 import io.circe.{Decoder, Json}
-import net.yoshinorin.orchard.definitions.action.{ActionType, DefaultAction}
-import net.yoshinorin.orchard.models.db.Events
+import net.yoshinorin.orchard.definitions.action.DefaultAction
+import net.yoshinorin.orchard.models.db.{Events, Repositories}
 import net.yoshinorin.orchard.utils.Logger
 
-class Event(repository: Repository, json: Json) extends JsonBase[Events] with Logger {
+class Event(repository: Repositories, json: Json) extends JsonBase[Events] with Logger {
 
   val event: Option[Events] = this.convert
 
@@ -29,15 +29,15 @@ class Event(repository: Repository, json: Json) extends JsonBase[Events] with Lo
     val userName: Decoder.Result[String] = json.hcursor.downField("actor").get[String]("login")
     val createdAt: Decoder.Result[String] = json.hcursor.get[String]("created_at")
 
-    if (id.isRight && eventType.isRight && userName.isRight && repository.repository.isDefined && createdAt.isRight) {
+    if (id.isRight && eventType.isRight && userName.isRight && createdAt.isRight) {
       Some(
         Events(
           id.right.get,
           eventType.right.get,
           userName.right.get,
-          repository.repository.get.id,
-          DefaultAction.get(eventType.right.get).toString,
-          repository.repository.get.name,
+          repository.id,
+          DefaultAction.get(eventType.right.get).value,
+          repository.name,
           ZonedDateTime.parse(createdAt.right.get).toEpochSecond
         ))
     } else {

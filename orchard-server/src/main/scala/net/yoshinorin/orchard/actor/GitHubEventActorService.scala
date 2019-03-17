@@ -5,11 +5,11 @@ import com.typesafe.akka.extension.quartz.QuartzSchedulerExtension
 
 object GitHubEventActorService extends ActorService {
 
-  private val gitHubEventActor = actorSystem.actorOf(Props(classOf[GitHubEventJsonActor]))
+  private val gitHubEventActor = actorSystem.actorOf(Props(classOf[GitHubEventApiActor]))
   private val scheduler = QuartzSchedulerExtension(actorSystem)
 
   def initialize(): Unit = {
-    scheduler.schedule("GetGitHubEventsJson", gitHubEventActor, GitHubEventJsonActor.GetEventsJson)
+    scheduler.schedule("GetGitHubEventsJson", gitHubEventActor, GitHubEventApiActor.GetEventsJson)
   }
 
 }

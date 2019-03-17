@@ -1,27 +1,18 @@
-package net.yoshinorin.orchard.services.github.event.json
+package net.yoshinorin.orchard.services.github.event
 
 import java.time.ZonedDateTime
-
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.headers.{Authorization, OAuth2BearerToken}
 import akka.http.scaladsl.model.{HttpMethods, HttpRequest, HttpResponse, Uri}
 import akka.http.scaladsl.unmarshalling.Unmarshal
-import io.circe.parser.parse
-import io.circe.{Decoder, DecodingFailure, HCursor, Json}
-import net.yoshinorin.orchard.definitions.event.Converter.eventTypeConverter
 import net.yoshinorin.orchard.actor.ActorService
 import net.yoshinorin.orchard.config.ConfigProvider
-import net.yoshinorin.orchard.definitions.event.EventType
-import net.yoshinorin.orchard.models.db._
-import net.yoshinorin.orchard.models.EventObject
-import net.yoshinorin.orchard.services.github.event.EventService
 import net.yoshinorin.orchard.utils.json.JsonUtil
 import net.yoshinorin.orchard.utils.{File, Logger}
 
-import scala.concurrent.Future
-import scala.util.{Failure, Success}
-
-object GitHubEventJsonService extends ActorService with ConfigProvider with Logger {
+object EventApiService extends ActorService with ConfigProvider with Logger {
 
   private val api = configuration.getString("github.api")
   private val token = configuration.getString("github.token")

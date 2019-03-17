@@ -1,6 +1,6 @@
 package net.yoshinorin.orchard.utils.json
 
-import io.circe.{HCursor, Json}
+import io.circe.Json
 import io.circe.parser.parse
 
 object JsonUtil {

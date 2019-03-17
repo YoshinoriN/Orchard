@@ -3,6 +3,7 @@ package net.yoshinorin.orchard.services.github.event
 import io.circe.Json
 import net.yoshinorin.orchard.definitions.action.ActionType
 import net.yoshinorin.orchard.definitions.event.EventType
+import net.yoshinorin.orchard.definitions.event.Converter.eventTypeConverter
 import net.yoshinorin.orchard.models.EventObject
 import net.yoshinorin.orchard.models.db._
 import net.yoshinorin.orchard.services.QuillProvider
@@ -13,9 +14,16 @@ object EventService extends QuillProvider with Logger {
 
   import ctx._;
 
-  def createInstance(eventType: EventType, event: Events, json: Json): Option[EventBase] = {
+  /**
+   * Create each xEvent Instance from JSON and Events instance
+   *
+   * @param event Events Instance
+   * @param json JSON
+   * @return
+   */
+  def createEventInstance(event: Events, json: Json): Option[EventBase] = {
 
-    eventType match {
+    event.eventType.toEventType match {
       case EventType.CreateEvent => Option(CreateEvent(event, json))
       case EventType.DeleteEvent => Option(DeleteEvent(event, json))
       case EventType.ForkEvent => Option(ForkEvent(event))

@@ -29,3 +29,22 @@ CREATE DATABASE orchard;
 #### 2. Set database configulation
 
 Please change `./resources/db/db.conf` following your database configulation.
+
+## Stacks
+
+|Layer|Stack|Description|
+|---|---|---|
+|Server side|Scala|Server side main language|
+|Server side|Akka HTTP|HTTP-based services|
+|Server side|Akka Scheduler|Job Scheduler|
+|Server side|Flyway|DataBase migration|
+|Server side|circe|JSON encode, decode|
+|Server side|LogBack|logger|
+|Front end|React.js|-|
+|Front end|Next.js|React.js framework|
+|-|MariaDB|DataBase|
+|-|Docker|-|
+
+## LICENSE
+
+Not yet decided

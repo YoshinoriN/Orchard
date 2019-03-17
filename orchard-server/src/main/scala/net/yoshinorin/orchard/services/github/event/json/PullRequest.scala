@@ -1,10 +1,10 @@
 package net.yoshinorin.orchard.services.github.event.json
 
 import io.circe.{Decoder, Json}
-import net.yoshinorin.orchard.models.db.PullRequests
+import net.yoshinorin.orchard.models.db.{PullRequests, Repositories}
 import net.yoshinorin.orchard.utils.Logger
 
-class PullRequest(repository: Repository, json: Json) extends JsonBase[PullRequests] with Logger {
+class PullRequest(repository: Repositories, json: Json) extends JsonBase[PullRequests] with Logger {
 
   val pullRequest: Option[PullRequests] = this.convert
 
@@ -26,7 +26,7 @@ class PullRequest(repository: Repository, json: Json) extends JsonBase[PullReque
     val merged: Boolean = json.hcursor.downField("payload").downField("pull_request").get[Boolean]("merged").getOrElse(false)
 
     if (number.isRight && title.isRight) {
-      Some(PullRequests(repository.repository.get.id, number.right.get, title.right.get, merged))
+      Some(PullRequests(repository.id, number.right.get, title.right.get, merged))
     } else {
       logger.error("Can not parse PullRequest")
       None
@@ -37,6 +37,6 @@ class PullRequest(repository: Repository, json: Json) extends JsonBase[PullReque
 
 object PullRequest {
 
-  def apply(repository: Repository, json: Json): PullRequest = new PullRequest(repository, json)
+  def apply(repository: Repositories, json: Json): PullRequest = new PullRequest(repository, json)
 
 }

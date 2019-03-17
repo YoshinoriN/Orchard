@@ -13,7 +13,7 @@ class IssueSpec extends FunSuite {
   val repositoryInstance = net.yoshinorin.orchard.services.github.event.json.Repository(parse(repositoryJson).getOrElse(Json.Null))
 
   val json = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/issue.json")
-  val instance = net.yoshinorin.orchard.services.github.event.json.Issue(repositoryInstance, parse(json).getOrElse(Json.Null))
+  val instance = net.yoshinorin.orchard.services.github.event.json.Issue(repositoryInstance.repository.get, parse(json).getOrElse(Json.Null))
 
   test("ConvertJson to Issues case class") {
     val repositoryCaseClass = Some(Issues(94911145, 9999, "test issue"))

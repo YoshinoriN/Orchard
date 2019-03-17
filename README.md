@@ -34,16 +34,19 @@ Please change `./resources/db/db.conf` following your database configulation.
 
 |Layer|Stack|Description|
 |---|---|---|
-|Server side|Scala|Server side main language|
-|Server side|Akka HTTP|HTTP-based services|
-|Server side|Akka Scheduler|Job Scheduler|
-|Server side|Flyway|DataBase migration|
-|Server side|circe|JSON encode, decode|
-|Server side|LogBack|logger|
-|Front end|React.js|-|
-|Front end|Next.js|React.js framework|
-|-|MariaDB|DataBase|
-|-|Docker|-|
+|Server-side|[Scala](https://www.scala-lang.org/)|Server side main language|
+|Server-side|[Akka HTTP](https://akka.io/docs/)|HTTP-based services|
+|Server-side|[Akka Scheduler](https://akka.io/docs/)|Job Scheduler|
+|Server-side|[Flyway](https://flywaydb.org/)|DataBase migration|
+|Server-side|[quill](https://getquill.io/)|DataBase library|
+|Server-side|[circe](https://circe.github.io/circe/)|JSON library|
+|Server-side|[Logback](https://logback.qos.ch/)|logger|
+|Server-side|[ScalaTest](http://www.scalatest.org/)|Test|
+|Server-side|[Scalafmt](https://scalameta.org/scalafmt/)|Code formatter|
+|Front-end|React.js|Front end main language|
+|Front-end|Next.js|React.js framework|
+|Other|MariaDB|DataBase|
+|Othre|Docker|-|
 
 ## LICENSE
 

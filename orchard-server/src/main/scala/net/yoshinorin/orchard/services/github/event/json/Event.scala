@@ -49,6 +49,6 @@ class Event(repository: Repositories, json: Json) extends JsonBase[Events] with 
 
 object Event {
 
-  def apply(repository: Repository, json: Json): Event = new Event(repository, json)
+  def apply(repository: Repositories, json: Json): Event = new Event(repository, json)
 
 }

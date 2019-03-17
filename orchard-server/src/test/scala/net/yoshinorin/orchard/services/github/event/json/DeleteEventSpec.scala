@@ -13,7 +13,7 @@ class DeleteEventSpec extends FunSuite {
   val repositoryInstance = net.yoshinorin.orchard.services.github.event.json.Repository(parse(repositoryJson).getOrElse(Json.Null))
 
   val issueJson = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/issue.json")
-  val eventEnstance = net.yoshinorin.orchard.services.github.event.json.Event(repositoryInstance, parse(issueJson).getOrElse(Json.Null))
+  val eventEnstance = net.yoshinorin.orchard.services.github.event.json.Event(repositoryInstance.repository.get, parse(issueJson).getOrElse(Json.Null))
 
   val deleteEventJson = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/deleteEvent.json")
   val instance = net.yoshinorin.orchard.services.github.event.json.DeleteEvent(eventEnstance.event.get, parse(deleteEventJson).getOrElse(Json.Null))

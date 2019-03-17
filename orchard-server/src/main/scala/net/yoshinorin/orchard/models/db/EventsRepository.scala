@@ -6,7 +6,7 @@ import net.yoshinorin.orchard.utils.Logger
 
 trait EventsRepository {
 
-  def insert(event: Events): Unit
+  def insert(event: Events): Option[Long]
   def findById(id: Long): Option[Events]
   def findByUserName(userName: String, limit: Limit, createdAtBetween: Option[Between] = None): List[Events]
 
@@ -21,10 +21,18 @@ object EventsRepository extends EventsRepository with QuillProvider with Logger 
    *
    * @param event Events case class
    */
-  def insert(event: Events): Unit = {
+  def insert(event: Events): Option[Long] = {
     this.findById(event.id) match {
-      case None => run(query[Events].insert(lift(event)))
-      case Some(e) => logger.info(s"Event id [${e.id}] is already exists. skip create event.")
+      case None => {
+        val q = quote {
+          query[Events].insert(lift(event)).returning(_.id)
+        }
+        Option(run(q).toLong)
+      }
+      case Some(e) => {
+        logger.info(s"Event id [${e.id}] is already exists. skip create event.")
+        None
+      }
     }
   }
 

@@ -32,6 +32,7 @@ class Event(repository: Repositories, json: Json) extends JsonBase[Events] with 
     if (id.isRight && eventType.isRight && userName.isRight && createdAt.isRight) {
       Some(
         Events(
+          0, // HACK: This field apply auto-increment value by DataBase
           id.right.get,
           eventType.right.get,
           userName.right.get,

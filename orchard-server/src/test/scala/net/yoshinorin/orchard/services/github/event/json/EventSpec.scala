@@ -19,11 +19,12 @@ class EventSpec extends FunSuite {
   test("ConvertJson to Events case class") {
     val eventsCaseClass = Some(
       Events(
+        0,
         1234567890.toLong,
         "IssuesEvent",
         "YoshinoriN",
         repositoryInstance.repository.get.id,
-        ActionType.Created.toString,
+        ActionType.Created.value,
         repositoryInstance.repository.get.name,
         1543926608
       )

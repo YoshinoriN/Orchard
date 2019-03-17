@@ -12,9 +12,14 @@ class RepositorySpec extends FunSuite {
   val json = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/repository.json")
   val instance = net.yoshinorin.orchard.services.github.event.json.Repository(parse(json).getOrElse(Json.Null))
 
-  test("ConvertJson to Repositories case class") {
+  test("getConvertedCaseClass should return Repositories case class") {
     val repositoryCaseClass = Some(Repositories(94911145, "test/WatchEvent"))
     assert(instance.getConvertedCaseClass == repositoryCaseClass)
+  }
+
+  test("getConvertedCaseClass method should return None") {
+    val json = """Not a JSON"""
+    assert(Repository(parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
   }
 
 }

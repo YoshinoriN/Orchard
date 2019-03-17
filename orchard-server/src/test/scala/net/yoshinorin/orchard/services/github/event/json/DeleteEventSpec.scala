@@ -18,7 +18,7 @@ class DeleteEventSpec extends FunSuite {
   val deleteEventJson = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/deleteEvent.json")
   val instance = net.yoshinorin.orchard.services.github.event.json.DeleteEvent(eventEnstance.event.get, parse(deleteEventJson).getOrElse(Json.Null))
 
-  test("COnvertJson to CrateEvent case class") {
+  test("getConvertedCaseClass should return DeleteEvents case class") {
     val deleteEventCaseClass = Some(
       DeleteEvents(
         eventEnstance.event.get.id,
@@ -29,6 +29,16 @@ class DeleteEventSpec extends FunSuite {
       )
     )
     assert(instance.getConvertedCaseClass == deleteEventCaseClass)
+  }
+
+  test("getConvertedCaseClass method should return None") {
+    val json = """Not a JSON"""
+    assert(DeleteEvent(eventEnstance.event.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
+  }
+
+  test("Should callable insert method") {
+    val json = """Not a JSON"""
+    assert(DeleteEvent(eventEnstance.event.get, parse(json).getOrElse(Json.Null)).insert.isInstanceOf[Unit])
   }
 
 }

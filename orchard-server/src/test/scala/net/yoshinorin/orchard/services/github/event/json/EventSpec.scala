@@ -16,7 +16,7 @@ class EventSpec extends FunSuite {
   val json = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/issue.json")
   val instance = net.yoshinorin.orchard.services.github.event.json.Event(repositoryInstance.repository.get, parse(json).getOrElse(Json.Null))
 
-  test("ConvertJson to Events case class") {
+  test("getConvertedCaseClass should return Events case class") {
     val eventsCaseClass = Some(
       Events(
         0,
@@ -30,6 +30,11 @@ class EventSpec extends FunSuite {
       )
     )
     assert(instance.getConvertedCaseClass == eventsCaseClass)
+  }
+
+  test("getConvertedCaseClass method should return None") {
+    val json = """Not a JSON"""
+    assert(Event(repositoryInstance.repository.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
   }
 
 }

@@ -17,7 +17,7 @@ class ForkEventSpec extends FunSuite {
 
   val instance = net.yoshinorin.orchard.services.github.event.json.ForkEvent(eventEnstance.event.get)
 
-  test("COnvertJson to CrateEvent case class") {
+  test("getConvertedCaseClass should return ForkEvents case class") {
     val forkEventCaseClass = Some(
       ForkEvents(
         eventEnstance.event.get.id,
@@ -27,6 +27,11 @@ class ForkEventSpec extends FunSuite {
       )
     )
     assert(instance.getConvertedCaseClass == forkEventCaseClass)
+  }
+
+  test("getConvertedCaseClass method should return none") {
+    val json = """Not a JSON"""
+    assert(Event(repositoryInstance.repository.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
   }
 
 }

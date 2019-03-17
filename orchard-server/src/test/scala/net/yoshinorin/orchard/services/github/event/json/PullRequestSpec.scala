@@ -15,7 +15,7 @@ class PullRequestSpec extends FunSuite {
   val json = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/pullRequest.json")
   val instance = net.yoshinorin.orchard.services.github.event.json.PullRequest(repositoryInstance.repository.get, parse(json).getOrElse(Json.Null))
 
-  test("ConvertJson to Issues case class") {
+  test("getConvertedCaseClass should return PullRequests case class") {
     val repositoryCaseClass = Some(PullRequests(94911145, 22, "Test pull request", true))
     assert(instance.getConvertedCaseClass == repositoryCaseClass)
   }

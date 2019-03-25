@@ -24,4 +24,9 @@ class IssueCommentEventSpec extends FunSuite {
     assert(IssueCommentEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
   }
 
+  test("insert method is callable") {
+    val json = """Not a JSON"""
+    assert(IssueCommentEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).insert.isInstanceOf[Unit])
+  }
+
 }

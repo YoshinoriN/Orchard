@@ -13,19 +13,19 @@ class DeleteEventSpec extends FunSuite {
   val repositoryInstance = net.yoshinorin.orchard.services.github.event.json.Repository(parse(repositoryJson).getOrElse(Json.Null))
 
   val issueJson = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/issue.json")
-  val eventEnstance = net.yoshinorin.orchard.services.github.event.json.Event(repositoryInstance.repository.get, parse(issueJson).getOrElse(Json.Null))
+  val eventInstance = net.yoshinorin.orchard.services.github.event.json.Event(repositoryInstance.repository.get, parse(issueJson).getOrElse(Json.Null))
 
   val deleteEventJson = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/deleteEvent.json")
-  val instance = net.yoshinorin.orchard.services.github.event.json.DeleteEvent(eventEnstance.event.get, parse(deleteEventJson).getOrElse(Json.Null))
+  val instance = net.yoshinorin.orchard.services.github.event.json.DeleteEvent(eventInstance.event.get, parse(deleteEventJson).getOrElse(Json.Null))
 
   test("getConvertedCaseClass should return DeleteEvents case class") {
     val deleteEventCaseClass = Some(
       DeleteEvents(
-        eventEnstance.event.get.id,
-        eventEnstance.event.get.userName,
+        eventInstance.event.get.id,
+        eventInstance.event.get.userName,
         "branch",
         "YoshinoriN/test-delete",
-        eventEnstance.event.get.createdAt
+        eventInstance.event.get.createdAt
       )
     )
     assert(instance.getConvertedCaseClass == deleteEventCaseClass)
@@ -33,12 +33,12 @@ class DeleteEventSpec extends FunSuite {
 
   test("getConvertedCaseClass method should return None") {
     val json = """Not a JSON"""
-    assert(DeleteEvent(eventEnstance.event.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
+    assert(DeleteEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
   }
 
-  test("Should callable insert method") {
+  test("insert method is callable") {
     val json = """Not a JSON"""
-    assert(DeleteEvent(eventEnstance.event.get, parse(json).getOrElse(Json.Null)).insert.isInstanceOf[Unit])
+    assert(DeleteEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).insert.isInstanceOf[Unit])
   }
 
 }

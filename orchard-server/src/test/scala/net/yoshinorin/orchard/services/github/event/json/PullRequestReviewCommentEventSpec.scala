@@ -21,7 +21,7 @@ class PullRequestReviewCommentEventSpec extends FunSuite {
 
   test("getConvertedCaseClass method should return none") {
     val json = """Not a JSON"""
-    assert(PullRequestReviewEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
+    assert(PullRequestReviewCommentEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
   }
 
 }

@@ -21,7 +21,12 @@ class PushEventSpec extends FunSuite {
 
   test("getConvertedCaseClass method should return none") {
     val json = """Not a JSON"""
-    assert(PullRequestReviewEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
+    assert(PushEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
+  }
+
+  test("insert method is callable") {
+    val json = """Not a JSON"""
+    assert(PushEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).insert.isInstanceOf[Unit])
   }
 
 }

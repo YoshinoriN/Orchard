@@ -13,17 +13,17 @@ class ForkEventSpec extends FunSuite {
   val repositoryInstance = net.yoshinorin.orchard.services.github.event.json.Repository(parse(repositoryJson).getOrElse(Json.Null))
 
   val issueJson = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/issue.json")
-  val eventEnstance = net.yoshinorin.orchard.services.github.event.json.Event(repositoryInstance.repository.get, parse(issueJson).getOrElse(Json.Null))
+  val eventInstance = net.yoshinorin.orchard.services.github.event.json.Event(repositoryInstance.repository.get, parse(issueJson).getOrElse(Json.Null))
 
-  val instance = net.yoshinorin.orchard.services.github.event.json.ForkEvent(eventEnstance.event.get)
+  val instance = net.yoshinorin.orchard.services.github.event.json.ForkEvent(eventInstance.event.get)
 
   test("getConvertedCaseClass should return ForkEvents case class") {
     val forkEventCaseClass = Some(
       ForkEvents(
-        eventEnstance.event.get.id,
-        eventEnstance.event.get.userName,
-        eventEnstance.event.get.repositoryId,
-        eventEnstance.event.get.createdAt
+        eventInstance.event.get.id,
+        eventInstance.event.get.userName,
+        eventInstance.event.get.repositoryId,
+        eventInstance.event.get.createdAt
       )
     )
     assert(instance.getConvertedCaseClass == forkEventCaseClass)

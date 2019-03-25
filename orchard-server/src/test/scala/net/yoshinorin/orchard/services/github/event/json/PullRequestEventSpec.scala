@@ -24,4 +24,9 @@ class PullRequestEventSpec extends FunSuite {
     assert(PullRequestEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
   }
 
+  test("insert method is callable") {
+    val json = """Not a JSON"""
+    assert(PullRequestEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).insert.isInstanceOf[Unit])
+  }
+
 }

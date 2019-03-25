@@ -24,4 +24,9 @@ class IssuesEventSpec extends FunSuite {
     assert(IssuesEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
   }
 
+  test("insert method is callable") {
+    val json = """Not a JSON"""
+    assert(IssuesEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).insert.isInstanceOf[Unit])
+  }
+
 }

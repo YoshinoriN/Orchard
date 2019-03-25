@@ -13,19 +13,19 @@ class CreateEventSpec extends FunSuite {
   val repositoryInstance = net.yoshinorin.orchard.services.github.event.json.Repository(parse(repositoryJson).getOrElse(Json.Null))
 
   val issueJson = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/issue.json")
-  val eventEnstance = net.yoshinorin.orchard.services.github.event.json.Event(repositoryInstance.repository.get, parse(issueJson).getOrElse(Json.Null))
+  val eventInstance = net.yoshinorin.orchard.services.github.event.json.Event(repositoryInstance.repository.get, parse(issueJson).getOrElse(Json.Null))
 
   val createEventJson = File.readAll(System.getProperty("user.dir") + "/src/test/resources/data/json/createEvent.json")
-  val instance = net.yoshinorin.orchard.services.github.event.json.CreateEvent(eventEnstance.event.get, parse(createEventJson).getOrElse(Json.Null))
+  val instance = net.yoshinorin.orchard.services.github.event.json.CreateEvent(eventInstance.event.get, parse(createEventJson).getOrElse(Json.Null))
 
   test("getConvertedCaseClass should return converted CrateEvents case class") {
     val createEventCaseClass = Some(
       CreateEvents(
-        eventEnstance.event.get.id,
-        eventEnstance.event.get.userName,
+        eventInstance.event.get.id,
+        eventInstance.event.get.userName,
         "tag",
         "test-tag",
-        eventEnstance.event.get.createdAt
+        eventInstance.event.get.createdAt
       )
     )
     assert(instance.getConvertedCaseClass == createEventCaseClass)
@@ -33,12 +33,12 @@ class CreateEventSpec extends FunSuite {
 
   test("getConvertedCaseClass method should return none") {
     val json = """Not a JSON"""
-    assert(CreateEvent(eventEnstance.event.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
+    assert(CreateEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).getConvertedCaseClass.isEmpty)
   }
 
-  test("Should callable insert method") {
+  test("insert method is callable") {
     val json = """Not a JSON"""
-    assert(CreateEvent(eventEnstance.event.get, parse(json).getOrElse(Json.Null)).insert.isInstanceOf[Unit])
+    assert(CreateEvent(eventInstance.event.get, parse(json).getOrElse(Json.Null)).insert.isInstanceOf[Unit])
   }
 
 }

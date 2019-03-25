@@ -34,7 +34,7 @@ class PullRequestEvent(event: Events, json: Json) extends JsonBase[PullRequestEv
     if (action.isRight && pullRequestNumber.isRight) {
       Some(PullRequestEvents(event.id, event.userName, event.repositoryId, pullRequestNumber.right.get, action.right.get, event.createdAt))
     } else {
-      logger.error(s"Event id [${event.id}]. Failed parse to CreateEvents.")
+      logger.error(s"Event id [${event.id}]. Failed parse to PullRequestEvents.")
       None
     }
   }

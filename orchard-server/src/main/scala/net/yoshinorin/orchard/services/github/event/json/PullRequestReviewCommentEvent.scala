@@ -34,7 +34,7 @@ class PullRequestReviewCommentEvent(event: Events, json: Json) extends JsonBase[
     if (action.isRight && pullRequestNumber.isRight) {
       Some(PullRequestReviewCommentEvents(event.id, event.userName, event.repositoryId, pullRequestNumber.right.get, action.right.get, event.createdAt))
     } else {
-      logger.error(s"Event id [${event.id}]. Failed parse to CreateEvents.")
+      logger.error(s"Event id [${event.id}]. Failed parse to PullRequestReviewCommentEvents.")
       None
     }
   }

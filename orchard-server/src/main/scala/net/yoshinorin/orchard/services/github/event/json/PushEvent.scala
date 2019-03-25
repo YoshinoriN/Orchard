@@ -34,7 +34,7 @@ class PushEvent(event: Events, json: Json) extends JsonBase[PushEvents] with Eve
     if (ref.isRight && size.isRight) {
       Some(PushEvents(event.id, event.userName, event.repositoryId, ref.right.get, size.right.get, event.createdAt))
     } else {
-      logger.error(s"Event id [${event.id}]. Failed parse to CreateEvents.")
+      logger.error(s"Event id [${event.id}]. Failed parse to PushEvents.")
       None
     }
   }

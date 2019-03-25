@@ -42,7 +42,7 @@ class Event(repository: Repositories, json: Json) extends JsonBase[Events] with 
           ZonedDateTime.parse(createdAt.right.get).toEpochSecond
         ))
     } else {
-      logger.error("Can not parse Issue")
+      logger.error("Can not parse Event")
       None
     }
   }

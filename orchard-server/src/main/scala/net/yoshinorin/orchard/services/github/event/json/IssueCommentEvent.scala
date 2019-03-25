@@ -34,7 +34,7 @@ class IssueCommentEvent(event: Events, json: Json) extends JsonBase[IssueComment
     if (action.isRight && issueNumber.isRight) {
       Some(IssueCommentEvents(event.id, event.userName, event.repositoryId, issueNumber.right.get, action.right.get, event.createdAt))
     } else {
-      logger.error(s"Event id [${event.id}]. Failed parse to CreateEvents.")
+      logger.error(s"Event id [${event.id}]. Failed parse to IssueCommentEvents.")
       None
     }
   }

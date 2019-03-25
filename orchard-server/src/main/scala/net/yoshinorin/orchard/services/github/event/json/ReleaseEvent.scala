@@ -35,7 +35,7 @@ class ReleaseEvent(event: Events, json: Json) extends JsonBase[ReleaseEvents] wi
     if (tagName.isRight && name.isRight && action.isRight) {
       Some(ReleaseEvents(event.id, event.userName, event.repositoryId, tagName.right.get, name.right.get, action.right.get, event.createdAt))
     } else {
-      logger.error(s"Event id [${event.id}]. Failed parse to CreateEvents.")
+      logger.error(s"Event id [${event.id}]. Failed parse to ReleaseEvents.")
       None
     }
   }

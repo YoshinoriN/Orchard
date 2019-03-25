@@ -34,7 +34,7 @@ class DeleteEvent(event: Events, json: Json) extends JsonBase[DeleteEvents] with
     if (ref.isRight && refType.isRight) {
       Some(DeleteEvents(event.id, event.userName, refType.right.get, ref.right.get, event.createdAt))
     } else {
-      logger.error(s"Event id [${event.id}]. Failed parse to CreateEvents.")
+      logger.error(s"Event id [${event.id}]. Failed parse to DeleteEvents.")
       None
     }
   }

@@ -33,7 +33,7 @@ class WatchEvent(event: Events, json: Json) extends JsonBase[WatchEvents] with E
     if (action.isRight) {
       Some(WatchEvents(event.id, event.userName, event.repositoryId, action.right.get, event.createdAt))
     } else {
-      logger.error(s"Event id [${event.id}]. Failed parse to CreateEvents.")
+      logger.error(s"Event id [${event.id}]. Failed parse to WatchEvents.")
       None
     }
   }

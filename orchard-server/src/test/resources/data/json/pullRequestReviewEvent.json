@@ -1,6 +1,6 @@
 {
   "id": "8641355737",
-  "type": "PullRequestEvent",
+  "type": "PullRequestReviewEvent",
   "actor": {
     "id": 11273093,
     "login": "YoshinoriN",

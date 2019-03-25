@@ -1,0 +1,63 @@
+{
+  "id": "9296363830",
+  "type": "ReleaseEvent",
+  "actor": {
+    "id": 11273093,
+    "login": "YoshinoriN",
+    "display_login": "YoshinoriN",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/YoshinoriN",
+    "avatar_url": "https://avatars.githubusercontent.com/u/11273093?"
+  },
+  "repo": {
+    "id": 87811243,
+    "name": "YoshinoriN/gitbucket-monitoring-plugin",
+    "url": "https://api.github.com/repos/YoshinoriN/gitbucket-monitoring-plugin"
+  },
+  "payload": {
+    "action": "published",
+    "release": {
+      "url": "https://api.github.com/repos/YoshinoriN/gitbucket-monitoring-plugin/releases/16287896",
+      "assets_url": "https://api.github.com/repos/YoshinoriN/gitbucket-monitoring-plugin/releases/16287896/assets",
+      "upload_url": "https://uploads.github.com/repos/YoshinoriN/gitbucket-monitoring-plugin/releases/16287896/assets{?name,label}",
+      "html_url": "https://github.com/YoshinoriN/gitbucket-monitoring-plugin/releases/tag/v3.2.0",
+      "id": 16287896,
+      "node_id": "MDc6UmVsZWFzZTE2Mjg3ODk2",
+      "tag_name": "v3.2.0",
+      "target_commitish": "master",
+      "name": "v3.2.0-name",
+      "draft": false,
+      "author": {
+        "login": "YoshinoriN",
+        "id": 11273093,
+        "node_id": "MDQ6VXNlcjExMjczMDkz",
+        "avatar_url": "https://avatars0.githubusercontent.com/u/11273093?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/YoshinoriN",
+        "html_url": "https://github.com/YoshinoriN",
+        "followers_url": "https://api.github.com/users/YoshinoriN/followers",
+        "following_url": "https://api.github.com/users/YoshinoriN/following{/other_user}",
+        "gists_url": "https://api.github.com/users/YoshinoriN/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/YoshinoriN/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/YoshinoriN/subscriptions",
+        "organizations_url": "https://api.github.com/users/YoshinoriN/orgs",
+        "repos_url": "https://api.github.com/users/YoshinoriN/repos",
+        "events_url": "https://api.github.com/users/YoshinoriN/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/YoshinoriN/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "prerelease": false,
+      "created_at": "2019-03-22T15:34:59Z",
+      "published_at": "2019-03-22T15:39:24Z",
+      "assets": [
+
+      ],
+      "tarball_url": "https://api.github.com/repos/YoshinoriN/gitbucket-monitoring-plugin/tarball/v3.2.0",
+      "zipball_url": "https://api.github.com/repos/YoshinoriN/gitbucket-monitoring-plugin/zipball/v3.2.0",
+      "body": "## Improvement\r\n\r\n* afbf239: fix execute top command\r\n\r\n## Miscellaneous\r\n\r\n* d453339: Bump to scala 2.12.8\r\n* 1721b16: TravisCI jdk oraclejdk8 to openjdk11\r\n* 2ef3108: Bump to sbt 1.2.8\r\n"
+    }
+  },
+  "public": true,
+  "created_at": "2019-03-22T15:39:24Z"
+}

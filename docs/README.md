@@ -7,7 +7,7 @@
 Please execute create database DDL. For example...
 
 ```sql
-CREATE DATABASE orchard;
+CREATE DATABASE orchard; // You can specify other names you want.
 ```
 
 #### 2. Set database configulation

@@ -4,31 +4,23 @@
 
 A GitHub events collecting application.
 
-## Server side
+## Getting Started
+
+* [Getting Started](./docs/#Setup)
+
+## Documents
+
+* [Documents](./docs)
+
+## Server side statuses
 
 |Build|Quality|Coverage|
 |---|---|---|
 |[![](https://travis-ci.org/YoshinoriN/Orchard.svg?branch=master)](https://travis-ci.org/YoshinoriN/Orchard)|[![Codacy Badge](https://api.codacy.com/project/badge/Grade/837c3a3046454c2da2b035d60ba30bea)](https://www.codacy.com/app/YoshinoriN/Selfouettellia?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YoshinoriN/Selfouettellia&amp;utm_campaign=Badge_Grade)|[![Coverage Status](https://coveralls.io/repos/github/YoshinoriN/Orchard/badge.svg?branch=master)](https://coveralls.io/github/YoshinoriN/Orchard?branch=master)|
 
-* [Documentation](./orchard-server)
+## Front end statuses
 
-## Front end
-
-* [Documentation](./orchard-frontend)
-
-## Setup
-
-#### 1. Create database
-
-Please execute create database DDL. For example...
-
-```sql
-CREATE DATABASE orchard;
-```
-
-#### 2. Set database configulation
-
-Please change `./resources/db/db.conf` following your database configulation.
+Coming soon...
 
 ## Stacks
 
@@ -45,8 +37,11 @@ Please change `./resources/db/db.conf` following your database configulation.
 |Server-side|[Scalafmt](https://scalameta.org/scalafmt/)|Code formatter|
 |Front-end|React.js|Front end main language|
 |Front-end|Next.js|React.js framework|
-|Other|MariaDB|DataBase|
-|Othre|Docker|-|
+|Infrastructure|MariaDB|DataBase|
+|Infrastructure|Docker|-|
+|CI/CD|[TravisCI](https://travis-ci.org/YoshinoriN/Orchard)|Server side CI|
+|CI/CD|[Codacy](https://app.codacy.com/project/YoshinoriN/Orchard/dashboard)|Server side Code Quality|
+|CI/CD|[COVERALLS](https://coveralls.io/github/YoshinoriN/Orchard?branch=master)|Server side Code coverage|
 
 ## LICENSE
 

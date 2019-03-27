@@ -1,4 +1,6 @@
-## Setup
+# Front-end
+
+### Setup
 
 ```sh
 npm install --save next react react-dom

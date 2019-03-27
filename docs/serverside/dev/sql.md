@@ -1,35 +1,3 @@
-# Select table
-
-```sql
-use orchard;
-```
-
-# Drop tables
-
-```sql
-delimiter //
-
-DROP TABLE flyway_schema_history;
-DROP TABLE create_events;
-DROP TABLE fork_events;
-DROP TABLE issue_events;
-DROP TABLE issue_comment_events;
-DROP TABLE events;
-DROP TABLE pull_request_events;
-DROP TABLE pull_request_review_events;
-DROP TABLE pull_request_review_comment_events;
-DROP TABLE push_events;
-DROP TABLE release_events;
-DROP TABLE watch_events;
-DROP TABLE event_types;
-DROP TABLE issues;
-DROP TABLE pull_requests;
-DROP TABLE repositories;
-DROP TABLE users;
-
-//
-```
-
 # Full event list
 
 ```sql

@@ -29,6 +29,7 @@ Coming soon...
 |Server-side|[Scala](https://www.scala-lang.org/)|Server side main language|
 |Server-side|[Akka HTTP](https://akka.io/docs/)|HTTP-based services|
 |Server-side|[Akka Scheduler](https://akka.io/docs/)|Job Scheduler|
+|Server-side|[akka-quartz-scheduler](https://github.com/enragedginger/akka-quartz-scheduler/)|Job Scheduler|
 |Server-side|[Flyway](https://flywaydb.org/)|DataBase migration|
 |Server-side|[quill](https://getquill.io/)|DataBase library|
 |Server-side|[circe](https://circe.github.io/circe/)|JSON library|

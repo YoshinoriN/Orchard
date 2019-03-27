@@ -3,7 +3,6 @@ package net.yoshinorin.orchard.commands.db
 import net.yoshinorin.orchard.commands.Import
 import net.yoshinorin.orchard.config.{ConfigProvider, DataBaseConfig}
 import net.yoshinorin.orchard.services.QuillProvider
-import net.yoshinorin.orchard.utils.Logger
 import org.flywaydb.core.Flyway
 
 /**
@@ -11,33 +10,33 @@ import org.flywaydb.core.Flyway
  * Drop scheme & re-create & import JSON files
  *
  */
-object Restructure extends App with QuillProvider with ConfigProvider with Logger {
+object Restructure extends App with QuillProvider with ConfigProvider {
 
   import ctx._
 
   val schema: String = configuration.getString("db.restructure.schema")
 
-  logger.debug("DROP SCHEMA")
+  println(s"[INFO]: DROP SCHEMA $schema")
   probe(s"DROP SCHEMA $schema")
-  logger.debug("DROP SCHEMA COMPLETE!!")
+  println("[INFO]: DROP SCHEMA COMPLETE!!")
 
-  logger.debug("CREATE SCHEMA")
+  println(s"[INFO]: CREATE SCHEMA $schema")
   probe(s"CREATE DATABASE $schema")
-  logger.debug("CREATE SCHEMA COMPLETE!!")
+  println("[INFO]: CREATE SCHEMA COMPLETE!!")
 
-  logger.debug("STARTING DB MIGRATION")
+  println("[INFO]: STARTING DB MIGRATION")
   val flyway = Flyway
     .configure()
     .dataSource(DataBaseConfig.url, DataBaseConfig.user, DataBaseConfig.password)
     .load()
 
   flyway.migrate
-  logger.debug("FINISH DB MIGRATION")
+  println("[INFO]: FINISH DB MIGRATION")
 
   if (configuration.getBoolean("db.restructure.importData")) {
-    logger.debug("IMPORT DATA FROM JSON")
+    println("[INFO]: IMPORT DATA FROM JSON")
     Import.main(Array())
-    logger.debug("FINISH IMPORT DATA FROM JSON")
+    println("[INFO]: FINISH IMPORT DATA FROM JSON")
   }
 
 }

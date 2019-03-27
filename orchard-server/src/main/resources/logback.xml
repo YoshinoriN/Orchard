@@ -88,4 +88,7 @@
     <appender-ref ref="ACCESS_FILE"/>
     <appender-ref ref="DEBUG_FILE"/>
   </root>
+
+  <logger name="net.yoshinorin.orchard.commands.db.Restructure" level="OFF">
+  </logger>
 </configuration>

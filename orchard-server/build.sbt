@@ -32,5 +32,5 @@ libraryDependencies ++= Seq(
 )
 
 scalafmtOnCompile := true
-coverageExcludedPackages := ".*Plugin.*;.*applicationlogs.html.*"
+coverageExcludedPackages := "net.yoshinorin.orchard.commands.db.Restructure"
 org.scoverage.coveralls.Imports.CoverallsKeys.coverallsGitRepoLocation := Some("..")

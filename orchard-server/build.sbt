@@ -11,24 +11,26 @@ scalacOptions ++= Seq(
 )
 
 val circeVersion = "0.11.1"
+val akkaVersion = "2.5.21"
+val akkaHttpVersion = "10.1.8"
 libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.3",
-  "com.typesafe.akka" %% "akka-http" % "10.1.7",
-  "com.typesafe.akka" %% "akka-actor" % "2.5.20",
-  "com.typesafe.akka" %% "akka-stream" % "2.5.20",
-  "com.typesafe.akka" %% "akka-http-testkit" % "10.1.7",
-  "com.typesafe.akka" %% "akka-testkit" % "2.5.21" % Test,
-  "com.enragedginger" %% "akka-quartz-scheduler" % "1.7.1-akka-2.5.x",
+  "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
+  "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+  "com.typesafe.akka" %% "akka-stream" % akkaVersion,
+  "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion,
+  "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test,
+  "com.enragedginger" %% "akka-quartz-scheduler" % "1.8.0-akka-2.5.x",
   "com.typesafe" % "config" % "1.3.3",
   "io.circe" %% "circe-core" % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion,
   "io.circe" %% "circe-parser" % circeVersion,
-  "io.getquill" %% "quill-jdbc" % "3.0.1",
+  "io.getquill" %% "quill-jdbc" % "3.1.0",
   "org.flywaydb" % "flyway-core" % "6.0.0-beta",
-  "org.mariadb.jdbc" % "mariadb-java-client" % "2.4.0",
-  "org.slf4j" % "slf4j-api" % "1.7.25",
+  "org.mariadb.jdbc" % "mariadb-java-client" % "2.4.1",
+  "org.slf4j" % "slf4j-api" % "1.7.26",
   "org.scalatest" %% "scalatest" % "3.0.5" % "test",
-  "org.mockito" % "mockito-core" % "2.23.4" % Test
+  "org.mockito" % "mockito-core" % "2.25.1" % Test
 )
 
 scalafmtOnCompile := true

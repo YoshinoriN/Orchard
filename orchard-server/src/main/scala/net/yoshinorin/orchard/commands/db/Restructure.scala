@@ -7,7 +7,7 @@ import org.flywaydb.core.Flyway
 
 /**
  * HACK: This code is only for development. Please do not use this.
- * Drop scheme & re-create & import JSON files
+ * Drop schema & re-create & import JSON files
  *
  */
 object Restructure extends App with QuillProvider with ConfigProvider {
@@ -15,28 +15,33 @@ object Restructure extends App with QuillProvider with ConfigProvider {
   import ctx._
 
   val schema: String = configuration.getString("db.restructure.schema")
+  println(s"Do you really re-create schema $schema ? [y|n]")
+  val input: String = scala.io.StdIn.readLine()
 
-  println(s"[INFO]: DROP SCHEMA $schema")
-  probe(s"DROP SCHEMA $schema")
-  println("[INFO]: DROP SCHEMA COMPLETE!!")
+  if (input.toLowerCase() == "y" || input.toLowerCase() == "yes") {
+    println(s"[INFO]: DROP SCHEMA $schema")
+    probe(s"DROP SCHEMA $schema")
+    println("[INFO]: DROP SCHEMA COMPLETE!!")
 
-  println(s"[INFO]: CREATE SCHEMA $schema")
-  probe(s"CREATE DATABASE $schema")
-  println("[INFO]: CREATE SCHEMA COMPLETE!!")
+    println(s"[INFO]: CREATE SCHEMA $schema")
+    probe(s"CREATE DATABASE $schema")
+    println("[INFO]: CREATE SCHEMA COMPLETE!!")
 
-  println("[INFO]: STARTING DB MIGRATION")
-  val flyway = Flyway
-    .configure()
-    .dataSource(DataBaseConfig.url, DataBaseConfig.user, DataBaseConfig.password)
-    .load()
+    println("[INFO]: STARTING DB MIGRATION")
+    val flyway = Flyway
+      .configure()
+      .dataSource(DataBaseConfig.url, DataBaseConfig.user, DataBaseConfig.password)
+      .load()
 
-  flyway.migrate
-  println("[INFO]: FINISH DB MIGRATION")
+    flyway.migrate
+    println("[INFO]: FINISH DB MIGRATION")
 
-  if (configuration.getBoolean("db.restructure.importData")) {
-    println("[INFO]: IMPORT DATA FROM JSON")
-    Import.main(Array())
-    println("[INFO]: FINISH IMPORT DATA FROM JSON")
+    if (configuration.getBoolean("db.restructure.importData")) {
+      println("[INFO]: IMPORT DATA FROM JSON")
+      Import.main(Array())
+      println("[INFO]: FINISH IMPORT DATA FROM JSON")
+    }
+  } else {
+    println("[INFO]: Exit. Did not execute re-create schema.")
   }
-
 }

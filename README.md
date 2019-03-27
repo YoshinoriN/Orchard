@@ -34,8 +34,6 @@ Coming soon...
 |Server-side|[quill](https://getquill.io/)|DataBase library|
 |Server-side|[circe](https://circe.github.io/circe/)|JSON library|
 |Server-side|[Logback](https://logback.qos.ch/)|logger|
-|Server-side|[ScalaTest](http://www.scalatest.org/)|Test|
-|Server-side|[Scalafmt](https://scalameta.org/scalafmt/)|Code formatter|
 |Front-end|React.js|Front end main language|
 |Front-end|Next.js|React.js framework|
 |Infrastructure|MariaDB|DataBase|
@@ -43,6 +41,8 @@ Coming soon...
 |CI/CD|[TravisCI](https://travis-ci.org/YoshinoriN/Orchard)|Server side CI|
 |CI/CD|[Codacy](https://app.codacy.com/project/YoshinoriN/Orchard/dashboard)|Server side Code Quality|
 |CI/CD|[COVERALLS](https://coveralls.io/github/YoshinoriN/Orchard?branch=master)|Server side Code coverage|
+|Unit Test|[ScalaTest](http://www.scalatest.org/)|Server side Unit Test|
+|Code Formatter|[Scalafmt](https://scalameta.org/scalafmt/)|Server side Code formatter|
 
 ## LICENSE
 

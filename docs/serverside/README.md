@@ -1,8 +1,10 @@
 # Server-side
 
-## Server
+## Commands
 
-### Run
+### Server
+
+#### Run
 
 ```sh
 > sbt
@@ -13,15 +15,20 @@ or
 sbt "runMain net.yoshinorin.orchard.BootStrap"
 ```
 
-### Stop
+##### Options
 
-Press `Enter` key.
+|value|description|
+|---|---|
+|`-d`, `-development`|Development mode. You can stop server by press `Enter` key.|
 
-## Commands
+#### Stop
+
+* Development mode: Press `Enter` key
+* Production mode: `Ctrl + Enter` key
 
 ### Restructure
 
-Restracture command is for development. This command is execute below procedure.
+Restracture command is for develop. This command is execute below procedure.
 
 * DROP schema
 * CREATE schema
@@ -34,13 +41,11 @@ Execute command is below
 runMain net.yoshinorin.orchard.commands.db.Restructure
 ```
 
-
-
-# Code Format
+## Code Format
 
 On IntelliJ `Ctrl + shift + l`
 
-# Test
+## Test
 
 Run test.
 

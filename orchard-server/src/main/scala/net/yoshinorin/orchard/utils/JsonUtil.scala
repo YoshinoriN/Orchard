@@ -14,7 +14,12 @@ object JsonUtil {
   def toJsonList(s: String): Option[List[Json]] = {
     parse(s).getOrElse(None) match {
       case None => None
-      case x: Json => Option(x.hcursor.values.get.toList)
+      // FIXME: more cleanly
+      case x: Json =>
+        x.hcursor.values.getOrElse(None) match {
+          case None => None
+          case _ => Option(x.hcursor.values.get.toList)
+        }
     }
   }
 

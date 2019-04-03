@@ -6,5 +6,4 @@ object DataBaseConfig extends ConfigProvider {
   val password: String = configuration.getString("db.ctx.dataSource.password")
 
   val migration: Boolean = configuration.getBoolean("db.migration")
-  val migrationSqlPath: String = configuration.getString("flyway.sqlfilePath")
 }

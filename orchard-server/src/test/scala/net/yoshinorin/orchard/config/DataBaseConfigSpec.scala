@@ -20,8 +20,4 @@ class DataBaseConfigSpec extends FunSuite {
     assert(!DataBaseConfig.migration)
   }
 
-  test("get migration sql path") {
-    assert("/db/migration" == DataBaseConfig.migrationSqlPath)
-  }
-
 }

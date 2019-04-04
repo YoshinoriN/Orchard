@@ -19,7 +19,7 @@ sbt "runMain net.yoshinorin.orchard.BootStrap"
 
 |value|description|
 |---|---|
-|`-d`, `-development`|Development mode. You can stop server by press `Enter` key.|
+|`-d`, `--dev`|Development mode. You can stop server by press `Enter` key.|
 
 #### Stop
 

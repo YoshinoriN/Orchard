@@ -6,7 +6,7 @@ import java.nio.file
 import java.nio.file.{Files, Paths}
 import java.util.stream.Collectors
 
-import scala.util.{Failure, Success, Try}
+import scala.util.{Failure, Try}
 
 object File extends Logger {
 

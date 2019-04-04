@@ -4,7 +4,10 @@ val version = "0.0.1"
 
 scalaVersion := "2.12.8"
 
+addCompilerPlugin(scalafixSemanticdb)
 scalacOptions ++= Seq(
+  "-Yrangepos",
+  "-Ywarn-unused",
   "-deprecation",
   "-feature",
   "-unchecked"

@@ -45,12 +45,6 @@ runMain net.yoshinorin.orchard.commands.db.Restructure
 
 On IntelliJ `Ctrl + shift + l`
 
-## Scalafix
-
-```
-sbt scalafix
-```
-
 ## Test
 
 Run test.

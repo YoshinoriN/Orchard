@@ -9,7 +9,8 @@ scalacOptions ++= Seq(
   "-Ywarn-unused",
   "-deprecation",
   "-feature",
-  "-unchecked"
+  "-unchecked",
+  "-encoding", "UTF-8",
 )
 
 val circeVersion = "0.11.1"

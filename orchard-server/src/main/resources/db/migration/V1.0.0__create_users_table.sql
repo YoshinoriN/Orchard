@@ -1,5 +1,0 @@
-CREATE TABLE users (
-  name VARCHAR(255) UNIQUE NOT NULL,
-  created_at BIGINT UNSIGNED,
-  updated_at BIGINT UNSIGNED
-) DEFAULT CHARSET=utf8mb4;

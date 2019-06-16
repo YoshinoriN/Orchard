@@ -33,3 +33,7 @@ orchard-server/src/main/resources/data/store/*
 # Docker
 docker/volumes/*
 !.gitkeep
+
+# Project Specific
+
+orchard-server/**/sandbox/*

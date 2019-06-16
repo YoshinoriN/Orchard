@@ -9,6 +9,6 @@ import net.yoshinorin.orchard.services.FlywayService
  */
 object Restructure extends App {
 
-  def restructure(): Unit = FlywayService.recrate()
+  FlywayService.recrate()
 
 }
